@@ -3,6 +3,6 @@
 namespace Twicme.Budget
 {
     public class Expense
-    {
+    {        
     }
 }
