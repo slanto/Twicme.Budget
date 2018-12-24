@@ -9,7 +9,7 @@ namespace Twicme.Budget.Tests
         [Fact]
         public void GivenCorrectInputData_WhenConstructorIsCalled_ThenExpenseIsCreated()
         {
-            var sut = new Expense(DateTimeOffset.UtcNow, new Money(10.12M, "PLN"), "phone bill");
+            var sut = new Expense(DateTimeOffset.UtcNow, Money.CreateZloty(10.12M), "phone bill");
 
             sut.Should().NotBeNull("expense is created");
         }

@@ -8,7 +8,7 @@ namespace Twicme.Budget.Tests
         [Fact]
         public void GivenCorrectInputData_WhenConstructorIsCalled_ThenMoneyIsCreated()
         {
-            var sut = new Money(10, "PLN");
+            var sut = Money.CreateZloty(10);
 
             sut.Value.Should().Be(10);
             sut.Currency.Should().Be("PLN");

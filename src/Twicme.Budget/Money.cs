@@ -5,10 +5,15 @@ namespace Twicme.Budget
         public decimal Value { get; }
         public string Currency { get; }
 
-        public Money(decimal value, string currency)
+        private Money(decimal value, string currency)
         {
             Value = value;
             Currency = currency;
+        }
+
+        public static Money CreateZloty(decimal value)
+        {
+            return new Money(value, "PLN");
         }
     }
 }
