@@ -26,10 +26,8 @@ namespace Twicme.Budget.Tests
             sut.Month.Should().Be(Month.July);
             sut.Year.Should().Be(2012);
             
-            sut.PlannedExpenses.Should().NotBeNull();
-            sut.PlannedRevenues.Should().NotBeNull();
-            sut.RealExpenses.Should().NotBeNull();
-            sut.RealRevenues.Should().NotBeNull();
+            sut.Plan.Should().NotBeNull();
+            sut.Fact.Should().NotBeNull();
         }
     }
 }

@@ -8,27 +8,33 @@ namespace Twicme.Budget
         public Month Month { get; }
         public uint Year { get; }
         public DateTimeOffset Created { get; }
-        
-        public IReadOnlyList<Revenue> PlannedRevenues { get; }
-        public IReadOnlyList<Expense> PlannedExpenses { get; }
-        
-        public IReadOnlyList<Revenue> RealRevenues { get; }
-        public IReadOnlyList<Expense> RealExpenses { get; }
+
+        public Balance Plan { get; }
+        public Balance Fact { get; }
         
         public Budget(IClock clock, Month month, uint year)
         {
             Month = month;
             Year = year;
             Created = clock.UtcNow;
-            PlannedRevenues = new List<Revenue>();
-            PlannedExpenses = new List<Expense>();
-            
-            RealRevenues = new List<Revenue>();
-            RealExpenses = new List<Expense>();
+            Plan = new Balance();
+            Fact = new Balance();
         }
         
         public Budget(Month month, uint year) : this(new Clock(), month, year)
         {
+        }
+    }
+
+    public class Balance
+    {
+        public IReadOnlyList<Revenue> Revenues { get; }
+        public IReadOnlyList<Expense> Expenses { get; }
+
+        public Balance()
+        {
+            Revenues = new List<Revenue>();
+            Expenses = new List<Expense>();
         }
     }
 }
