@@ -20,5 +20,9 @@ namespace Twicme.Budget
         public Revenue(Money money, RevenueType type, IClock clock) : this(money, type, clock, string.Empty)
         {
         }
+        
+        public Revenue(Money money, RevenueType type) : this(money, type, new Clock(), string.Empty)
+        {
+        }
     }
 }

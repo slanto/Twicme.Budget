@@ -19,5 +19,9 @@ namespace Twicme.Budget
         public Expense(Money money, IClock clock) : this(money, clock, string.Empty)
         {
         }
+        
+        public Expense(Money money) : this(money, new Clock(), string.Empty)
+        {
+        }
     }
 }

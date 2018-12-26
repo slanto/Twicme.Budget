@@ -2,12 +2,12 @@ namespace Twicme.Budget
 {
     public class RevenueType
     {
-        public static RevenueType Salary = new RevenueType("Salary");
-        public static RevenueType PartnerSalary = new RevenueType("PartnerSalary");
-        public static RevenueType Plus500 = new RevenueType("500Plus");
-        public static RevenueType Bonus = new RevenueType("Bonus");
-        public static RevenueType BankInterest = new RevenueType("BankInterest");
-        public static RevenueType Rental = new RevenueType("Rental");
+        public static readonly RevenueType Salary = new RevenueType("Salary");
+        public static readonly RevenueType PartnerSalary = new RevenueType("PartnerSalary");
+        public static readonly RevenueType Plus500 = new RevenueType("500Plus");
+        public static readonly RevenueType Bonus = new RevenueType("Bonus");
+        public static readonly RevenueType BankInterest = new RevenueType("BankInterest");
+        public static readonly RevenueType Rental = new RevenueType("Rental");
         
         public string Name { get; }
 
