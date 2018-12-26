@@ -1,19 +1,26 @@
+using System;
+
 namespace Twicme.Budget
 {
     public class Money
     {
-        public decimal Value { get; }
+        public decimal Amount { get; }
         public string Currency { get; }
 
-        private Money(decimal value, string currency)
+        private Money(decimal amount, string currency)
         {
-            Value = value;
+            Amount = amount;
             Currency = currency;
         }
 
-        public static Money CreateZloty(decimal value)
+        public static Money CreateZloty(decimal amount)
         {
-            return new Money(value, "PLN");
+            if (amount <= 0)
+            {
+                throw new ArgumentException($"{amount} cannot be less or equals to zero");
+            }
+            
+            return new Money(amount, "PLN");
         }
     }
 }

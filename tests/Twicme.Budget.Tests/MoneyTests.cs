@@ -10,7 +10,7 @@ namespace Twicme.Budget.Tests
         {
             var sut = Money.CreateZloty(10);
 
-            sut.Value.Should().Be(10);
+            sut.Amount.Should().Be(10);
             sut.Currency.Should().Be("PLN");
         }
     }
