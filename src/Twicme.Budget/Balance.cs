@@ -9,16 +9,28 @@ namespace Twicme.Budget
         public IReadOnlyList<Expense> Expenses { get; }
         
         public Money TotalRevenue => Money.CreateZloty(Revenues.Sum(r => r.Money.Amount));
+        public Money TotalExpense => Money.CreateZloty(Expenses.Sum(r => r.Money.Amount));
 
-        public Balance()
+        public Balance() : this(new List<Revenue>(), new List<Expense>())
         {
-            Revenues = new List<Revenue>();
-            Expenses = new List<Expense>();
+        }
+        
+        public Balance(IReadOnlyList<Revenue> revenues, IReadOnlyList<Expense> expenses)
+        {
+            Revenues = revenues;
+            Expenses = expenses;
         }
 
         public Balance(params Revenue[] revenues)
         {
             Revenues = revenues;
+            Expenses = new List<Expense>();
+        }
+        
+        public Balance(params Expense[] expenses)
+        {
+            Expenses = expenses;
+            Revenues = new List<Revenue>();
         }
     }
 }
