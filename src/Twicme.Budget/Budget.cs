@@ -8,19 +8,26 @@ namespace Twicme.Budget
         public uint Year { get; }
         public DateTimeOffset Created { get; }
 
-        public Balance Plan { get; }
-        public Balance Fact { get; }
+        private readonly Balance _plan;
+        private readonly Balance _fact;
         
-        public Budget(IClock clock, Month month, uint year)
+        public Money RevenueBalance => Money.CreateZloty(_fact.TotalRevenue.Amount - _plan.TotalRevenue.Amount);
+        public Money ExpenseBalance => Money.CreateZloty(_fact.TotalExpense.Amount - _plan.TotalExpense.Amount);
+
+        public Budget(IClock clock, Month month, uint year, Balance plan, Balance fact)
         {
             Month = month;
             Year = year;
             Created = clock.UtcNow;
-            Plan = new Balance();
-            Fact = new Balance();
+            _plan = plan;
+            _fact = fact;
         }
         
-        public Budget(Month month, uint year) : this(new Clock(), month, year)
+        public Budget(IClock clock, Month month, uint year) : this(clock, month, year, new Balance(), new Balance())
+        {
+        } 
+        
+        public Budget(Month month, uint year) : this(new Clock(), month, year, new Balance(), new Balance())
         {
         }
     }

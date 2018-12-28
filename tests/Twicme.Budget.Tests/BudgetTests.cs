@@ -25,9 +25,21 @@ namespace Twicme.Budget.Tests
             sut.Created.Should().Be(Now);
             sut.Month.Should().Be(Month.July);
             sut.Year.Should().Be(2012);
-            
-            sut.Plan.Should().NotBeNull();
-            sut.Fact.Should().NotBeNull();
+        }
+
+        [Fact]
+        public void GivenPlanAndFactBalances_WhenConstructorIsCalled_ThenRevenueAndExpenseBalancesAreCalculated()
+        {
+            var sut = new Budget(_clock, Month.April, 2019, 
+                new Balance(
+                    new[] {new Revenue(Money.CreateZloty(1250.55M), RevenueType.PartnerSalary, _clock)},
+                    new[] {new Expense(Money.CreateZloty(50.55M), _clock)}),
+                new Balance(
+                    new[] {new Revenue(Money.CreateZloty(1000), RevenueType.PartnerSalary, _clock)},
+                    new[] {new Expense(Money.CreateZloty(50.55M), _clock)}));
+
+            sut.RevenueBalance.Should().BeEquivalentTo(Money.CreateZloty(-250.55M));
+            sut.ExpenseBalance.Should().BeEquivalentTo(Money.CreateZloty(0));
         }
     }
 }

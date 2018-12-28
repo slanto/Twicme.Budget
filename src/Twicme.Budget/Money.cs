@@ -14,12 +14,7 @@ namespace Twicme.Budget
         }
 
         public static Money CreateZloty(decimal amount)
-        {
-            if (amount <= 0)
-            {
-                throw new ArgumentException($"{amount} cannot be less or equals to zero");
-            }
-            
+        {   
             return new Money(amount, "PLN");
         }
     }
