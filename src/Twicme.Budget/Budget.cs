@@ -13,17 +13,20 @@ namespace Twicme.Budget
         public Month Month { get; }
         public uint Year { get; }
         public DateTimeOffset Created { get; }
-        
-        public Money RevenueBalance => Money.CreateZloty(TotalRevenue(_realRevenues) - TotalRevenue(_plannedRevenues));
-        public Money ExpenseBalance => Money.CreateZloty(TotalExpense(_realExpenses) - TotalExpense(_plannedExpenses));
 
-        public Budget(IClock clock, Month month, uint year, 
+        public Money RevenueBalance =>
+            Money.CreateZloty(Total(_realRevenues.Select(r => r.Money)) - Total(_plannedRevenues.Select(r=>r.Money)));
+
+        public Money ExpenseBalance =>
+            Money.CreateZloty(Total(_realExpenses.Select(r => r.Money)) - Total(_plannedExpenses.Select(r => r.Money)));
+
+        public Budget(Month month, uint year, 
             Revenue[] plannedRevenues, Revenue[] realRevenues,
             Expense[] plannedExpenses, Expense[] realExpenses)
         {
             Month = month;
             Year = year;
-            Created = clock.UtcNow;
+            Created = DateTimeOffset.UtcNow;
             
             _plannedRevenues = plannedRevenues;
             _realRevenues = realRevenues;
@@ -31,7 +34,6 @@ namespace Twicme.Budget
             _realExpenses = realExpenses;
         }
 
-        private static decimal TotalRevenue(IEnumerable<Revenue> revenues) => revenues.Sum(v => v.Money.Amount);
-        private static decimal TotalExpense(IEnumerable<Expense> expense) => expense.Sum(v => v.Money.Amount);
+        private static decimal Total(IEnumerable<Money> money) => money.Sum(m=>m.Amount);
     }
 }

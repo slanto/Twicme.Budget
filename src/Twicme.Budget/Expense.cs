@@ -9,19 +9,11 @@ namespace Twicme.Budget
         public Money Money { get; }
         public string Description { get; }
 
-        public Expense(Money money, IClock clock, string description)
+        public Expense(Money money, string description)
         {
-            Created = clock.UtcNow;
+            Created = DateTimeOffset.UtcNow;
             Money = money;
             Description = description;
-        }
-
-        public Expense(Money money, IClock clock) : this(money, clock, string.Empty)
-        {
-        }
-        
-        public Expense(Money money) : this(money, new Clock(), string.Empty)
-        {
         }
     }
 }

@@ -9,20 +9,12 @@ namespace Twicme.Budget
         public string Description { get; }
         public DateTimeOffset Created { get; }
         
-        public Revenue(Money money, RevenueType type, IClock clock, string description)
+        public Revenue(Money money, RevenueType type,string description)
         {
             Money = money;
             Type = type;
             Description = description;
-            Created = clock.UtcNow;
-        }
-        
-        public Revenue(Money money, RevenueType type, IClock clock) : this(money, type, clock, string.Empty)
-        {
-        }
-        
-        public Revenue(Money money, RevenueType type) : this(money, type, new Clock(), string.Empty)
-        {
+            Created = DateTimeOffset.UtcNow;
         }
     }
 }
