@@ -1,34 +1,37 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Twicme.Budget
 {
     public class Budget
     {
+        private readonly Revenue[] _plannedRevenues;
+        private readonly Revenue[] _realRevenues;
+        private readonly Expense[] _plannedExpenses;
+        private readonly Expense[] _realExpenses;
         public Month Month { get; }
         public uint Year { get; }
         public DateTimeOffset Created { get; }
-
-        private readonly Balance _plan;
-        private readonly Balance _fact;
         
-        public Money RevenueBalance => Money.CreateZloty(_fact.TotalRevenue.Amount - _plan.TotalRevenue.Amount);
-        public Money ExpenseBalance => Money.CreateZloty(_fact.TotalExpense.Amount - _plan.TotalExpense.Amount);
+        public Money RevenueBalance => Money.CreateZloty(TotalRevenue(_realRevenues) - TotalRevenue(_plannedRevenues));
+        public Money ExpenseBalance => Money.CreateZloty(TotalExpense(_realExpenses) - TotalExpense(_plannedExpenses));
 
-        public Budget(IClock clock, Month month, uint year, Balance plan, Balance fact)
+        public Budget(IClock clock, Month month, uint year, 
+            Revenue[] plannedRevenues, Revenue[] realRevenues,
+            Expense[] plannedExpenses, Expense[] realExpenses)
         {
             Month = month;
             Year = year;
             Created = clock.UtcNow;
-            _plan = plan;
-            _fact = fact;
+            
+            _plannedRevenues = plannedRevenues;
+            _realRevenues = realRevenues;
+            _plannedExpenses = plannedExpenses;
+            _realExpenses = realExpenses;
         }
-        
-        public Budget(IClock clock, Month month, uint year) : this(clock, month, year, new Balance(), new Balance())
-        {
-        } 
-        
-        public Budget(Month month, uint year) : this(new Clock(), month, year, new Balance(), new Balance())
-        {
-        }
+
+        private static decimal TotalRevenue(IEnumerable<Revenue> revenues) => revenues.Sum(v => v.Money.Amount);
+        private static decimal TotalExpense(IEnumerable<Expense> expense) => expense.Sum(v => v.Money.Amount);
     }
 }

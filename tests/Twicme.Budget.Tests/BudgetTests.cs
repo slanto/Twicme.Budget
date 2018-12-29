@@ -19,7 +19,8 @@ namespace Twicme.Budget.Tests
         [Fact]
         public void GivenCorrectInputData_WhenConstructorIsCalled_ThenBudgetIsInitialized()
         {
-            var sut = new Budget(_clock, Month.July, 2012);
+            var sut = new Budget(_clock, Month.July, 2012, new Revenue[0], new Revenue[0], new Expense[0],
+                new Expense[0]);
 
             sut.Should().NotBeNull();
             sut.Created.Should().Be(Now);
@@ -31,13 +32,11 @@ namespace Twicme.Budget.Tests
         public void GivenPlanAndFactBalances_WhenConstructorIsCalled_ThenRevenueAndExpenseBalancesAreCalculated()
         {
             var sut = new Budget(_clock, Month.April, 2019, 
-                new Balance(
-                    new[] {new Revenue(Money.CreateZloty(1250.55M), RevenueType.PartnerSalary, _clock)},
-                    new[] {new Expense(Money.CreateZloty(50.55M), _clock)}),
-                new Balance(
-                    new[] {new Revenue(Money.CreateZloty(1000), RevenueType.PartnerSalary, _clock)},
-                    new[] {new Expense(Money.CreateZloty(50.55M), _clock)}));
-
+                new[] {new Revenue(Money.CreateZloty(1250.55M), RevenueType.PartnerSalary)},
+                new[] {new Revenue(Money.CreateZloty(1000), RevenueType.PartnerSalary)},
+                new[] {new Expense(Money.CreateZloty(50.55M))},
+                new[] {new Expense(Money.CreateZloty(50.55M))});
+                
             sut.RevenueBalance.Should().BeEquivalentTo(Money.CreateZloty(-250.55M));
             sut.ExpenseBalance.Should().BeEquivalentTo(Money.CreateZloty(0));
         }
