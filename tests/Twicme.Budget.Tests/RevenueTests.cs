@@ -20,7 +20,7 @@ namespace Twicme.Budget.Tests
         public void GivenCorrectInputData_WhenConstructorIsCalled_ThenRevenueIsCreated()
         {
             var money = Money.CreateZloty(10.12M);
-            var description = "my salary";
+            const string description = "my salary";
             
             var sut = new Revenue(money, RevenueType.Salary, _clock, description);
 

@@ -21,6 +21,7 @@ namespace Twicme.Budget.Tests
         {
             var money = Money.CreateZloty(10.12M);
             const string description = "phone bill";
+            
             var sut = new Expense(money, _clock, description);
 
             sut.Should().NotBeNull("expense is created");

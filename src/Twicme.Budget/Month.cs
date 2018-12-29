@@ -1,6 +1,8 @@
+using System.Collections.Generic;
+
 namespace Twicme.Budget
 {
-    public class Month
+    public class Month : ValueObject<Month>
     {
         public static readonly Month January = new Month(1, "January");
         public static readonly Month February = new Month(2, "February");
@@ -22,6 +24,12 @@ namespace Twicme.Budget
         {
             Index = index;
             Name = name;
+        }
+
+        protected override IEnumerable<object> GetEqualityComponents()
+        {
+            yield return Index;
+            yield return Name;
         }
     }
 }
