@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Twicme.Budget
@@ -11,6 +10,9 @@ namespace Twicme.Budget
         public decimal Amount { get; }
         public string Currency { get; }
 
+        public static Money ZeroZloty = new Money(0, PLNCurrency);
+        public static Money ZeroDollar = new Money(0, USDCurrency);
+        
         private Money(decimal amount, string currency)
         {
             Amount = decimal.Round(amount, 2);
