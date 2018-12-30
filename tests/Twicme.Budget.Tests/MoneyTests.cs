@@ -71,7 +71,8 @@ namespace Twicme.Budget.Tests
             
             Func<Money> act = () => zloty + dollar;
 
-            act.Should().Throw<Exception>().WithMessage("Cannot add money with different currency");
+            act.Should().Throw<ContractException>()
+                .WithMessage("It is only possible to add money with the same currency");
         }
     }
 }

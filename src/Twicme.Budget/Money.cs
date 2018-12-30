@@ -35,20 +35,17 @@ namespace Twicme.Budget
 
         public static Money operator +(Money elem1, Money elem2)
         {
-            if (elem1.Currency != elem2.Currency)
-            {
-                throw new Exception("Cannot add money with different currency");
-            }
+            Contracts.Require(elem1.Currency == elem2.Currency,
+                "It is only possible to add money with the same currency");
             
             return new Money(elem1.Amount + elem2.Amount, elem1.Currency);
         }
         
         public static Money operator -(Money minuend, Money subtrahend)
         {
-            if (minuend.Currency != subtrahend.Currency)
-            {
-                throw new Exception("Cannot subtract money with different currency");
-            }
+            Contracts.Require(minuend.Currency == subtrahend.Currency,
+                "It is only possible to subtract money with the same currency");
+
             
             return new Money(minuend.Amount + subtrahend.Amount, minuend.Currency);
         }
