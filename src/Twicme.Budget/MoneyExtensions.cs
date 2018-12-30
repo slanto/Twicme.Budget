@@ -18,8 +18,7 @@ namespace Twicme.Budget
             Contracts.Require(money.All(v => v.Currency == currency),
                 "Sum is only possible for money in the same currency");
 
-            //NOTE: wrong solution with specifying zero. Not convenient for many currencies.
-            return money.Aggregate(currency == Money.PLNCurrency ? Money.ZeroZloty : Money.ZeroDollar,
+            return money.Aggregate(Money.Create(0, currency),
                 (current, value) => current + value);
         }
     }

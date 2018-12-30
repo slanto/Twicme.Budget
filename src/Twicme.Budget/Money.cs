@@ -3,30 +3,19 @@ using System.Collections.Generic;
 namespace Twicme.Budget
 {
     public class Money : ValueObject<Money>
-    {
-        public const string PLNCurrency = "PLN";
-        public const string USDCurrency = "USD";
-        
+    { 
         public decimal Amount { get; }
-        public string Currency { get; }
+        public Currency Currency { get; }
 
-        public static Money ZeroZloty = new Money(0, PLNCurrency);
-        public static Money ZeroDollar = new Money(0, USDCurrency);
-        
-        private Money(decimal amount, string currency)
+        protected Money(decimal amount, Currency currency)
         {
             Amount = decimal.Round(amount, 2);
             Currency = currency;
         }
 
-        public static Money CreateZloty(decimal amount)
+        public static Money Create(decimal amount, Currency currency)
         {   
-            return new Money(amount, PLNCurrency);
-        }
-
-        public static Money CreateDollar(decimal amount)
-        {   
-            return new Money(amount, USDCurrency);
+            return new Money(amount, currency);
         }
         
         protected override IEnumerable<object> GetEqualityComponents()

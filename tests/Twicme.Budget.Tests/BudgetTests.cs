@@ -25,13 +25,13 @@ namespace Twicme.Budget.Tests
         public void GivenPlanAndFactBalances_WhenConstructorIsCalled_ThenRevenueAndExpenseBalancesAreCalculated()
         {
             var sut = new Budget(Month.April, 2019, 
-                new[] {new Revenue(Money.CreateZloty(1250.55M), RevenueType.PartnerSalary, string.Empty)},
-                new[] {new Revenue(Money.CreateZloty(1000), RevenueType.PartnerSalary, string.Empty)},
-                new[] {new Expense(Money.CreateZloty(50.55M), string.Empty)},
-                new[] {new Expense(Money.CreateZloty(50.55M), string.Empty)});
+                new[] {new Revenue(Money.Create(1250.55M, Currency.PLN), RevenueType.PartnerSalary, string.Empty)},
+                new[] {new Revenue(Money.Create(1000, Currency.PLN), RevenueType.PartnerSalary, string.Empty)},
+                new[] {new Expense(Money.Create(50.55M, Currency.PLN), string.Empty)},
+                new[] {new Expense(Money.Create(50.55M, Currency.PLN), string.Empty)});
                 
-            sut.RevenueBalance.Should().BeEquivalentTo(Money.CreateZloty(-250.55M));
-            sut.ExpenseBalance.Should().BeEquivalentTo(Money.CreateZloty(0));
+            sut.RevenueBalance.Should().BeEquivalentTo(Money.Create(-250.55M, Currency.PLN));
+            sut.ExpenseBalance.Should().BeEquivalentTo(Money.Create(0, Currency.PLN));
         }
     }
 }

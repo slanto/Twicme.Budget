@@ -10,16 +10,16 @@ namespace Twicme.Budget.Tests
         [Fact]
         public void GivenCorrectInputData_WhenConstructorIsCalled_ThenMoneyIsCreated()
         {
-            var sut = Money.CreateZloty(10);
+            var sut = Money.Create(10, Currency.PLN);
 
             sut.Amount.Should().Be(10);
-            sut.Currency.Should().Be(Money.PLNCurrency);
+            sut.Currency.Should().Be(Currency.PLN);
         }
 
         [Fact]
         public void GivenValueWithHighPrecision_WhenConstructorIsCalled_ThenMoneyIsCreatedWithTwoDecimalPlace()
         {
-            var sut = Money.CreateZloty(0.2678765678M);
+            var sut = Money.Create(0.2678765678M, Currency.PLN);
 
             sut.Amount.Should().Be(0.27M);
         }
@@ -28,30 +28,30 @@ namespace Twicme.Budget.Tests
         {
             yield return new object[]
             {
-                Money.CreateZloty(12),
-                Money.CreateZloty(8),
-                Money.CreateZloty(20)
+                Money.Create(12, Currency.PLN),
+                Money.Create(8, Currency.PLN),
+                Money.Create(20, Currency.PLN)
             };
             
             yield return new object[]
             {
-                Money.CreateZloty(0),
-                Money.CreateZloty(1433),
-                Money.CreateZloty(1433)
+                Money.Create(0, Currency.PLN),
+                Money.Create(1433, Currency.PLN),
+                Money.Create(1433, Currency.PLN)
             };
             
             yield return new object[]
             {
-                Money.CreateZloty(0.25M),
-                Money.CreateZloty(0.123456789M),
-                Money.CreateZloty(0.37M)
+                Money.Create(0.25M, Currency.PLN),
+                Money.Create(0.123456789M, Currency.PLN),
+                Money.Create(0.37M, Currency.PLN)
             };
             
             yield return new object[]
             {
-                Money.CreateZloty(0.99M),
-                Money.CreateZloty(1000),
-                Money.CreateZloty(1000.99M)
+                Money.Create(0.99M, Currency.PLN),
+                Money.Create(1000, Currency.PLN),
+                Money.Create(1000.99M, Currency.PLN)
             };
         }
             
@@ -66,8 +66,8 @@ namespace Twicme.Budget.Tests
         [Fact]
         public void GivenElementsWithDifferentCurrency_WhenSumIsCalculated_ThenExceptionIsThrown()
         {
-            var zloty = Money.CreateZloty(1);
-            var dollar = Money.CreateDollar(1);
+            var zloty = Money.Create(1, Currency.PLN);
+            var dollar = Money.Create(1, Currency.USD);
             
             Func<Money> act = () => zloty + dollar;
 
@@ -79,30 +79,30 @@ namespace Twicme.Budget.Tests
         {
             yield return new object[]
             {
-                Money.CreateZloty(12),
-                Money.CreateZloty(8),
-                Money.CreateZloty(4)
+                Money.Create(12, Currency.PLN),
+                Money.Create(8, Currency.PLN),
+                Money.Create(4, Currency.PLN)
             };
             
             yield return new object[]
             {
-                Money.CreateZloty(0),
-                Money.CreateZloty(1433),
-                Money.CreateZloty(-1433)
+                Money.Create(0, Currency.PLN),
+                Money.Create(1433, Currency.PLN),
+                Money.Create(-1433, Currency.PLN)
             };
             
             yield return new object[]
             {
-                Money.CreateZloty(0.25M),
-                Money.CreateZloty(0.123456789M),
-                Money.CreateZloty(0.13M)
+                Money.Create(0.25M, Currency.PLN),
+                Money.Create(0.123456789M, Currency.PLN),
+                Money.Create(0.13M, Currency.PLN)
             };
             
             yield return new object[]
             {
-                Money.CreateZloty(1000),
-                Money.CreateZloty(0.99M),
-                Money.CreateZloty(999.01M)
+                Money.Create(1000, Currency.PLN),
+                Money.Create(0.99M, Currency.PLN),
+                Money.Create(999.01M, Currency.PLN)
             };
         }
             

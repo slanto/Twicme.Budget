@@ -1,18 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 namespace Twicme.Budget
 {
-    public class Expense
+    public sealed class Expense : Money
     {
         public DateTimeOffset Created { get; }
-        public Money Money { get; }
         public string Description { get; }
 
-        public Expense(Money money, string description)
+        public Expense(Money money, string description) : base(money.Amount, money.Currency)
         {
             Created = DateTimeOffset.UtcNow;
-            Money = money;
             Description = description;
         }
     }

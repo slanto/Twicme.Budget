@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Twicme.Budget
 {
@@ -10,15 +8,16 @@ namespace Twicme.Budget
         private readonly Revenue[] _realRevenues;
         private readonly Expense[] _plannedExpenses;
         private readonly Expense[] _realExpenses;
+        
         public Month Month { get; }
         public uint Year { get; }
         public DateTimeOffset Created { get; }
 
         public Money RevenueBalance =>
-            _realRevenues.Select(r => r.Money).Sum().Balance(_plannedRevenues.Select(r=>r.Money).Sum());
+            _realRevenues.Sum().Balance(_plannedRevenues.Sum());
         
         public Money ExpenseBalance =>
-            _realExpenses.Select(r => r.Money).Sum().Balance(_plannedExpenses.Select(r => r.Money).Sum());
+            _realExpenses.Sum().Balance(_plannedExpenses.Sum());
 
         public Budget(Month month, uint year, 
             Revenue[] plannedRevenues, Revenue[] realRevenues,
