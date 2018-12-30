@@ -74,5 +74,45 @@ namespace Twicme.Budget.Tests
             act.Should().Throw<ContractException>()
                 .WithMessage("It is only possible to add money with the same currency");
         }
+        
+        public static IEnumerable<object[]> MinusOperatorTestCases()
+        {
+            yield return new object[]
+            {
+                Money.CreateZloty(12),
+                Money.CreateZloty(8),
+                Money.CreateZloty(4)
+            };
+            
+            yield return new object[]
+            {
+                Money.CreateZloty(0),
+                Money.CreateZloty(1433),
+                Money.CreateZloty(-1433)
+            };
+            
+            yield return new object[]
+            {
+                Money.CreateZloty(0.25M),
+                Money.CreateZloty(0.123456789M),
+                Money.CreateZloty(0.13M)
+            };
+            
+            yield return new object[]
+            {
+                Money.CreateZloty(1000),
+                Money.CreateZloty(0.99M),
+                Money.CreateZloty(999.01M)
+            };
+        }
+            
+        [Theory, MemberData(nameof(MinusOperatorTestCases))]
+        public void GivenElements_WhenMinusOperatorIsCalled_ThenDiffIsCalculated(Money elem1, Money elem2, Money diff)
+        {
+            var result = elem1 - elem2;
+            
+            result.Should().BeEquivalentTo(diff);
+        }
+
     }
 }

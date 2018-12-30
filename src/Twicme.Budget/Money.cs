@@ -47,7 +47,7 @@ namespace Twicme.Budget
                 "It is only possible to subtract money with the same currency");
 
             
-            return new Money(minuend.Amount + subtrahend.Amount, minuend.Currency);
+            return new Money(minuend.Amount - subtrahend.Amount, minuend.Currency);
         }
     }
 }
