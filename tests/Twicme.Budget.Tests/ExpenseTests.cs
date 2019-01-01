@@ -7,7 +7,6 @@ namespace Twicme.Budget.Tests
 {
     public class ExpenseTests
     {
-       
         [Fact]
         public void GivenCorrectInputData_WhenConstructorIsCalled_ThenExpenseIsCreated()
         {
