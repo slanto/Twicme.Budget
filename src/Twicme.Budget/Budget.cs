@@ -4,24 +4,21 @@ namespace Twicme.Budget
 {
     public class Budget
     {
-        private readonly Revenue[] _plannedRevenues;
-        private readonly Revenue[] _realRevenues;
-        private readonly Expense[] _plannedExpenses;
-        private readonly Expense[] _realExpenses;
+        private readonly MoneyCollection<Revenue> _plannedRevenues;
+        private readonly MoneyCollection<Revenue> _realRevenues;
+        private readonly MoneyCollection<Expense> _plannedExpenses;
+        private readonly MoneyCollection<Expense> _realExpenses;
         
         public Month Month { get; }
         public uint Year { get; }
         public DateTimeOffset Created { get; }
 
-        public Money RevenueBalance =>
-            _realRevenues.Sum().Balance(_plannedRevenues.Sum());
-        
-        public Money ExpenseBalance =>
-            _realExpenses.Sum().Balance(_plannedExpenses.Sum());
+        public Balance RevenueBalance => new Balance(_realRevenues.Sum(), _plannedRevenues.Sum());
+        public Balance ExpenseBalance => new Balance(_realExpenses.Sum(), _plannedExpenses.Sum());
 
         public Budget(Month month, uint year, 
-            Revenue[] plannedRevenues, Revenue[] realRevenues,
-            Expense[] plannedExpenses, Expense[] realExpenses)
+            MoneyCollection<Revenue> plannedRevenues, MoneyCollection<Revenue> realRevenues,
+            MoneyCollection<Expense> plannedExpenses, MoneyCollection<Expense> realExpenses)
         {
             Month = month;
             Year = year;

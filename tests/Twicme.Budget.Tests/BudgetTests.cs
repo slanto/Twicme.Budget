@@ -10,8 +10,8 @@ namespace Twicme.Budget.Tests
         [Fact]
         public void GivenCorrectInputData_WhenConstructorIsCalled_ThenBudgetIsInitialized()
         {
-            var sut = new Budget(Month.July, 2012, new Revenue[0], new Revenue[0], 
-                new Expense[0], new Expense[0]);
+            var sut = new Budget(Month.July, 2012, MoneyCollection<Revenue>.Empty, new MoneyCollection<Revenue>(), 
+                MoneyCollection<Expense>.Empty, MoneyCollection<Expense>.Empty);
 
             sut.Should().NotBeNull();
             sut.Created.Should().BeCloseTo(DateTimeOffset.UtcNow);
@@ -22,14 +22,17 @@ namespace Twicme.Budget.Tests
         [Fact]
         public void GivenPlanAndFactBalances_WhenConstructorIsCalled_ThenRevenueAndExpenseBalancesAreCalculated()
         {
-            var sut = new Budget(Month.April, 2019, 
-                new[] {new Revenue(Money.Create(1250.55M, Currency.PLN), RevenueType.PartnerSalary)},
-                new[] {new Revenue(Money.Create(1000, Currency.PLN), RevenueType.PartnerSalary)},
-                new[] {new Expense(Money.Create(50.55M, Currency.PLN), ExpenseType.Beauty)},
-                new[] {new Expense(Money.Create(50.55M, Currency.PLN), ExpenseType.Car)});
-                
-            sut.RevenueBalance.Should().BeEquivalentTo(Money.Create(-250.55M, Currency.PLN));
-            sut.ExpenseBalance.Should().BeEquivalentTo(Money.Create(0, Currency.PLN));
+            var sut = new Budget(Month.April, 2019,
+                new MoneyCollection<Revenue>(new Revenue(Money.Create(1250.55M, Currency.PLN),
+                    RevenueType.PartnerSalary)),
+                new MoneyCollection<Revenue>(new Revenue(Money.Create(1000, Currency.PLN), RevenueType.PartnerSalary)),
+                new MoneyCollection<Expense>(new Expense(Money.Create(50.55M, Currency.PLN), ExpenseType.Beauty)),
+                new MoneyCollection<Expense>(new Expense(Money.Create(50.55M, Currency.PLN), ExpenseType.Car)));
+
+            sut.RevenueBalance.Should().NotBeNull();
+            sut.RevenueBalance.Value.Should().BeEquivalentTo(Money.Create(-250.55M, Currency.PLN));
+            sut.ExpenseBalance.Should().NotBeNull();
+            sut.ExpenseBalance.Value.Should().BeEquivalentTo(Money.Create(0, Currency.PLN));
         }
     }
 }
