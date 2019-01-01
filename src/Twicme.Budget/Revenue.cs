@@ -8,7 +8,7 @@ namespace Twicme.Budget
         public string Description { get; }
         public DateTimeOffset Created { get; }
         
-        public Revenue(Money money, RevenueType type,string description) : base(money.Amount, money.Currency)
+        public Revenue(Money money, RevenueType type, string description = null) : base(money.Amount, money.Currency)
         {
             Type = type;
             Description = description;

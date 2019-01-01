@@ -6,9 +6,7 @@ using Xunit;
 namespace Twicme.Budget.Tests
 {
     public class BudgetTests
-    {
-        
-        
+    {   
         [Fact]
         public void GivenCorrectInputData_WhenConstructorIsCalled_ThenBudgetIsInitialized()
         {
@@ -25,10 +23,10 @@ namespace Twicme.Budget.Tests
         public void GivenPlanAndFactBalances_WhenConstructorIsCalled_ThenRevenueAndExpenseBalancesAreCalculated()
         {
             var sut = new Budget(Month.April, 2019, 
-                new[] {new Revenue(Money.Create(1250.55M, Currency.PLN), RevenueType.PartnerSalary, string.Empty)},
-                new[] {new Revenue(Money.Create(1000, Currency.PLN), RevenueType.PartnerSalary, string.Empty)},
-                new[] {new Expense(Money.Create(50.55M, Currency.PLN), string.Empty)},
-                new[] {new Expense(Money.Create(50.55M, Currency.PLN), string.Empty)});
+                new[] {new Revenue(Money.Create(1250.55M, Currency.PLN), RevenueType.PartnerSalary)},
+                new[] {new Revenue(Money.Create(1000, Currency.PLN), RevenueType.PartnerSalary)},
+                new[] {new Expense(Money.Create(50.55M, Currency.PLN), ExpenseType.Beauty)},
+                new[] {new Expense(Money.Create(50.55M, Currency.PLN), ExpenseType.Car)});
                 
             sut.RevenueBalance.Should().BeEquivalentTo(Money.Create(-250.55M, Currency.PLN));
             sut.ExpenseBalance.Should().BeEquivalentTo(Money.Create(0, Currency.PLN));
