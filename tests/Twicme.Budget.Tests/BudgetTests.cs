@@ -34,5 +34,21 @@ namespace Twicme.Budget.Tests
             sut.ExpenseBalance.Should().NotBeNull();
             sut.ExpenseBalance.Value.Should().BeEquivalentTo(Money.Create(0, Currency.PLN));
         }
+
+        [Fact]
+        public void GivenPlannedRevenue_WhenAddPlannedRevenueIsCalled_ThenRevenueIsAdded()
+        {
+            var sut = new Budget(Month.April, 2019,
+                new MoneyCollection<Revenue>(new Revenue(Money.Create(1250.55M, Currency.PLN),
+                    RevenueType.PartnerSalary)),
+                new MoneyCollection<Revenue>(new Revenue(Money.Create(1000, Currency.PLN), RevenueType.PartnerSalary)),
+                new MoneyCollection<Expense>(new Expense(Money.Create(50.55M, Currency.PLN), ExpenseType.Beauty)),
+                new MoneyCollection<Expense>(new Expense(Money.Create(50.55M, Currency.PLN), ExpenseType.Car)));
+
+            var newRevenue = new Revenue(Money.Create(200, Currency.PLN), RevenueType.Bonus);
+            sut.AddPlannedRevenue(newRevenue);
+
+            sut.PlannedRevenues.Should().Contain(newRevenue);
+        }
     }
 }

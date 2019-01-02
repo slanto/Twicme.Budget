@@ -8,11 +8,11 @@ namespace Twicme.Budget
     {
         public static MoneyCollection<T> Empty => new MoneyCollection<T>();
         
-        private readonly IEnumerable<T> _money;
+        private readonly IList<T> _money;
 
         public MoneyCollection(IEnumerable<T> money)
         {
-            _money = money;
+            _money = money.ToList();
         }
         
         public MoneyCollection(params T[] money) : this(money.ToList())
@@ -34,5 +34,10 @@ namespace Twicme.Budget
         public IEnumerator<T> GetEnumerator() => _money.GetEnumerator();
         
         IEnumerator IEnumerable.GetEnumerator() => _money.GetEnumerator();
+
+        public void Add(T newMoney)
+        {
+            _money.Add(newMoney);
+        }
     }
 }

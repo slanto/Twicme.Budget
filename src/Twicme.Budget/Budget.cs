@@ -4,7 +4,7 @@ namespace Twicme.Budget
 {
     public class Budget
     {
-        private readonly MoneyCollection<Revenue> _plannedRevenues;
+        public MoneyCollection<Revenue> PlannedRevenues;
         private readonly MoneyCollection<Revenue> _realRevenues;
         private readonly MoneyCollection<Expense> _plannedExpenses;
         private readonly MoneyCollection<Expense> _realExpenses;
@@ -13,7 +13,7 @@ namespace Twicme.Budget
         public uint Year { get; }
         public DateTimeOffset Created { get; }
 
-        public Balance RevenueBalance => new Balance(_realRevenues.Sum(), _plannedRevenues.Sum());
+        public Balance RevenueBalance => new Balance(_realRevenues.Sum(), PlannedRevenues.Sum());
         public Balance ExpenseBalance => new Balance(_realExpenses.Sum(), _plannedExpenses.Sum());
 
         public Budget(Month month, uint year, 
@@ -24,10 +24,15 @@ namespace Twicme.Budget
             Year = year;
             Created = DateTimeOffset.UtcNow;
             
-            _plannedRevenues = plannedRevenues;
+            PlannedRevenues = plannedRevenues;
             _realRevenues = realRevenues;
             _plannedExpenses = plannedExpenses;
             _realExpenses = realExpenses;
+        }
+
+        public void AddPlannedRevenue(Revenue newRevenue)
+        {
+            PlannedRevenues.Add(newRevenue);
         }
     }
 }
