@@ -11,8 +11,7 @@ namespace Twicme.Budget.Tests
         [Fact]
         public void GivenCorrectInputData_WhenConstructorIsCalled_ThenBudgetIsInitialized()
         {
-            var sut = new Budget(Month.July, 2012, ImmutableList<Revenue>.Empty, ImmutableList<Revenue>.Empty, 
-                ImmutableList<Expense>.Empty, ImmutableList<Expense>.Empty);
+            var sut = new Budget(Month.July, 2012, ImmutableList<IMoney>.Empty);
 
             sut.Should().NotBeNull();
             sut.Created.Should().BeCloseTo(DateTimeOffset.UtcNow);
@@ -21,36 +20,33 @@ namespace Twicme.Budget.Tests
         }
 
         [Fact]
-        public void GivenPlanAndFactBalances_WhenConstructorIsCalled_ThenRevenueAndExpenseBalancesAreCalculated()
+        public void GivenBudget_WhenBalanceIsCalled_ThenBalancesIsReturned()
         {
-            
-            var sut = new Budget(Month.April, 2019,
-                 ImmutableList.Create(new Revenue(Amount.Create(1250.55M, Currency.PLN),
-                    RevenueType.PartnerSalary)),
-                ImmutableList.Create(new Revenue(Amount.Create(1000, Currency.PLN), RevenueType.PartnerSalary)),
-                ImmutableList.Create(new Expense(Amount.Create(50.55M, Currency.PLN), ExpenseType.Beauty)),
-                ImmutableList.Create(new Expense(Amount.Create(50.55M, Currency.PLN), ExpenseType.Car)));
+            var sut = BuildBudget();
 
-            sut.RevenueBalance.Should().NotBeNull();
-            sut.RevenueBalance.Value.Should().BeEquivalentTo(Amount.Create(-250.55M, Currency.PLN));
-            sut.ExpenseBalance.Should().NotBeNull();
-            sut.ExpenseBalance.Value.Should().BeEquivalentTo(Amount.Create(0, Currency.PLN));
+            sut.Balance().Should().Be(Amount.Create(2149.45M, Currency.PLN));
         }
 
         [Fact]
-        public void GivenPlannedRevenue_WhenAddPlannedRevenueIsCalled_ThenRevenueIsAdded()
+        public void GivenBudget_WhenAddIsCalled_ThenAmountIsAdded()
         {
-            var sut = new Budget(Month.April, 2019,
-                ImmutableList.Create(new Revenue(Amount.Create(1250.55M, Currency.PLN),
-                    RevenueType.PartnerSalary)),
-                ImmutableList.Create(new Revenue(Amount.Create(1000, Currency.PLN), RevenueType.PartnerSalary)),
-                ImmutableList.Create(new Expense(Amount.Create(50.55M, Currency.PLN), ExpenseType.Beauty)),
-                ImmutableList.Create(new Expense(Amount.Create(50.55M, Currency.PLN), ExpenseType.Car)));
+            var sut = BuildBudget();
 
-            var newRevenue = new Revenue(Amount.Create(200, Currency.PLN), RevenueType.Bonus);
+            var revenue = new Revenue(Amount.Create(200, Currency.PLN), RevenueType.Bonus);
             
-            var newBudget = sut.AddPlannedRevenue(newRevenue);
-            newBudget.PlannedRevenues.Should().Contain(newRevenue);
+            var budget = sut.Add(revenue);
+            budget.Moneys.Should().Contain(revenue);
+            budget.Balance().Should().Be(Amount.Create(2349.45M, Currency.PLN));
+        }
+
+        private static Budget BuildBudget()
+        {
+            return new Budget(Month.April, 2019,
+                ImmutableList.Create<IMoney>(
+                    new Revenue(Amount.Create(1250.55M, Currency.PLN), RevenueType.PartnerSalary),
+                    new Revenue(Amount.Create(1000, Currency.PLN), RevenueType.PartnerSalary),
+                    new Expense(Amount.Create(-50.55M, Currency.PLN), ExpenseType.Beauty),
+                    new Expense(Amount.Create(-50.55M, Currency.PLN), ExpenseType.Car)));
         }
     }
 }
