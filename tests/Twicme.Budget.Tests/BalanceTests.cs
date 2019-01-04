@@ -10,9 +10,9 @@ namespace Twicme.Budget.Tests
         [MemberData(nameof(BalanceTestCases))]
         public void GivenTwoValues_WhenValueIsCalled_BalanceIsCalculated(decimal value1, decimal value2, decimal balance)
         {
-            var sut = new Balance(Money.Create(value1, Currency.PLN), Money.Create(value2, Currency.PLN));
+            var sut = new Balance(Amount.Create(value1, Currency.PLN), Amount.Create(value2, Currency.PLN));
 
-            sut.Value.Should().Be(Money.Create(balance, Currency.PLN));
+            sut.Value.Should().Be(Amount.Create(balance, Currency.PLN));
         }
         
         public static IEnumerable<object[]> BalanceTestCases()

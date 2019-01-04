@@ -10,53 +10,53 @@ namespace Twicme.Budget.Tests
         [Fact]
         public void GivenCorrectInputData_WhenConstructorIsCalled_ThenMoneyIsCreated()
         {
-            var sut = Money.Create(10, Currency.PLN);
+            var sut = Amount.Create(10, Currency.PLN);
 
-            sut.Amount.Should().Be(10);
+            sut.Value.Should().Be(10);
             sut.Currency.Should().Be(Currency.PLN);
         }
 
         [Fact]
         public void GivenValueWithHighPrecision_WhenConstructorIsCalled_ThenMoneyIsCreatedWithTwoDecimalPlace()
         {
-            var sut = Money.Create(0.2678765678M, Currency.PLN);
+            var sut = Amount.Create(0.2678765678M, Currency.PLN);
 
-            sut.Amount.Should().Be(0.27M);
+            sut.Value.Should().Be(0.27M);
         }
         
         public static IEnumerable<object[]> PlusOperatorTestCases()
         {
             yield return new object[]
             {
-                Money.Create(12, Currency.PLN),
-                Money.Create(8, Currency.PLN),
-                Money.Create(20, Currency.PLN)
+                Amount.Create(12, Currency.PLN),
+                Amount.Create(8, Currency.PLN),
+                Amount.Create(20, Currency.PLN)
             };
             
             yield return new object[]
             {
-                Money.Create(0, Currency.PLN),
-                Money.Create(1433, Currency.PLN),
-                Money.Create(1433, Currency.PLN)
+                Amount.Create(0, Currency.PLN),
+                Amount.Create(1433, Currency.PLN),
+                Amount.Create(1433, Currency.PLN)
             };
             
             yield return new object[]
             {
-                Money.Create(0.25M, Currency.PLN),
-                Money.Create(0.123456789M, Currency.PLN),
-                Money.Create(0.37M, Currency.PLN)
+                Amount.Create(0.25M, Currency.PLN),
+                Amount.Create(0.123456789M, Currency.PLN),
+                Amount.Create(0.37M, Currency.PLN)
             };
             
             yield return new object[]
             {
-                Money.Create(0.99M, Currency.PLN),
-                Money.Create(1000, Currency.PLN),
-                Money.Create(1000.99M, Currency.PLN)
+                Amount.Create(0.99M, Currency.PLN),
+                Amount.Create(1000, Currency.PLN),
+                Amount.Create(1000.99M, Currency.PLN)
             };
         }
             
         [Theory, MemberData(nameof(PlusOperatorTestCases))]
-        public void GivenElements_WhenPlusOperatorIsCalled_ThenSumIsCalculated(Money elem1, Money elem2, Money sum)
+        public void GivenElements_WhenPlusOperatorIsCalled_ThenSumIsCalculated(Amount elem1, Amount elem2, Amount sum)
         {
             var result = elem1 + elem2;
             
@@ -66,10 +66,10 @@ namespace Twicme.Budget.Tests
         [Fact]
         public void GivenElementsWithDifferentCurrency_WhenSumIsCalculated_ThenExceptionIsThrown()
         {
-            var zloty = Money.Create(1, Currency.PLN);
-            var dollar = Money.Create(1, Currency.USD);
+            var zloty = Amount.Create(1, Currency.PLN);
+            var dollar = Amount.Create(1, Currency.USD);
             
-            Func<Money> act = () => zloty + dollar;
+            Func<Amount> act = () => zloty + dollar;
 
             act.Should().Throw<ContractException>()
                 .WithMessage("It is only possible to add money with the same currency");
@@ -79,35 +79,35 @@ namespace Twicme.Budget.Tests
         {
             yield return new object[]
             {
-                Money.Create(12, Currency.PLN),
-                Money.Create(8, Currency.PLN),
-                Money.Create(4, Currency.PLN)
+                Amount.Create(12, Currency.PLN),
+                Amount.Create(8, Currency.PLN),
+                Amount.Create(4, Currency.PLN)
             };
             
             yield return new object[]
             {
-                Money.Create(0, Currency.PLN),
-                Money.Create(1433, Currency.PLN),
-                Money.Create(-1433, Currency.PLN)
+                Amount.Create(0, Currency.PLN),
+                Amount.Create(1433, Currency.PLN),
+                Amount.Create(-1433, Currency.PLN)
             };
             
             yield return new object[]
             {
-                Money.Create(0.25M, Currency.PLN),
-                Money.Create(0.123456789M, Currency.PLN),
-                Money.Create(0.13M, Currency.PLN)
+                Amount.Create(0.25M, Currency.PLN),
+                Amount.Create(0.123456789M, Currency.PLN),
+                Amount.Create(0.13M, Currency.PLN)
             };
             
             yield return new object[]
             {
-                Money.Create(1000, Currency.PLN),
-                Money.Create(0.99M, Currency.PLN),
-                Money.Create(999.01M, Currency.PLN)
+                Amount.Create(1000, Currency.PLN),
+                Amount.Create(0.99M, Currency.PLN),
+                Amount.Create(999.01M, Currency.PLN)
             };
         }
             
         [Theory, MemberData(nameof(MinusOperatorTestCases))]
-        public void GivenElements_WhenMinusOperatorIsCalled_ThenDiffIsCalculated(Money elem1, Money elem2, Money diff)
+        public void GivenElements_WhenMinusOperatorIsCalled_ThenDiffIsCalculated(Amount elem1, Amount elem2, Amount diff)
         {
             var result = elem1 - elem2;
             

@@ -25,29 +25,29 @@ namespace Twicme.Budget.Tests
         {
             
             var sut = new Budget(Month.April, 2019,
-                 ImmutableList.Create(new Revenue(Money.Create(1250.55M, Currency.PLN),
+                 ImmutableList.Create(new Revenue(Amount.Create(1250.55M, Currency.PLN),
                     RevenueType.PartnerSalary)),
-                ImmutableList.Create(new Revenue(Money.Create(1000, Currency.PLN), RevenueType.PartnerSalary)),
-                ImmutableList.Create(new Expense(Money.Create(50.55M, Currency.PLN), ExpenseType.Beauty)),
-                ImmutableList.Create(new Expense(Money.Create(50.55M, Currency.PLN), ExpenseType.Car)));
+                ImmutableList.Create(new Revenue(Amount.Create(1000, Currency.PLN), RevenueType.PartnerSalary)),
+                ImmutableList.Create(new Expense(Amount.Create(50.55M, Currency.PLN), ExpenseType.Beauty)),
+                ImmutableList.Create(new Expense(Amount.Create(50.55M, Currency.PLN), ExpenseType.Car)));
 
             sut.RevenueBalance.Should().NotBeNull();
-            sut.RevenueBalance.Value.Should().BeEquivalentTo(Money.Create(-250.55M, Currency.PLN));
+            sut.RevenueBalance.Value.Should().BeEquivalentTo(Amount.Create(-250.55M, Currency.PLN));
             sut.ExpenseBalance.Should().NotBeNull();
-            sut.ExpenseBalance.Value.Should().BeEquivalentTo(Money.Create(0, Currency.PLN));
+            sut.ExpenseBalance.Value.Should().BeEquivalentTo(Amount.Create(0, Currency.PLN));
         }
 
         [Fact]
         public void GivenPlannedRevenue_WhenAddPlannedRevenueIsCalled_ThenRevenueIsAdded()
         {
             var sut = new Budget(Month.April, 2019,
-                ImmutableList.Create(new Revenue(Money.Create(1250.55M, Currency.PLN),
+                ImmutableList.Create(new Revenue(Amount.Create(1250.55M, Currency.PLN),
                     RevenueType.PartnerSalary)),
-                ImmutableList.Create(new Revenue(Money.Create(1000, Currency.PLN), RevenueType.PartnerSalary)),
-                ImmutableList.Create(new Expense(Money.Create(50.55M, Currency.PLN), ExpenseType.Beauty)),
-                ImmutableList.Create(new Expense(Money.Create(50.55M, Currency.PLN), ExpenseType.Car)));
+                ImmutableList.Create(new Revenue(Amount.Create(1000, Currency.PLN), RevenueType.PartnerSalary)),
+                ImmutableList.Create(new Expense(Amount.Create(50.55M, Currency.PLN), ExpenseType.Beauty)),
+                ImmutableList.Create(new Expense(Amount.Create(50.55M, Currency.PLN), ExpenseType.Car)));
 
-            var newRevenue = new Revenue(Money.Create(200, Currency.PLN), RevenueType.Bonus);
+            var newRevenue = new Revenue(Amount.Create(200, Currency.PLN), RevenueType.Bonus);
             
             var newBudget = sut.AddPlannedRevenue(newRevenue);
             newBudget.PlannedRevenues.Should().Contain(newRevenue);

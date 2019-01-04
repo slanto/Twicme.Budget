@@ -2,13 +2,13 @@
 
 namespace Twicme.Budget
 {
-    public sealed class Revenue : Money
+    public sealed class Revenue : Amount
     {
         public RevenueType Type { get; }
         public string Description { get; }
         public DateTimeOffset Created { get; }
         
-        public Revenue(Money money, RevenueType type, string description = null) : base(money.Amount, money.Currency)
+        public Revenue(Amount amount, RevenueType type, string description = null) : base(amount.Value, amount.Currency)
         {
             Type = type;
             Description = description;

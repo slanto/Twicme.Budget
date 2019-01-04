@@ -4,12 +4,12 @@ namespace Twicme.Budget
 {
     public sealed class Balance : ValueObject<Balance>
     {
-        public Money FirstValue { get; }
-        public Money SecondValue { get; }
+        public Amount FirstValue { get; }
+        public Amount SecondValue { get; }
 
-        public Money Value => FirstValue - SecondValue;
+        public Amount Value => FirstValue - SecondValue;
         
-        public Balance(Money firstValue, Money secondValue)
+        public Balance(Amount firstValue, Amount secondValue)
         {
             FirstValue = firstValue;
             SecondValue = secondValue;
