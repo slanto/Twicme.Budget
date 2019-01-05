@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace Twicme.Budget
 {
-    public sealed class Expense : IMoney
+    public class Expense : ValueObject<Expense>, IMoney
     {
         public DateTimeOffset Created { get; }
         public Amount Amount { get; }
@@ -17,6 +17,14 @@ namespace Twicme.Budget
             Amount = amount;
             Type = type;
             Description = description;
+        }
+
+        protected override IEnumerable<object> GetEqualityComponents()
+        {
+            yield return Created;
+            yield return Amount;
+            yield return Type;
+            yield return Description;
         }
     }
 }

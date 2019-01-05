@@ -17,10 +17,11 @@ namespace Twicme.Budget.Tests
             sut.Created.Should().BeCloseTo(DateTimeOffset.UtcNow);
             sut.Month.Should().Be(Month.July);
             sut.Year.Should().Be(2012);
+            sut.Moneys.Should().BeEmpty();
         }
 
         [Fact]
-        public void GivenBudget_WhenBalanceIsCalled_ThenBalancesIsReturned()
+        public void GivenBudget_WhenBalanceIsCalled_ThenCorrectAmountIsReturned()
         {
             Budget.Balance().Should().Be(Amount.Create(2149.45M, Currency.PLN));
         }
