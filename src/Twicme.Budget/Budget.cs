@@ -23,5 +23,16 @@ namespace Twicme.Budget
         public Budget(Month month, uint year) : this(month, year, ImmutableList<IMoney>.Empty)
         {
         }
+        
+        public Amount Balance()
+        {
+            var currency = Moneys.First().Amount.Currency;
+            
+            Contracts.Require(Moneys.All(v => v.Amount.Currency == currency),
+                "Sum is only possible for amount in the same currency");
+
+            return Moneys.Aggregate(Amount.Create(0, currency),
+                (current, value) => current + value.Amount);
+        }
     }
 }
