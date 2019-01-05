@@ -19,5 +19,9 @@ namespace Twicme.Budget
             Created = DateTimeOffset.UtcNow;
             Moneys = moneys;
         }
+
+        public Budget(Month month, uint year) : this(month, year, ImmutableList<IMoney>.Empty)
+        {
+        }
     }
 }

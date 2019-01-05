@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Threading;
 
 namespace Twicme.Budget
 {
@@ -17,5 +18,8 @@ namespace Twicme.Budget
             return budget.Moneys.Aggregate(Amount.Create(0, currency),
                 (current, value) => current + value.Amount);
         }
+
+        public static Budget WithRevenue(this Budget budget, Revenue revenue) => budget.Add(revenue);
+        public static Budget WithExpense(this Budget budget, Expense expense) => budget.Add(expense);
     }
 }
