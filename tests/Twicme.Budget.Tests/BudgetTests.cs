@@ -40,10 +40,10 @@ namespace Twicme.Budget.Tests
         [Fact]
         public void GivenBudgetWithRevenues_WhenGettingRevenues_ThenRevenueDetailsAreReturning()
         {
-            Budget.Moneys.Count(m => m.IsRevenue()).Should().Be(2);
+            Budget.Revenues().Count.Should().Be(2);
             
-            var partnerSalary = Budget.Moneys.First(m => m.IsRevenue()).AsRevenue();
-            var salary = Budget.Moneys.Last(m => m.IsRevenue()).AsRevenue();
+            var partnerSalary = Budget.Revenues().First();
+            var salary = Budget.Revenues().Last();
             
             partnerSalary.Type.Should().Be(RevenueType.PartnerSalary);
             partnerSalary.Amount.Should().Be(Amount.Create(1250.55M, Currency.PLN));
