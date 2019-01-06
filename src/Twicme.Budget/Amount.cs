@@ -37,7 +37,6 @@ namespace Twicme.Budget
             Contracts.Require(minuend.Currency == subtrahend.Currency,
                 "It is only possible to subtract money with the same currency");
 
-            
             return new Amount(minuend.Value - subtrahend.Value, minuend.Currency);
         }
     }
