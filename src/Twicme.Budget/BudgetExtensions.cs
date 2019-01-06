@@ -13,6 +13,8 @@ namespace Twicme.Budget
 
         public static ImmutableList<Revenue> Revenues(this Budget budget) =>
             budget.Moneys.Where(m => m.IsRevenue()).Select(m => m.AsRevenue()).ToImmutableList();
+        public static ImmutableList<Expense> Expenses(this Budget budget) =>
+            budget.Moneys.Where(m => m.IsExpense()).Select(m => m.AsExpense()).ToImmutableList();
 
     }
 }
