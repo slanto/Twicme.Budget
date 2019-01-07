@@ -18,5 +18,8 @@ namespace Twicme.Budget
         {
             yield return Symbol;
         }
+
+        public override string ToString() => Symbol;
+
     }
 }

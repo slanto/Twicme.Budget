@@ -27,15 +27,9 @@ namespace Twicme.Budget
         {
         }
 
-        public Amount Balance()
-        {          
-            Contracts.Require(Moneys.All(v => v.Amount.Currency == BaseCurrency),
-                "Sum is only possible for amount in the same currency");
-
-            return Moneys.Aggregate(BaseCurrency.Zero(),
-                (current, value) => current + value.Amount);
-        }
-
+        public Amount Balance() => Moneys.Aggregate(BaseCurrency.Zero(),
+            (current, value) => current + value.Amount);
+        
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return Month;

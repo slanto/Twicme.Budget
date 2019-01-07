@@ -36,6 +36,16 @@ namespace Twicme.Budget.Tests
             budget.Moneys.Should().Contain(revenue);
             budget.Balance().Should().Be(Amount.Create(2349.45M, Currency.PLN));
         }
+        
+        [Fact]
+        public void GivenBudgetInPLN_WhenAmountInUSDIsAdded_ThenExceptionIsThrown()
+        {
+            Func<Budget> func = () => Budget.Add(
+                new Revenue(Amount.Create(200, Currency.USD), RevenueType.Bonus));
+
+            func.Should().Throw<ContractException>()
+                .WithMessage("It is only possible to add money to budget in its base currency: PLN");
+        }
 
         [Fact]
         public void GivenBudgetWithRevenues_WhenGettingRevenues_ThenRevenueDetailsAreReturned()
