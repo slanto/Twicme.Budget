@@ -70,6 +70,20 @@ namespace Twicme.Budget.Tests
             car.Type.Should().Be(ExpenseType.Car);
             car.Amount.Should().Be(Amount.Create(-50.55M, Currency.PLN));
         }
+
+        [Fact]
+        public void GivenBudget_WhenTotalRevenueIsCalled_ThenTotalAmountIsCalculated()
+        {
+            var totalRevenue = Budget.TotalRevenue();
+            totalRevenue.Should().Be(Amount.Create(2250.55M, Budget.BaseCurrency));
+        }
+        
+        [Fact]
+        public void GivenBudget_WhenTotalExpenseIsCalled_ThenTotalAmountIsCalculated()
+        {
+            var totalExpense = Budget.TotalExpense();
+            totalExpense.Should().Be(Amount.Create(-101.10M, Budget.BaseCurrency));
+        }
         
         private static Budget Budget => 
             new Budget(Month.April, 2019, Currency.PLN)

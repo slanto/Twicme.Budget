@@ -22,10 +22,11 @@ namespace Twicme.Budget
             Moneys = moneys;
         }
 
-        public Budget(Month month, uint year, Currency baseCurrency) : this(month, year, baseCurrency, ImmutableList<IMoney>.Empty)
+        public Budget(Month month, uint year, Currency baseCurrency) : this(month, year, baseCurrency,
+            ImmutableList<IMoney>.Empty)
         {
         }
-        
+
         public Amount Balance()
         {          
             Contracts.Require(Moneys.All(v => v.Amount.Currency == BaseCurrency),
