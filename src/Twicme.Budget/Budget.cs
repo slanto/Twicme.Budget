@@ -10,28 +10,28 @@ namespace Twicme.Budget
         public ImmutableList<IMoney> Moneys { get; }
         public Month Month { get; }
         public uint Year { get; }
+        public Currency BaseCurrency { get; }
         public DateTimeOffset Created { get; }
         
-        public Budget(Month month, uint year, ImmutableList<IMoney> moneys)
+        public Budget(Month month, uint year, Currency baseCurrency, ImmutableList<IMoney> moneys)
         {
             Month = month;
             Year = year;
+            BaseCurrency = baseCurrency;
             Created = DateTimeOffset.UtcNow;
             Moneys = moneys;
         }
 
-        public Budget(Month month, uint year) : this(month, year, ImmutableList<IMoney>.Empty)
+        public Budget(Month month, uint year, Currency baseCurrency) : this(month, year, baseCurrency, ImmutableList<IMoney>.Empty)
         {
         }
         
         public Amount Balance()
-        {
-            var currency = Moneys.First().Amount.Currency;
-            
-            Contracts.Require(Moneys.All(v => v.Amount.Currency == currency),
+        {          
+            Contracts.Require(Moneys.All(v => v.Amount.Currency == BaseCurrency),
                 "Sum is only possible for amount in the same currency");
 
-            return Moneys.Aggregate(Amount.Create(0, currency),
+            return Moneys.Aggregate(BaseCurrency.Zero(),
                 (current, value) => current + value.Amount);
         }
 

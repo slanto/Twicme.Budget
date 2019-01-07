@@ -12,7 +12,7 @@ namespace Twicme.Budget.Tests
         [Fact]
         public void GivenCorrectInputData_WhenConstructorIsCalled_ThenBudgetIsInitialized()
         {
-            var sut = new Budget(Month.July, 2012);
+            var sut = new Budget(Month.July, 2012, Currency.PLN);
 
             sut.Should().NotBeNull();
             sut.Created.Should().BeCloseTo(DateTimeOffset.UtcNow);
@@ -72,7 +72,7 @@ namespace Twicme.Budget.Tests
         }
         
         private static Budget Budget => 
-            new Budget(Month.April, 2019)
+            new Budget(Month.April, 2019, Currency.PLN)
                 .WithExpense(new Expense(Amount.Create(-50.55M, Currency.PLN), ExpenseType.Beauty))
                 .WithExpense(new Expense(Amount.Create(-50.55M, Currency.PLN), ExpenseType.Car))
                 .WithRevenue(new Revenue(Amount.Create(1250.55M, Currency.PLN), RevenueType.PartnerSalary))
