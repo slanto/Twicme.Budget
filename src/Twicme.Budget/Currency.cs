@@ -7,16 +7,16 @@ namespace Twicme.Budget
         public static readonly Currency PLN = new Currency("PLN");
         public static readonly Currency USD = new Currency("USD");
         
-        public string Name { get; }
+        public string Symbol { get; }
 
-        private Currency(string name)
+        private Currency(string symbol)
         {
-            Name = name;
+            Symbol = symbol;
         }
 
         protected override IEnumerable<object> GetEqualityComponents()
         {
-            yield return Name;
+            yield return Symbol;
         }
     }
 }
