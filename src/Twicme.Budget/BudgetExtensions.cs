@@ -21,11 +21,5 @@ namespace Twicme.Budget
 
         public static ImmutableList<Expense> Expenses(this Budget budget) =>
             budget.Moneys.Where(m => m.IsExpense()).Select(m => m.AsExpense()).ToImmutableList();
-
-        public static Amount TotalRevenue(this Budget budget) => budget.Revenues()
-            .Aggregate(budget.BaseCurrency.Zero(), (amount, revenue) => amount + revenue.Amount);
-        
-        public static Amount TotalExpense(this Budget budget) => budget.Expenses()
-            .Aggregate(budget.BaseCurrency.Zero(), (amount, revenue) => amount + revenue.Amount);
     }
 }

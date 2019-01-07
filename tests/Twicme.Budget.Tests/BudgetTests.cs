@@ -9,6 +9,8 @@ namespace Twicme.Budget.Tests
 {
     public class BudgetTests
     {   
+        private static Budget Budget => new BudgetTestDataBuilder().Build();
+        
         [Fact]
         public void GivenCorrectInputData_WhenConstructorIsCalled_ThenBudgetIsInitialized()
         {
@@ -22,19 +24,12 @@ namespace Twicme.Budget.Tests
         }
 
         [Fact]
-        public void GivenBudget_WhenBalanceIsCalled_ThenCorrectAmountIsReturned()
-        {
-            Budget.Balance().Should().Be(Amount.Create(2149.45M, Currency.PLN));
-        }
-
-        [Fact]
-        public void GivenBudget_WhenAddIsCalled_ThenAmountIsAdded()
+        public void GivenBudget_WhenMoneyIsAdded_ThenBalanceContainsAdditionalAmount()
         {
             var revenue = new Revenue(Amount.Create(200, Currency.PLN), RevenueType.Bonus);
             
             var budget = Budget.Add(revenue);
             budget.Moneys.Should().Contain(revenue);
-            budget.Balance().Should().Be(Amount.Create(2349.45M, Currency.PLN));
         }
         
         [Fact]
@@ -80,26 +75,5 @@ namespace Twicme.Budget.Tests
             car.Type.Should().Be(ExpenseType.Car);
             car.Amount.Should().Be(Amount.Create(-50.55M, Currency.PLN));
         }
-
-        [Fact]
-        public void GivenBudget_WhenTotalRevenueIsCalled_ThenTotalAmountIsCalculated()
-        {
-            var totalRevenue = Budget.TotalRevenue();
-            totalRevenue.Should().Be(Amount.Create(2250.55M, Budget.BaseCurrency));
-        }
-        
-        [Fact]
-        public void GivenBudget_WhenTotalExpenseIsCalled_ThenTotalAmountIsCalculated()
-        {
-            var totalExpense = Budget.TotalExpense();
-            totalExpense.Should().Be(Amount.Create(-101.10M, Budget.BaseCurrency));
-        }
-        
-        private static Budget Budget => 
-            new Budget(Month.April, 2019, Currency.PLN)
-                .WithExpense(new Expense(Amount.Create(-50.55M, Currency.PLN), ExpenseType.Beauty))
-                .WithExpense(new Expense(Amount.Create(-50.55M, Currency.PLN), ExpenseType.Car))
-                .WithRevenue(new Revenue(Amount.Create(1250.55M, Currency.PLN), RevenueType.PartnerSalary))
-                .WithRevenue(new Revenue(Amount.Create(1000, Currency.PLN), RevenueType.Salary));
     }
 }

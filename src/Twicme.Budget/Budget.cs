@@ -26,9 +26,6 @@ namespace Twicme.Budget
             ImmutableList<IMoney>.Empty)
         {
         }
-
-        public Amount Balance() => Moneys.Aggregate(BaseCurrency.Zero(),
-            (current, value) => current + value.Amount);
         
         protected override IEnumerable<object> GetEqualityComponents()
         {
