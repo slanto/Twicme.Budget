@@ -1,4 +1,5 @@
 using FluentAssertions;
+using Twicme.Budget.FinancialReport;
 using Xunit;
 
 namespace Twicme.Budget.Tests
