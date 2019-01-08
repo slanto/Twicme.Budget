@@ -20,6 +20,5 @@ namespace Twicme.Budget
         }
 
         public override string ToString() => Symbol;
-
     }
 }
