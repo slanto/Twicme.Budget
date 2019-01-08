@@ -3,15 +3,15 @@ using System.Linq;
 
 namespace Twicme.Budget
 {
-    public class FinancialReport
+    public class TotalExpense
     {
         public Budget Budget { get; }
 
-        public FinancialReport(Budget budget)
+        public TotalExpense(Budget budget)
         {
             Budget = budget;
         }
         
-        public Amount TotalExpense() => Budget.Expenses().Sum(Budget.BaseCurrency); 
+        public Amount Value => Budget.Expenses().Sum(Budget.BaseCurrency); 
     }
 }
