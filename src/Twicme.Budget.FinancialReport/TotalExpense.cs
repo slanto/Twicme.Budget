@@ -4,10 +4,8 @@ using System.Linq;
 
 namespace Twicme.Budget.FinancialReport
 {
-    public class TotalExpense
+    public class TotalExpense : IMoney
     {
-        public Amount Value => _expenses.Sum(_currency);
-
         private readonly Currency _currency;
         private ImmutableList<Expense> _expenses;
         
@@ -22,5 +20,7 @@ namespace Twicme.Budget.FinancialReport
             _expenses = _expenses.Where(predicate).ToImmutableList();
             return this;
         }
+
+        public Amount Amount => _expenses.Sum(_currency);
     }
 }

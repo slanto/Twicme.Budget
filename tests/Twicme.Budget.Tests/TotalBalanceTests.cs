@@ -18,7 +18,7 @@ namespace Twicme.Budget.Tests
         {
             var totalBalance = new TotalBalance(_budget);
             
-            totalBalance.Value.Should().Be(Amount.Create(2149.45M, _budget.BaseCurrency));
+            totalBalance.Amount.Should().Be(Amount.Create(2149.45M, _budget.BaseCurrency));
         }
     }
 }

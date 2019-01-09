@@ -17,7 +17,16 @@ namespace Twicme.Budget.Tests
         public void GivenBudget_WhenTotalRevenueIsCalled_ThenTotalAmountIsCalculated()
         {
             var totalRevenue = new TotalRevenue(_budget);
-            totalRevenue.Value.Should().Be(Amount.Create(2250.55M, _budget.BaseCurrency));
+            totalRevenue.Amount.Should().Be(Amount.Create(2250.55M, _budget.BaseCurrency));
+        }
+        
+        [Fact]
+        public void GivenBudget_WhenTotalRevenueForSpecificTypeIsCalled_ThenAmountIsCalculated()
+        {
+            var totalRevenue = new TotalRevenue(_budget);
+            
+            totalRevenue.For(e => e.Type == RevenueType.Bonus)
+                .Amount.Should().Be(Amount.Create(0, _budget.BaseCurrency));
         }
     }
 }

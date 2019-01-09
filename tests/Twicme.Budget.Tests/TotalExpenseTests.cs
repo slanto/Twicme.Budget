@@ -18,7 +18,7 @@ namespace Twicme.Budget.Tests
         {   
             var totalExpense = new TotalExpense(_budget);
             
-            totalExpense.Value.Should().Be(Amount.Create(-101.10M, _budget.BaseCurrency));
+            totalExpense.Amount.Should().Be(Amount.Create(-101.10M, _budget.BaseCurrency));
         }
 
         [Fact]
@@ -27,7 +27,7 @@ namespace Twicme.Budget.Tests
             var totalExpense = new TotalExpense(_budget);
 
             totalExpense.For(e => e.Type == ExpenseType.Beauty)
-                .Value.Should().Be(Amount.Create(-50.55M, _budget.BaseCurrency));
+                .Amount.Should().Be(Amount.Create(-50.55M, _budget.BaseCurrency));
         }
     }
 }
