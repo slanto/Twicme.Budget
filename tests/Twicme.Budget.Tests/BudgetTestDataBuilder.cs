@@ -2,7 +2,7 @@ namespace Twicme.Budget.Tests
 {
     public class BudgetTestDataBuilder
     {
-        public Budget Build() =>
+        public static Budget Build() =>
             new Budget(Month.April, 2019, Currency.PLN)
                 .WithExpense(new Expense(Amount.Create(-50.55M, Currency.PLN), ExpenseType.Beauty))
                 .WithExpense(new Expense(Amount.Create(-50.55M, Currency.PLN), ExpenseType.Car))

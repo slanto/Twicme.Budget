@@ -10,7 +10,7 @@ namespace Twicme.Budget.Tests
 
         public TotalBalanceTests()
         {
-            _budget = new BudgetTestDataBuilder().Build();
+            _budget = BudgetTestDataBuilder.Build();
         }
 
         [Fact]
