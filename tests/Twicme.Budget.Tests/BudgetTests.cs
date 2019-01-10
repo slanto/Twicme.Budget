@@ -3,6 +3,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using FluentAssertions;
 using NSubstitute;
+using Twicme.Budget.FinancialReport;
 using Xunit;
 
 namespace Twicme.Budget.Tests
@@ -74,6 +75,36 @@ namespace Twicme.Budget.Tests
             
             car.Type.Should().Be(ExpenseType.Car);
             car.Amount.Should().Be(Amount.Create(-50.55M, Currency.PLN));
+        }
+
+        [Fact]
+        public void GivenNewBudget_WhenBudgetIsPlanned_ThenItContainsExpensesAndRevenues()
+        {
+            var initBudget = new Budget(Month.January, 2019, Currency.USD);
+
+            var budgetWithAddedExpensesAndRevenues = initBudget
+                .WithRevenue(new Revenue(Amount.Create(10.99M, initBudget.BaseCurrency), RevenueType.Salary))
+                .WithRevenue(new Revenue(Amount.Create(0.1M, initBudget.BaseCurrency), RevenueType.Bonus))
+                .WithRevenue(new Revenue(Amount.Create(0.5M, initBudget.BaseCurrency), RevenueType.Rental))
+                .WithRevenue(new Revenue(Amount.Create(100, initBudget.BaseCurrency), RevenueType.Salary))
+                .WithExpense(new Expense(Amount.Create(-25, initBudget.BaseCurrency), ExpenseType.Food))
+                .WithExpense(new Expense(Amount.Create(-30.99M, initBudget.BaseCurrency), ExpenseType.Media));
+
+            new TotalBalance(budgetWithAddedExpensesAndRevenues)
+                .Amount.Should().Be(Amount.Create(55.60M, initBudget.BaseCurrency));
+
+            var withAddedNewExpense =
+                budgetWithAddedExpensesAndRevenues.WithExpense(
+                    new Expense(Amount.Create(-90, initBudget.BaseCurrency), ExpenseType.Car));
+            
+            new TotalBalance(withAddedNewExpense)
+                .Amount.Should().Be(Amount.Create(-34.40M, initBudget.BaseCurrency));
+
+            new TotalExpense(withAddedNewExpense)
+                .Amount.Should().Be(Amount.Create(-145.99M, initBudget.BaseCurrency));
+            
+            new TotalRevenue(withAddedNewExpense)
+                .Amount.Should().Be(Amount.Create(111.59M, initBudget.BaseCurrency));
         }
     }
 }
