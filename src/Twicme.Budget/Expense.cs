@@ -13,6 +13,8 @@ namespace Twicme.Budget
 
         public Expense(Amount amount, ExpenseType type, string description = null)
         {
+            Contracts.Require(amount.Negative, "Expense can be only negative");
+            
             Created = DateTimeOffset.UtcNow;
             Amount = amount;
             Type = type;

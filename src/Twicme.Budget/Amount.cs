@@ -7,6 +7,9 @@ namespace Twicme.Budget
         public decimal Value { get; }
         public Currency Currency { get; }
 
+        public bool Negative => Value < 0;
+        public bool Positive => !Negative;
+        
         protected Amount(decimal value, Currency currency)
         {
             Value = decimal.Round(value, 2);
