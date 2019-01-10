@@ -80,31 +80,32 @@ namespace Twicme.Budget.Tests
         [Fact]
         public void GivenNewBudget_WhenBudgetIsPlanned_ThenItContainsExpensesAndRevenues()
         {
-            var initBudget = new Budget(Month.January, 2019, Currency.USD);
+            var currency = Currency.USD;
+            var initBudget = new Budget(Month.January, 2019, currency);
 
-            var budgetWithAddedExpensesAndRevenues = initBudget
-                .WithRevenue(new Revenue(Amount.Create(10.99M, initBudget.BaseCurrency), RevenueType.Salary))
-                .WithRevenue(new Revenue(Amount.Create(0.1M, initBudget.BaseCurrency), RevenueType.Bonus))
-                .WithRevenue(new Revenue(Amount.Create(0.5M, initBudget.BaseCurrency), RevenueType.Rental))
-                .WithRevenue(new Revenue(Amount.Create(100, initBudget.BaseCurrency), RevenueType.Salary))
-                .WithExpense(new Expense(Amount.Create(-25, initBudget.BaseCurrency), ExpenseType.Food))
-                .WithExpense(new Expense(Amount.Create(-30.99M, initBudget.BaseCurrency), ExpenseType.Media));
+            var withAddedExpensesAndRevenues = initBudget
+                .WithRevenue(new Revenue(Amount.Create(10.99M, currency), RevenueType.Salary))
+                .WithRevenue(new Revenue(Amount.Create(0.1M, currency), RevenueType.Bonus))
+                .WithRevenue(new Revenue(Amount.Create(0.5M, currency), RevenueType.Rental))
+                .WithRevenue(new Revenue(Amount.Create(100, currency), RevenueType.Salary))
+                .WithExpense(new Expense(Amount.Create(-25, currency), ExpenseType.Food))
+                .WithExpense(new Expense(Amount.Create(-30.99M, currency), ExpenseType.Media));
 
-            new TotalBalance(budgetWithAddedExpensesAndRevenues)
-                .Amount.Should().Be(Amount.Create(55.60M, initBudget.BaseCurrency));
+            new TotalBalance(withAddedExpensesAndRevenues)
+                .Amount.Should().Be(Amount.Create(55.60M, currency));
 
-            var withAddedNewExpense =
-                budgetWithAddedExpensesAndRevenues.WithExpense(
-                    new Expense(Amount.Create(-90, initBudget.BaseCurrency), ExpenseType.Car));
+            var withNewlyAddedExpense =
+                withAddedExpensesAndRevenues.WithExpense(
+                    new Expense(Amount.Create(-90, currency), ExpenseType.Car));
             
-            new TotalBalance(withAddedNewExpense)
-                .Amount.Should().Be(Amount.Create(-34.40M, initBudget.BaseCurrency));
+            new TotalBalance(withNewlyAddedExpense)
+                .Amount.Should().Be(Amount.Create(-34.40M, currency));
 
-            new TotalExpense(withAddedNewExpense)
-                .Amount.Should().Be(Amount.Create(-145.99M, initBudget.BaseCurrency));
+            new TotalExpense(withNewlyAddedExpense)
+                .Amount.Should().Be(Amount.Create(-145.99M, currency));
             
-            new TotalRevenue(withAddedNewExpense)
-                .Amount.Should().Be(Amount.Create(111.59M, initBudget.BaseCurrency));
+            new TotalRevenue(withNewlyAddedExpense)
+                .Amount.Should().Be(Amount.Create(111.59M, currency));
         }
     }
 }
