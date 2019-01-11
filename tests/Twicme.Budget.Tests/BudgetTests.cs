@@ -81,9 +81,9 @@ namespace Twicme.Budget.Tests
         public void GivenNewBudget_WhenBudgetIsPlanned_ThenItContainsExpensesAndRevenues()
         {
             var currency = Currency.USD;
-            var initBudget = new Budget(Month.January, 2019, currency);
+            var budget = new Budget(Month.January, 2019, currency);
 
-            var withAddedExpensesAndRevenues = initBudget
+            budget = budget
                 .WithRevenue(new Revenue(Amount.Create(10.99M, currency), RevenueType.Salary))
                 .WithRevenue(new Revenue(Amount.Create(0.1M, currency), RevenueType.Bonus))
                 .WithRevenue(new Revenue(Amount.Create(0.5M, currency), RevenueType.Rental))
@@ -91,21 +91,30 @@ namespace Twicme.Budget.Tests
                 .WithExpense(new Expense(Amount.Create(-25, currency), ExpenseType.Food))
                 .WithExpense(new Expense(Amount.Create(-30.99M, currency), ExpenseType.Media));
 
-            new TotalBalance(withAddedExpensesAndRevenues)
+            new TotalBalance(budget)
                 .Amount.Should().Be(Amount.Create(55.60M, currency));
 
-            var withNewlyAddedExpense =
-                withAddedExpensesAndRevenues.WithExpense(
+            budget =
+                budget.WithExpense(
                     new Expense(Amount.Create(-90, currency), ExpenseType.Car));
             
-            new TotalBalance(withNewlyAddedExpense)
+            new TotalBalance(budget)
                 .Amount.Should().Be(Amount.Create(-34.40M, currency));
 
-            new TotalExpense(withNewlyAddedExpense)
+            new TotalExpense(budget)
                 .Amount.Should().Be(Amount.Create(-145.99M, currency));
             
-            new TotalRevenue(withNewlyAddedExpense)
+            new TotalRevenue(budget)
                 .Amount.Should().Be(Amount.Create(111.59M, currency));
+
+            budget.Revenues().Should()
+                .Contain(i => i.Type == RevenueType.Salary && i.Amount.Value == 10.99M);
+            budget.Revenues().Should()
+                .Contain(i => i.Type == RevenueType.Salary && i.Amount.Value == 100);
+            budget.Revenues().Should()
+                .Contain(i => i.Type == RevenueType.Bonus && i.Amount.Value == 0.1M);
+            budget.Revenues().Should()
+                .Contain(i => i.Type == RevenueType.Rental && i.Amount.Value == 0.5M);
         }
     }
 }
