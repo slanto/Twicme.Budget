@@ -17,6 +17,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\src\Twicme.Budget.FinancialReport\Twicme.Budget.FinancialReport.csproj" />
+      <ProjectReference Include="..\..\src\Twicme.Budget.Serialization\Twicme.Budget.Serialization.csproj" />
       <ProjectReference Include="..\..\src\Twicme.Budget\Twicme.Budget.csproj" />
     </ItemGroup>
 

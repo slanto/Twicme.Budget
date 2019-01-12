@@ -6,7 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twicme.Budget.Tests", "..\t
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twicme.Budget.FinancialReport", "Twicme.Budget.FinancialReport\Twicme.Budget.FinancialReport.csproj", "{01EDAD5D-CE3B-4A05-A791-F8623FA590E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twicme.Budget.Store", "Twicme.Budget.Store\Twicme.Budget.Store.csproj", "{8A6FE6F7-7D23-4EB6-BFAD-EFF32B57D025}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twicme.Budget.Serialization", "Twicme.Budget.Serialization\Twicme.Budget.Serialization.csproj", "{8A6FE6F7-7D23-4EB6-BFAD-EFF32B57D025}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
