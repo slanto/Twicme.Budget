@@ -12,19 +12,24 @@ namespace Twicme.Budget
         public uint Year { get; }
         public Currency BaseCurrency { get; }
         public DateTimeOffset Created { get; }
-        
-        public Budget(Month month, uint year, Currency baseCurrency, ImmutableList<IMoney> moneys)
+
+        public Budget(Month month, uint year, Currency baseCurrency, ImmutableList<IMoney> moneys) : this(month, year,
+            baseCurrency, moneys, new Clock())
+        {
+        }
+
+        public Budget(Month month, uint year, Currency baseCurrency) : this(month, year, baseCurrency,
+            ImmutableList<IMoney>.Empty, new Clock())
+        {
+        }
+
+        public Budget(Month month, uint year, Currency baseCurrency, ImmutableList<IMoney> moneys, IClock clock)
         {
             Month = month;
             Year = year;
             BaseCurrency = baseCurrency;
-            Created = DateTimeOffset.UtcNow;
+            Created = clock.NowUtc;
             Moneys = moneys;
-        }
-
-        public Budget(Month month, uint year, Currency baseCurrency) : this(month, year, baseCurrency,
-            ImmutableList<IMoney>.Empty)
-        {
         }
         
         protected override IEnumerable<object> GetEqualityComponents()

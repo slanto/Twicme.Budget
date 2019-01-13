@@ -11,16 +11,20 @@ namespace Twicme.Budget
         public ExpenseType Type { get; }
         public string Description { get; }
 
-        public Expense(Amount amount, ExpenseType type, string description = null)
+        public Expense(Amount amount, ExpenseType type, IClock clock, string description = null)
         {
             Contracts.Require(amount.Negative, "Expense can be only negative");
             
-            Created = DateTimeOffset.UtcNow;
+            Created = clock.NowUtc;
             Amount = amount;
             Type = type;
             Description = description;
         }
 
+        public Expense(Amount amount, ExpenseType type, string description = null) : this(amount, type, new Clock(), description)
+        {   
+        }
+        
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return Created;

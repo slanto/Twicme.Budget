@@ -10,7 +10,7 @@ namespace Twicme.Budget.Tests
 {
     public class BudgetTests
     {   
-        private static Budget Budget => BudgetTestDataBuilder.Build();
+        private static Budget Budget => new BudgetTestDataBuilder().Build();
         
         [Fact]
         public void GivenCorrectInputData_WhenConstructorIsCalled_ThenBudgetIsInitialized()

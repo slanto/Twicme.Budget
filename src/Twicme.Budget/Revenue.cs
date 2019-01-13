@@ -10,14 +10,17 @@ namespace Twicme.Budget
         public string Description { get; }
         public DateTimeOffset Created { get; }
 
-        public Revenue(Amount amount, RevenueType type, string description = null)
+        public Revenue(Amount amount, RevenueType type, IClock clock, string description = null)
         {
             Amount = amount;
             Type = type;
             Description = description;
-            Created = DateTimeOffset.UtcNow;
+            Created = clock.NowUtc;
         }
 
+        public Revenue(Amount amount, RevenueType type, string description = null) : this(amount, type, new Clock(), 
+            description) {}
+        
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return Created;

@@ -28,7 +28,7 @@ namespace Twicme.Budget.Store
                             m.Amount.Currency.Symbol, m.Type.Name, m.Description)))
                     .ToList();
 
-            return new BudgetModel(moneys, budget.Year, budget.Month.Name, budget.BaseCurrency.Symbol);
+            return new BudgetModel(moneys, budget.Year, budget.Month.Name, budget.BaseCurrency.Symbol, budget.Created);
         }
 
         private static Budget ToBudget(BudgetModel model)
