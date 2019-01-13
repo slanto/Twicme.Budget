@@ -16,11 +16,9 @@ namespace Twicme.Budget.Tests
 
             var serializedBudget = sut.ToJson();
 
-            var deserializedBudget = sut.ToBudget(serializedBudget);
+            var deserializedBudget = JsonBudget.ToBudget(serializedBudget);
             
             deserializedBudget.Should().BeEquivalentTo(budget);
         }
-
-        
     }
 }

@@ -20,5 +20,7 @@ namespace Twicme.Budget
         {
             Name = name;
         }
+        
+        public static ExpenseType Create(string name) => new ExpenseType(name);
     }
 }

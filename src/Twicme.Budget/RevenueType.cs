@@ -15,5 +15,7 @@ namespace Twicme.Budget
         {
             Name = name;
         }
+
+        public static RevenueType Create(string name) => new RevenueType(name);
     }
 }

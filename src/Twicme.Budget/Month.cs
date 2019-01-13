@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Twicme.Budget
 {
@@ -25,6 +27,17 @@ namespace Twicme.Budget
             Index = index;
             Name = name;
         }
+
+        public static Month Create(string name)
+        {
+            var found = All.Single(n => n.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+            Contracts.Require(found != null, $"Month name: {name} not found.");
+            
+            return new Month(found.Index, found.Name);
+        }
+
+        private static IEnumerable<Month> All => new[]
+            {January, February, March, April, May, June, July, August, September, October, November, December};
 
         protected override IEnumerable<object> GetEqualityComponents()
         {

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Twicme.Budget
 {
@@ -14,6 +15,14 @@ namespace Twicme.Budget
             Symbol = symbol;
         }
 
+        public static Currency Create(string symbol)
+        {
+            Contracts.Require(All.Select(s => s.Symbol).Contains(symbol), $"Currency not found {symbol}");
+            
+            return new Currency(symbol);
+        }
+
+        public static IEnumerable<Currency> All => new[] {PLN, USD};
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return Symbol;
