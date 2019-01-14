@@ -35,17 +35,17 @@ namespace Twicme.Budget.Store
         {
             var expenses = model.Moneys.Where(m => m.Amount < 0).Select(m =>
                 new Expense(Amount.Create(m.Amount, Currency.Create(m.Currency)),
-                    ExpenseType.Create(m.Type), m.Description));
+                    ExpenseType.Create(m.Type), m.Created,  m.Description));
             
             var revenues = model.Moneys.Where(m => m.Amount >= 0).Select(m =>
                 new Revenue(Amount.Create(m.Amount, Currency.Create(m.Currency)),
-                    RevenueType.Create(m.Type), m.Description));
+                    RevenueType.Create(m.Type), m.Created,  m.Description));
             
             var moneys = expenses
                 .Concat<IMoney>(revenues).ToImmutableList();
                     
             return new Budget(Month.Create(model.Month), model.Year, Currency.Create(model.Currency),
-                moneys);
+                moneys, model.Created);
         }
     }
 }

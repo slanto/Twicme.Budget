@@ -14,21 +14,21 @@ namespace Twicme.Budget
         public DateTimeOffset Created { get; }
 
         public Budget(Month month, uint year, Currency baseCurrency, ImmutableList<IMoney> moneys) : this(month, year,
-            baseCurrency, moneys, new Clock())
+            baseCurrency, moneys, new Clock().NowUtc)
         {
         }
 
         public Budget(Month month, uint year, Currency baseCurrency) : this(month, year, baseCurrency,
-            ImmutableList<IMoney>.Empty, new Clock())
+            ImmutableList<IMoney>.Empty, new Clock().NowUtc)
         {
         }
 
-        public Budget(Month month, uint year, Currency baseCurrency, ImmutableList<IMoney> moneys, IClock clock)
+        public Budget(Month month, uint year, Currency baseCurrency, ImmutableList<IMoney> moneys, DateTimeOffset created)
         {
             Month = month;
             Year = year;
             BaseCurrency = baseCurrency;
-            Created = clock.NowUtc;
+            Created = created;
             Moneys = moneys;
         }
         
