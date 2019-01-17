@@ -12,8 +12,8 @@ namespace Twicme.Budget.Store
         }
 
         public string Serialize() => 
-            JsonConvert.SerializeObject(_budget.ToBudgetModel(), Formatting.Indented);
+            JsonConvert.SerializeObject(_budget.ToBudgetModel(), Formatting.Indented, new StringDecimalConverter());
         public static Budget Deserialize(string value) => 
-            JsonConvert.DeserializeObject<BudgetModel>(value).ToBudget();
+            JsonConvert.DeserializeObject<BudgetModel>(value, new StringDecimalConverter()).ToBudget();
     }
 }

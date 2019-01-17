@@ -13,7 +13,7 @@ namespace Twicme.Budget.Store
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            throw new NotImplementedException();
+            return Convert.ToDecimal($"{reader.Value:.##}");
         }
 
         public override bool CanConvert(Type objectType)
