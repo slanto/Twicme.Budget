@@ -1,6 +1,8 @@
+using System.Collections.Generic;
+
 namespace Twicme.Budget
 {
-    public class RevenueType
+    public class RevenueType : ValueObject<RevenueType>
     {
         public static readonly RevenueType Salary = new RevenueType("Salary");
         public static readonly RevenueType PartnerSalary = new RevenueType("PartnerSalary");
@@ -17,5 +19,10 @@ namespace Twicme.Budget
         }
 
         public static RevenueType Create(string name) => new RevenueType(name);
+        
+        protected override IEnumerable<object> GetEqualityComponents()
+        {
+            yield return Name;
+        }
     }
 }

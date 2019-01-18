@@ -116,5 +116,12 @@ namespace Twicme.Budget.Tests
             budget.Revenues().Should()
                 .Contain(i => i.Type == RevenueType.Rental && i.Amount.Value == 0.5M);
         }
+
+        [Fact]
+        public void GivenTwoTheSameBudgets_WhenBudgetsAreCompared_ThenTheyAreEqualed()
+        {
+            Budget.Should().BeEquivalentTo(Budget);
+        }
+        
     }
 }

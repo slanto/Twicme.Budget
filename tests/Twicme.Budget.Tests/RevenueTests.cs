@@ -21,5 +21,16 @@ namespace Twicme.Budget.Tests
             sut.Type.Should().Be(RevenueType.Salary);
             sut.Description.Should().Be(description);
         }
+
+        [Fact]
+        public void GivenTwoRevenues_WhenTheyAreCompared_ThenTheyAreEqual()
+        {
+            var revenue1 = new Revenue(Amount.Create(100.12M, Currency.PLN), 
+                RevenueType.Salary, "description");
+            var revenue2 = new Revenue(Amount.Create(100.12M, Currency.PLN), 
+                RevenueType.Salary, "description");
+            
+            revenue1.Should().BeEquivalentTo(revenue2);
+        }
     }
 }
