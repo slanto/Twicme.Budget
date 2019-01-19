@@ -25,10 +25,11 @@ namespace Twicme.Budget.Tests
         [Fact]
         public void GivenTwoRevenues_WhenTheyAreCompared_ThenTheyAreEqual()
         {
-            var revenue1 = new Revenue(Amount.Create(100.12M, Currency.PLN), 
-                RevenueType.Salary, "description");
+            var now = DateTimeOffset.UtcNow;
+            var revenue1 = new Revenue(Amount.Create(100.12M, Currency.PLN),  
+                RevenueType.Salary, now, "description");
             var revenue2 = new Revenue(Amount.Create(100.12M, Currency.PLN), 
-                RevenueType.Salary, "description");
+                RevenueType.Salary, now, "description");
             
             revenue1.Should().BeEquivalentTo(revenue2);
         }

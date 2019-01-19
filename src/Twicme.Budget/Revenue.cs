@@ -18,9 +18,8 @@ namespace Twicme.Budget
             Created = created;
         }
 
-        public Revenue(Amount amount, RevenueType type, string description = null) : this(amount, type,
-            new Clock().NowUtc,
-            description)
+        public Revenue(Amount amount, RevenueType type, string description = null) : 
+            this(amount, type, new Clock().NowUtc, description)
         {
         }
 
