@@ -82,21 +82,23 @@ namespace Twicme.Budget.Tests
         {
             var currency = Currency.USD;
             var budget = new Budget(Month.January, 2019, currency);
+            var created = 
+                new DateTimeOffset(2017, 1, 20, 20, 0, 0, TimeSpan.Zero);
 
             budget = budget
                 .WithRevenue(new Revenue(Amount.Create(10.99M, currency), RevenueType.Salary))
                 .WithRevenue(new Revenue(Amount.Create(0.1M, currency), RevenueType.Bonus))
                 .WithRevenue(new Revenue(Amount.Create(0.5M, currency), RevenueType.Rental))
                 .WithRevenue(new Revenue(Amount.Create(100, currency), RevenueType.Salary))
-                .WithExpense(new Expense(Amount.Create(-25, currency), ExpenseType.Food))
-                .WithExpense(new Expense(Amount.Create(-30.99M, currency), ExpenseType.Media));
+                .WithExpense(new Expense(Amount.Create(-25, currency), ExpenseType.Food, created))
+                .WithExpense(new Expense(Amount.Create(-30.99M, currency), ExpenseType.Media, created));
 
             new TotalBalance(budget)
                 .Amount.Should().Be(Amount.Create(55.60M, currency));
 
             budget =
                 budget.WithExpense(
-                    new Expense(Amount.Create(-90, currency), ExpenseType.Car));
+                    new Expense(Amount.Create(-90, currency), ExpenseType.Car, created));
             
             new TotalBalance(budget)
                 .Amount.Should().Be(Amount.Create(-34.40M, currency));

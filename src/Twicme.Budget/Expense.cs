@@ -21,11 +21,6 @@ namespace Twicme.Budget
             Description = description;
         }
 
-        public Expense(Amount amount, ExpenseType type, string description = null) : this(amount, type,
-            new Clock().NowUtc, description)
-        {
-        }
-
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return Created;
