@@ -1,6 +1,8 @@
+using System.Collections.Generic;
+
 namespace Twicme.Budget
 {
-    public class ExpenseType
+    public class ExpenseType : ValueObject<ExpenseType>
     {
         public static readonly ExpenseType Food = new ExpenseType("Food");
         public static readonly ExpenseType Home = new ExpenseType("Home");
@@ -22,5 +24,9 @@ namespace Twicme.Budget
         }
         
         public static ExpenseType Create(string name) => new ExpenseType(name);
+        protected override IEnumerable<object> GetEqualityComponents()
+        {
+            yield return Name;
+        }
     }
 }
