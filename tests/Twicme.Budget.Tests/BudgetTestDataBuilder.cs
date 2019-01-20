@@ -17,13 +17,13 @@ namespace Twicme.Budget.Tests
         {
             var clockFake = new ClockFake(_dateTimeOffset);
 
-            var budget = new Budget(Month.April, 2019, Currency.PLN, ImmutableList<IMoney>.Empty,
-                    clockFake.NowUtc)
-                .WithExpense(new Expense(Amount.Create(-50.55M, Currency.PLN), ExpenseType.Beauty, clockFake.NowUtc))
-                .WithExpense(new Expense(Amount.Create(-50.55M, Currency.PLN), ExpenseType.Car, clockFake.NowUtc))
+            var budget = new Budget(Month.April, 2019, Currency.PLN, 
+                    _dateTimeOffset, ImmutableList<IMoney>.Empty)
+                .WithExpense(new Expense(Amount.Create(-50.55M, Currency.PLN), ExpenseType.Beauty, _dateTimeOffset))
+                .WithExpense(new Expense(Amount.Create(-50.55M, Currency.PLN), ExpenseType.Car, _dateTimeOffset))
                 .WithRevenue(new Revenue(Amount.Create(1250.55M, Currency.PLN), RevenueType.PartnerSalary,
-                    clockFake.NowUtc))
-                .WithRevenue(new Revenue(Amount.Create(1000, Currency.PLN), RevenueType.Salary, clockFake.NowUtc));
+                    _dateTimeOffset))
+                .WithRevenue(new Revenue(Amount.Create(1000, Currency.PLN), RevenueType.Salary, _dateTimeOffset));
 
             return budget;
         }

@@ -10,15 +10,18 @@ namespace Twicme.Budget.Tests
 {
     public class BudgetTests
     {   
-        private static Budget Budget => new BudgetTestDataBuilder().Build();
+        private static Budget Budget => new BudgetTestDataBuilder().WithDateTime(Created).Build();
+        
+        private static DateTimeOffset Created => 
+            new DateTimeOffset(2018, 2, 10, 6, 12, 0, TimeSpan.Zero);
         
         [Fact]
         public void GivenCorrectInputData_WhenConstructorIsCalled_ThenBudgetIsInitialized()
         {
-            var sut = new Budget(Month.July, 2012, Currency.PLN);
+            var sut = new Budget(Month.July, 2012, Currency.PLN, Created, ImmutableList<IMoney>.Empty);
 
             sut.Should().NotBeNull();
-            sut.Created.Should().BeCloseTo(DateTimeOffset.UtcNow);
+            sut.Created.Should().Be(Created);
             sut.Month.Should().Be(Month.July);
             sut.Year.Should().Be(2012);
             sut.Moneys.Should().BeEmpty();
@@ -27,7 +30,7 @@ namespace Twicme.Budget.Tests
         [Fact]
         public void GivenBudget_WhenMoneyIsAdded_ThenBalanceContainsAdditionalAmount()
         {
-            var revenue = new Revenue(Amount.Create(200, Currency.PLN), RevenueType.Bonus);
+            var revenue = new Revenue(Amount.Create(200, Currency.PLN), RevenueType.Bonus, Created);
             
             var budget = Budget.Add(revenue);
             budget.Moneys.Should().Contain(revenue);
@@ -37,7 +40,7 @@ namespace Twicme.Budget.Tests
         public void GivenBudgetInPLN_WhenAmountInUSDIsAdded_ThenExceptionIsThrown()
         {
             Func<Budget> func = () => Budget.Add(
-                new Revenue(Amount.Create(200, Currency.USD), RevenueType.Bonus));
+                new Revenue(Amount.Create(200, Currency.USD), RevenueType.Bonus, Created));
 
             func.Should().Throw<ContractException>()
                 .WithMessage("It is only possible to add money to budget in its base currency: PLN");
@@ -81,24 +84,22 @@ namespace Twicme.Budget.Tests
         public void GivenNewBudget_WhenBudgetIsPlanned_ThenItContainsExpensesAndRevenues()
         {
             var currency = Currency.USD;
-            var budget = new Budget(Month.January, 2019, currency);
-            var created = 
-                new DateTimeOffset(2017, 1, 20, 20, 0, 0, TimeSpan.Zero);
-
+            var budget = new Budget(Month.January, 2019, currency, Created, ImmutableList<IMoney>.Empty);
+            
             budget = budget
-                .WithRevenue(new Revenue(Amount.Create(10.99M, currency), RevenueType.Salary))
-                .WithRevenue(new Revenue(Amount.Create(0.1M, currency), RevenueType.Bonus))
-                .WithRevenue(new Revenue(Amount.Create(0.5M, currency), RevenueType.Rental))
-                .WithRevenue(new Revenue(Amount.Create(100, currency), RevenueType.Salary))
-                .WithExpense(new Expense(Amount.Create(-25, currency), ExpenseType.Food, created))
-                .WithExpense(new Expense(Amount.Create(-30.99M, currency), ExpenseType.Media, created));
+                .WithRevenue(new Revenue(Amount.Create(10.99M, currency), RevenueType.Salary, Created))
+                .WithRevenue(new Revenue(Amount.Create(0.1M, currency), RevenueType.Bonus, Created))
+                .WithRevenue(new Revenue(Amount.Create(0.5M, currency), RevenueType.Rental, Created))
+                .WithRevenue(new Revenue(Amount.Create(100, currency), RevenueType.Salary, Created))
+                .WithExpense(new Expense(Amount.Create(-25, currency), ExpenseType.Food, Created))
+                .WithExpense(new Expense(Amount.Create(-30.99M, currency), ExpenseType.Media, Created));
 
             new TotalBalance(budget)
                 .Amount.Should().Be(Amount.Create(55.60M, currency));
 
             budget =
                 budget.WithExpense(
-                    new Expense(Amount.Create(-90, currency), ExpenseType.Car, created));
+                    new Expense(Amount.Create(-90, currency), ExpenseType.Car, Created));
             
             new TotalBalance(budget)
                 .Amount.Should().Be(Amount.Create(-34.40M, currency));
@@ -124,6 +125,5 @@ namespace Twicme.Budget.Tests
         {
             Budget.Should().BeEquivalentTo(Budget);
         }
-        
     }
 }

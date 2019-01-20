@@ -9,8 +9,8 @@ namespace Twicme.Budget
         {
             Contracts.Require(money.Amount.Currency == budget.BaseCurrency,
                 $"It is only possible to add money to budget in its base currency: {budget.BaseCurrency}");
-            
-            return new Budget(budget.Month, budget.Year, budget.BaseCurrency, budget.Moneys.Add(money));
+
+            return new Budget(budget.Month, budget.Year, budget.BaseCurrency, budget.Created, budget.Moneys.Add(money));
         }
 
         public static Budget WithRevenue(this Budget budget, Revenue revenue) => budget.Add(revenue);

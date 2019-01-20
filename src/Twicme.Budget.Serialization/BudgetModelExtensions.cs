@@ -37,7 +37,7 @@ namespace Twicme.Budget.Store
                     
             return new Budget(Month.Create(model.Month), model.Year, 
                 Currency.Create(model.Currency),
-                moneys, model.Created);
+                model.Created, moneys);
         }
     }
 }
