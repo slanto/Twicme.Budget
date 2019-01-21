@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace Twicme.Budget
 {
-    public class Expense : ValueObject<Expense>, IMoney
+    public sealed class Expense : ValueObject<Expense>, IMoney
     {
         public DateTimeOffset Created { get; }
         public Amount Amount { get; }

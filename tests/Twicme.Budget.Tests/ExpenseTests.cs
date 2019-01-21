@@ -32,5 +32,17 @@ namespace Twicme.Budget.Tests
             sut.Should().Throw<ContractException>()
                 .WithMessage("Expense can be only negative");
         }
+        
+        [Fact]
+        public void GivenTwoExpenses_WhenTheyAreCompared_ThenTheyAreEqual()
+        {
+            var expense1 = new Expense(Amount.Create(-100.12M, Currency.PLN),  
+                ExpenseType.Car, Created, "description");
+            
+            var expense2 = new Expense(Amount.Create(-100.12M, Currency.PLN), 
+                ExpenseType.Car, Created, "description");
+            
+            expense1.Should().BeEquivalentTo(expense2);
+        }
     }
 }
