@@ -9,8 +9,11 @@ using Xunit;
 namespace Twicme.Budget.Tests
 {
     public class BudgetTests
-    {   
-        private static Budget Budget => new BudgetTestDataBuilder().WithDateTime(Created).Build();
+    {
+        private static Budget Budget =>
+            new BudgetTestDataBuilder()
+                .WithDateTime(Created)
+                .Build();
         
         private static DateTimeOffset Created => 
             new DateTimeOffset(2018, 2, 10, 6, 12, 0, TimeSpan.Zero);
@@ -121,9 +124,13 @@ namespace Twicme.Budget.Tests
         }
 
         [Fact]
-        public void GivenTwoTheSameBudgets_WhenBudgetsAreCompared_ThenTheyAreEqualed()
+        public void GivenTwoTheSameBudgets_WhenBudgetsAreCompared_ThenTheyAreEquals()
         {
-            Budget.Should().BeEquivalentTo(Budget);
+            Budget.Moneys.Should().BeEquivalentTo(Budget.Moneys);
+            Budget.Created.Should().Be(Budget.Created);
+            Budget.BaseCurrency.Should().Be(Budget.BaseCurrency);
+            Budget.Year.Should().Be(Budget.Year);
+            Budget.Month.Should().Be(Budget.Month);
         }
     }
 }
