@@ -15,9 +15,9 @@ namespace Twicme.Budget.Tests
                 .WithCreated(new DateTime(2019, 1, 1, 10, 10, 10))
                 .Build();
 
-            var sut = new JsonBudget(budget);
+            var jsonBudget = new JsonBudget(budget);
 
-            var jsonContent = sut.Content;
+            var jsonContent = jsonBudget.Content;
             var deserializedBudget = jsonContent.ToBudget();
             
             deserializedBudget.Moneys.Should().BeEquivalentTo(budget.Moneys);

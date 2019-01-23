@@ -6,21 +6,25 @@ namespace Twicme.Budget.Store
 {
     public static class BudgetModelExtensions
     {
-        public static BudgetModel ToBudgetModel(this Budget budget)
-        {
-            IEnumerable<MoneyModel> moneys =
-                budget.Revenues()
-                    .Select(m => 
-                        new MoneyModel(m.Created, m.Amount.Value, m.Amount.Currency.Symbol, m.Type.Name,
-                        m.Description))
-                    .Concat(
-                        budget.Expenses().Select(m => 
-                            new MoneyModel(m.Created, m.Amount.Value,
-                            m.Amount.Currency.Symbol, m.Type.Name, m.Description)))
-                    .ToList();
+        public static BudgetModel BudgetModel(this Budget budget) =>
+            new BudgetModel(budget.MoneyModels(),
+                budget.Year,
+                budget.Month.Name,
+                budget.BaseCurrency.Symbol,
+                budget.Created);
 
-            return new BudgetModel(moneys, budget.Year, budget.Month.Name, budget.BaseCurrency.Symbol, budget.Created);
-        }
+
+        private static IEnumerable<MoneyModel> MoneyModels(this Budget budget) =>
+            budget.Revenues().Select(MoneyModel).Concat(
+                budget.Expenses().Select(MoneyModel)).ToImmutableList();
+
+        private static MoneyModel MoneyModel(Revenue revenue) =>
+            new MoneyModel(revenue.Created, revenue.Amount.Value, revenue.Amount.Currency.Symbol,
+                revenue.Type.Name, revenue.Description);
+        
+        private static MoneyModel MoneyModel(Expense expense) =>
+            new MoneyModel(expense.Created, expense.Amount.Value, expense.Amount.Currency.Symbol,
+                expense.Type.Name, expense.Description);
         
         public static Budget ToBudget(this BudgetModel model)
         {
