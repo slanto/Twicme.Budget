@@ -12,7 +12,7 @@ namespace Twicme.Budget.Tests
     {
         private static Budget Budget =>
             new BudgetTestDataBuilder()
-                .WithDateTime(Created)
+                .WithCreated(Created)
                 .Build();
         
         private static DateTimeOffset Created => 

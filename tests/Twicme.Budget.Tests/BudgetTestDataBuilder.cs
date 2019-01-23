@@ -5,23 +5,23 @@ namespace Twicme.Budget.Tests
 {
     public class BudgetTestDataBuilder
     {
-        private DateTimeOffset _dateTimeOffset = DateTimeOffset.UtcNow;
+        private DateTimeOffset _created = DateTimeOffset.UtcNow;
         
-        public BudgetTestDataBuilder WithDateTime(DateTimeOffset dateTimeOffset)
+        public BudgetTestDataBuilder WithCreated(DateTimeOffset created)
         {
-            _dateTimeOffset = dateTimeOffset;
+            _created = created;
             return this;
         }
         
         public Budget Build()
         {
             var budget = new Budget(Month.April, 2019, Currency.PLN, 
-                    _dateTimeOffset, ImmutableList<IMoney>.Empty)
-                .WithExpense(new Expense(Amount.Create(-50.55M, Currency.PLN), ExpenseType.Beauty, _dateTimeOffset))
-                .WithExpense(new Expense(Amount.Create(-50.55M, Currency.PLN), ExpenseType.Car, _dateTimeOffset))
+                    _created, ImmutableList<IMoney>.Empty)
+                .WithExpense(new Expense(Amount.Create(-50.55M, Currency.PLN), ExpenseType.Beauty, _created))
+                .WithExpense(new Expense(Amount.Create(-50.55M, Currency.PLN), ExpenseType.Car, _created))
                 .WithRevenue(new Revenue(Amount.Create(1250.55M, Currency.PLN), RevenueType.PartnerSalary,
-                    _dateTimeOffset))
-                .WithRevenue(new Revenue(Amount.Create(1000, Currency.PLN), RevenueType.Salary, _dateTimeOffset));
+                    _created))
+                .WithRevenue(new Revenue(Amount.Create(1000, Currency.PLN), RevenueType.Salary, _created));
 
             return budget;
         }
