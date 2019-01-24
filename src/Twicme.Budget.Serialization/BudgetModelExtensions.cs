@@ -13,7 +13,6 @@ namespace Twicme.Budget.Store
                 budget.BaseCurrency.Symbol,
                 budget.Created);
 
-
         private static IEnumerable<MoneyModel> MoneyModels(this Budget budget) =>
             budget.Revenues().Select(MoneyModel).Concat(
                 budget.Expenses().Select(MoneyModel)).ToImmutableList();

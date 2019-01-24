@@ -4,12 +4,12 @@ using System.Runtime.CompilerServices;
 
 namespace Twicme.Budget
 {
-    public sealed class Expense : ValueObject<Expense>, IMoney
+    public sealed class Expense : Money<ExpenseType>, IMoney
     {
-        public DateTimeOffset Created { get; }
-        public Amount Amount { get; }
-        public ExpenseType Type { get; }
-        public string Description { get; }
+        public override DateTimeOffset Created { get; }
+        public override Amount Amount { get; }
+        public override ExpenseType Type { get; }
+        public override string Description { get; }
 
         public Expense(Amount amount, ExpenseType type, DateTimeOffset created, string description = null)
         {

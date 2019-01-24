@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Twicme.Budget
 {
-    public class RevenueType : ValueObject<RevenueType>
+    public class RevenueType : MoneyType
     {
         public static readonly RevenueType Salary = new RevenueType("Salary");
         public static readonly RevenueType PartnerSalary = new RevenueType("PartnerSalary");
@@ -11,7 +11,7 @@ namespace Twicme.Budget
         public static readonly RevenueType BankInterest = new RevenueType("BankInterest");
         public static readonly RevenueType Rental = new RevenueType("Rental");
         
-        public string Name { get; }
+        public override string Name { get; }
 
         private RevenueType(string name)
         {
