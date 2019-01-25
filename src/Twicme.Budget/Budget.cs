@@ -7,13 +7,13 @@ namespace Twicme.Budget
 {
     public class Budget : ValueObject<Budget>
     {   
-        public ImmutableList<IMoney> Moneys { get; }
+        public ImmutableList<Money> Moneys { get; }
         public Month Month { get; }
         public uint Year { get; }
         public Currency BaseCurrency { get; }
         public DateTimeOffset Created { get; }
 
-        public Budget(Month month, uint year, Currency baseCurrency, DateTimeOffset created, ImmutableList<IMoney> moneys)
+        public Budget(Month month, uint year, Currency baseCurrency, DateTimeOffset created, ImmutableList<Money> moneys)
         {
             Month = month;
             Year = year;

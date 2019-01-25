@@ -1,12 +1,29 @@
 using System;
+using System.Collections.Generic;
 
 namespace Twicme.Budget
 {
-    public abstract class Money<TType> : ValueObject<Money<TType>> where TType: MoneyType 
+    public class Money : ValueObject<Money>
     {
-        public abstract DateTimeOffset Created { get; }
-        public abstract Amount Amount { get; }
-        public abstract TType Type { get; }
-        public abstract string Description { get; }
+        public DateTimeOffset Created { get; }
+        public Amount Amount { get; }
+        public Category Category { get; }
+        public string Description { get; }
+        
+        public Money(Amount amount, Category category, DateTimeOffset created, string description = null)
+        {
+            Amount = amount;
+            Category = category;
+            Description = description;
+            Created = created;
+        }
+        
+        protected override IEnumerable<object> GetEqualityComponents()
+        {
+            yield return Created;
+            yield return Amount;
+            yield return Category;
+            yield return Description;
+        }
     }
 }

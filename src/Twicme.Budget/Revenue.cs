@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace Twicme.Budget
 {
-    public sealed class Revenue : Money<RevenueType>, IMoney
+    public sealed class Revenue : ValueObject<Revenue>, IMoney
     {
-        public override Amount Amount { get; }
-        public override RevenueType Type { get; }
-        public override string Description { get; }
-        public override DateTimeOffset Created { get; }
+        public  Amount Amount { get; }
+        public  RevenueType Type { get; }
+        public  string Description { get; }
+        public  DateTimeOffset Created { get; }
 
         public Revenue(Amount amount, RevenueType type, DateTimeOffset created, string description = null)
         {

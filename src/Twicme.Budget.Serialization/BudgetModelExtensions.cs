@@ -14,29 +14,17 @@ namespace Twicme.Budget.Store
                 budget.Created);
 
         private static IEnumerable<MoneyModel> MoneyModels(this Budget budget) =>
-            budget.Revenues().Select(MoneyModel).Concat(
-                budget.Expenses().Select(MoneyModel)).ToImmutableList();
+            budget.Revenues().Select(MoneyModel).ToImmutableList();
 
-        private static MoneyModel MoneyModel(Revenue revenue) =>
+        private static MoneyModel MoneyModel(Money revenue) =>
             new MoneyModel(revenue.Created, revenue.Amount.Value, revenue.Amount.Currency.Symbol,
-                revenue.Type.Name, revenue.Description);
-        
-        private static MoneyModel MoneyModel(Expense expense) =>
-            new MoneyModel(expense.Created, expense.Amount.Value, expense.Amount.Currency.Symbol,
-                expense.Type.Name, expense.Description);
-        
+                revenue.Category.Name, revenue.Description);
+         
         public static Budget ToBudget(this BudgetModel model)
         {
-            var expenses = model.Moneys.Where(m => m.Amount < 0).Select(m =>
-                new Expense(Amount.Create(m.Amount, Currency.Create(m.Currency)),
-                    ExpenseType.Create(m.Type), m.Created,  m.Description));
-            
-            var revenues = model.Moneys.Where(m => m.Amount >= 0).Select(m =>
-                new Revenue(Amount.Create(m.Amount, Currency.Create(m.Currency)),
-                    RevenueType.Create(m.Type), m.Created,  m.Description));
-            
-            var moneys = expenses
-                .Concat<IMoney>(revenues).ToImmutableList();
+            var moneys = model.Moneys.Select(m =>
+                new Money(Amount.Create(m.Amount, Currency.Create(m.Currency)),
+                    Category.Create(m.Type), m.Created,  m.Description)).ToImmutableList();
                     
             return new Budget(Month.Create(model.Month), model.Year, 
                 Currency.Create(model.Currency),

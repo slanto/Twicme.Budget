@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Twicme.Budget
 {
-    public class ExpenseType : MoneyType
+    public class ExpenseType : ValueObject<ExpenseType>
     {
         public static readonly ExpenseType Food = new ExpenseType("Food");
         public static readonly ExpenseType Home = new ExpenseType("Home");
@@ -16,7 +16,7 @@ namespace Twicme.Budget
         public static readonly ExpenseType Beauty = new ExpenseType("Beauty");
         public static readonly ExpenseType Thrift = new ExpenseType("Thrift");
         
-        public override string Name { get; }
+        public string Name { get; }
 
         private ExpenseType(string name)
         {
