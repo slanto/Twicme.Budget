@@ -21,11 +21,11 @@ namespace Twicme.Budget.Tests
         [Fact]
         public void GivenCorrectInputData_WhenConstructorIsCalled_ThenBudgetIsInitialized()
         {
-            var sut = new Budget(Month.July, 2012, Currency.PLN, Created, ImmutableList<IMoney>.Empty);
+            var sut = new Budget(MonthName.July, 2012, Currency.PLN, Created, ImmutableList<IMoney>.Empty);
 
             sut.Should().NotBeNull();
             sut.Created.Should().Be(Created);
-            sut.Month.Should().Be(Month.July);
+            sut.MonthName.Should().Be(MonthName.July);
             sut.Year.Should().Be(2012);
             sut.Moneys.Should().BeEmpty();
         }
@@ -87,7 +87,7 @@ namespace Twicme.Budget.Tests
         public void GivenNewBudget_WhenBudgetIsPlanned_ThenItContainsExpensesAndRevenues()
         {
             var currency = Currency.USD;
-            var budget = new Budget(Month.January, 2019, currency, Created, ImmutableList<IMoney>.Empty);
+            var budget = new Budget(MonthName.January, 2019, currency, Created, ImmutableList<IMoney>.Empty);
             
             budget = budget
                 .WithRevenue(new Revenue(Amount.Create(10.99M, currency), RevenueType.Salary, Created))
@@ -130,7 +130,7 @@ namespace Twicme.Budget.Tests
             Budget.Created.Should().Be(Budget.Created);
             Budget.BaseCurrency.Should().Be(Budget.BaseCurrency);
             Budget.Year.Should().Be(Budget.Year);
-            Budget.Month.Should().Be(Budget.Month);
+            Budget.MonthName.Should().Be(Budget.MonthName);
         }
     }
 }

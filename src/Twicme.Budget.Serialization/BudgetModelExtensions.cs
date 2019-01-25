@@ -9,7 +9,7 @@ namespace Twicme.Budget.Store
         public static BudgetModel BudgetModel(this Budget budget) =>
             new BudgetModel(budget.MoneyModels(),
                 budget.Year,
-                budget.Month.Name,
+                budget.MonthName.Name,
                 budget.BaseCurrency.Symbol,
                 budget.Created);
 
@@ -38,7 +38,7 @@ namespace Twicme.Budget.Store
             var moneys = expenses
                 .Concat<IMoney>(revenues).ToImmutableList();
                     
-            return new Budget(Month.Create(model.Month), model.Year, 
+            return new Budget(MonthName.Create(model.Month), model.Year, 
                 Currency.Create(model.Currency),
                 model.Created, moneys);
         }
