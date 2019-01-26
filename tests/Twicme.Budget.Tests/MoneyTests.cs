@@ -67,7 +67,7 @@ namespace Twicme.Budget.Tests
         }
 
         [Fact]
-        public void GivenElementsWithDifferentCurrency_WhenSumIsCalculated_ThenExceptionIsThrown()
+        public void GivenAmountsWithDifferentCurrency_WhenSumIsCalculated_ThenExceptionIsThrown()
         {
             var zloty = Amount.Create(1, Currency.PLN);
             var dollar = Amount.Create(1, Currency.USD);
@@ -75,7 +75,7 @@ namespace Twicme.Budget.Tests
             Func<Amount> act = () => zloty + dollar;
 
             act.Should().Throw<ContractException>()
-                .WithMessage("It is only possible to add money with the same currency");
+                .WithMessage("It is only possible to add amount in the same currency");
         }
         
         public static IEnumerable<object[]> MinusOperatorTestCases()
@@ -110,9 +110,9 @@ namespace Twicme.Budget.Tests
         }
             
         [Theory, MemberData(nameof(MinusOperatorTestCases))]
-        public void GivenElements_WhenMinusOperatorIsCalled_ThenDiffIsCalculated(Amount elem1, Amount elem2, Amount diff)
+        public void GivenAmounts_WhenMinusOperatorIsCalled_ThenDiffIsCalculated(Amount amount1, Amount amount2, Amount diff)
         {
-            var result = elem1 - elem2;
+            var result = amount1 - amount2;
             
             result.Should().BeEquivalentTo(diff);
         }

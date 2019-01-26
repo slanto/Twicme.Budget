@@ -31,7 +31,7 @@ namespace Twicme.Budget.Tests
         }
 
         [Fact]
-        public void GivenBudget_WhenMoneyIsAdded_ThenBalanceContainsAdditionalAmount()
+        public void GivenBudget_WhenMoneyIsAdded_ThenBudgetContainsAdditionalAmount()
         {
             var money = new Money(Amount.Create(200, Currency.PLN), Category.Bonus, Created);
             
@@ -120,7 +120,7 @@ namespace Twicme.Budget.Tests
         }
         
         [Fact]
-        public void GivenPositiveMoney_WhenWithExpenseIsCalled_ThenExceptionIsThrown()
+        public void GivenPositiveMoney_WhenExpenseIsAdded_ThenExceptionIsThrown()
         {
             var currency = Currency.USD;
             var budget = new Budget(MonthName.January, 2019, currency, Created, ImmutableList<Money>.Empty);
@@ -133,7 +133,7 @@ namespace Twicme.Budget.Tests
         }
         
         [Fact]
-        public void GivenNegativeMoney_WhenWithRevenueIsCalled_ThenExceptionIsThrown()
+        public void GivenNegativeMoney_WhenRevenueIsAdded_ThenExceptionIsThrown()
         {
             var currency = Currency.USD;
             var budget = new Budget(MonthName.January, 2019, currency, Created, ImmutableList<Money>.Empty);

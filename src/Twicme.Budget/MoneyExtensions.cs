@@ -11,6 +11,5 @@ namespace Twicme.Budget
         public static bool IsRevenue(this Money money) => money.Amount.Positive;
         public static Amount Sum(this IEnumerable<Money> moneys, Currency currency) => 
             moneys.Aggregate(currency.Zero(), (amount, revenue) => amount + revenue.Amount);
-
     }
 }

@@ -30,7 +30,7 @@ namespace Twicme.Budget
         public static Amount operator +(Amount elem1, Amount elem2)
         {
             Contracts.Require(elem1.Currency == elem2.Currency,
-                "It is only possible to add money with the same currency");
+                "It is only possible to add amount in the same currency");
             
             return new Amount(elem1.Value + elem2.Value, elem1.Currency);
         }
@@ -38,7 +38,7 @@ namespace Twicme.Budget
         public static Amount operator -(Amount minuend, Amount subtrahend)
         {
             Contracts.Require(minuend.Currency == subtrahend.Currency,
-                "It is only possible to subtract money with the same currency");
+                "It is only possible to subtract amount in the same currency");
 
             return new Amount(minuend.Value - subtrahend.Value, minuend.Currency);
         }
