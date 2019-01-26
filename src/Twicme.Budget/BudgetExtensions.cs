@@ -5,7 +5,7 @@ namespace Twicme.Budget
 {
     public static class BudgetExtensions
     {
-        public static Budget Add(this Budget budget, Money money)
+        private static Budget Add(this Budget budget, Money money)
         {
             Contracts.Require(money.Amount.Currency == budget.BaseCurrency,
                 $"It is only possible to add money to budget in its base currency: {budget.BaseCurrency}");

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Twicme.Budget.FinancialReport
 {
-    public class TotalExpense : IMoney
+    public class TotalExpense
     {
         private readonly Currency _currency;
         private ImmutableList<Money> _expenses;
