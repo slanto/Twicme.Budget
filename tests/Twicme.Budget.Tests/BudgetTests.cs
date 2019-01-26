@@ -33,10 +33,10 @@ namespace Twicme.Budget.Tests
         [Fact]
         public void GivenBudget_WhenMoneyIsAdded_ThenBalanceContainsAdditionalAmount()
         {
-            var Money = new Money(Amount.Create(200, Currency.PLN), Category.Bonus, Created);
+            var money = new Money(Amount.Create(200, Currency.PLN), Category.Bonus, Created);
             
-            var budget = Budget.Add(Money);
-            budget.Moneys.Should().Contain(Money);
+            var budget = Budget.Add(money);
+            budget.Moneys.Should().Contain(money);
         }
         
         [Fact]
@@ -50,7 +50,7 @@ namespace Twicme.Budget.Tests
         }
 
         [Fact]
-        public void GivenBudgetAdds_WhenGettingMoneys_ThenMoneyDetailsAreReturned()
+        public void GivenBudget_WhenGettingMoneys_ThenMoneyDetailsAreReturned()
         {
             var moneys = Budget.Moneys;
             
@@ -117,6 +117,32 @@ namespace Twicme.Budget.Tests
             Budget.BaseCurrency.Should().Be(Budget.BaseCurrency);
             Budget.Year.Should().Be(Budget.Year);
             Budget.Month.Should().Be(Budget.Month);
+        }
+        
+        [Fact]
+        public void GivenPositiveMoney_WhenWithExpenseIsCalled_ThenExceptionIsThrown()
+        {
+            var currency = Currency.USD;
+            var budget = new Budget(Month.January, 2019, currency, Created, ImmutableList<Money>.Empty);
+            
+            Func<Budget> sut = () => budget.WithExpense(
+                new Money(Amount.Create(10, currency), Category.Education, Created));
+
+            sut.Should().Throw<ContractException>()
+                .WithMessage("Expense can have only negative amount");
+        }
+        
+        [Fact]
+        public void GivenNegativeMoney_WhenWithRevenueIsCalled_ThenExceptionIsThrown()
+        {
+            var currency = Currency.USD;
+            var budget = new Budget(Month.January, 2019, currency, Created, ImmutableList<Money>.Empty);
+            
+            Func<Budget> sut = () => budget.WithRevenue(
+                new Money(Amount.Create(-10, currency), Category.Salary, Created));
+
+            sut.Should().Throw<ContractException>()
+                .WithMessage("Revenue can have only positive amount");
         }
     }
 }
