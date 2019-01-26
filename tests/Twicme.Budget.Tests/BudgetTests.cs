@@ -54,37 +54,23 @@ namespace Twicme.Budget.Tests
         {
             var moneys = Budget.Moneys;
             
-            moneys.Count.Should().Be(2);
-            
-            var partnerSalary = moneys.First();
-            var salary = moneys.Last();
-            
-            partnerSalary.Category.Should().Be(Category.PartnerSalary);
-            partnerSalary.Amount.Should().Be(Amount.Create(1250.55M, Currency.PLN));
-            
-            salary.Category.Should().Be(Category.Salary);
-            salary.Amount.Should().Be(Amount.Create(1000, Currency.PLN));
-        }
-        
-//        [Fact]
-//        public void GivenBudgetAdds_WhenGettingMoneys_ThenMoneyDetailsAreReturned()
-//        {
-//            var Moneys = Budget.Moneys();
-//            
-//            Moneys.Count.Should().Be(2);
-//            
-//            var beauty = Moneys.First();
-//            var car = Moneys.Last();
-//            
-//            beauty.Category.Should().Be(Category.Beauty);
-//            beauty.Amount.Should().Be(Amount.Create(-50.55M, Currency.PLN));
-//            
-//            car.Category.Should().Be(Category.Car);
-//            car.Amount.Should().Be(Amount.Create(-50.55M, Currency.PLN));
-//        }
+            moneys.Count.Should().Be(4);
 
+            moneys.Should().Contain(m => m.Category == Category.PartnerSalary);
+            moneys.Should().Contain(m => m.Amount == Amount.Create(1250.55M, Currency.PLN));
+            
+            moneys.Should().Contain(m => m.Category == Category.Salary);
+            moneys.Should().Contain(m => m.Amount == Amount.Create(1000, Currency.PLN));
+            
+            moneys.Should().Contain(m => m.Category == Category.Beauty);
+            moneys.Should().Contain(m => m.Amount == Amount.Create(-50.55M, Currency.PLN));
+            
+            moneys.Should().Contain(m => m.Category == Category.Car);
+            moneys.Should().Contain(m => m.Amount == Amount.Create(-50.55M, Currency.PLN));
+        }
+    
         [Fact]
-        public void GivenNewBudget_WhenBudgetIsPlanned_ThenItContainsMoneysAndMoneys()
+        public void GivenNewBudget_WhenBudgetIsPlanned_ThenItContainsMoneys()
         {
             var currency = Currency.USD;
             var budget = new Budget(Month.January, 2019, currency, Created, ImmutableList<Money>.Empty);

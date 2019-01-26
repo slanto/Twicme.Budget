@@ -14,7 +14,7 @@ namespace Twicme.Budget.Store
                 budget.Created);
 
         private static IEnumerable<MoneyModel> MoneyModels(this Budget budget) =>
-            budget.Revenues().Select(MoneyModel).ToImmutableList();
+            budget.Moneys.Select(MoneyModel).ToImmutableList();
 
         private static MoneyModel MoneyModel(Money revenue) =>
             new MoneyModel(revenue.Created, revenue.Amount.Value, revenue.Amount.Currency.Symbol,
