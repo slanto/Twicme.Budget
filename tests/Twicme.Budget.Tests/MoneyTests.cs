@@ -7,6 +7,9 @@ namespace Twicme.Budget.Tests
 {
     public class MoneyTests
     {
+        private static DateTimeOffset Created => 
+            new DateTimeOffset(2018, 2, 10, 6, 12, 0, TimeSpan.Zero);
+        
         [Fact]
         public void GivenCorrectInputData_WhenConstructorIsCalled_ThenMoneyIsCreated()
         {
@@ -114,5 +117,16 @@ namespace Twicme.Budget.Tests
             result.Should().BeEquivalentTo(diff);
         }
 
+        [Fact]
+        public void GivenTwoMoneys_WhenTheyAreCompared_ThenTheyAreEqual()
+        {
+            var money1 = new Money(Amount.Create(-100.12M, Currency.PLN),  
+                Category.Car, Created, "description");
+            
+            var money2 = new Money(Amount.Create(-100.12M, Currency.PLN), 
+                Category.Car, Created, "description");
+            
+            money1.Should().BeEquivalentTo(money2);
+        }
     }
 }

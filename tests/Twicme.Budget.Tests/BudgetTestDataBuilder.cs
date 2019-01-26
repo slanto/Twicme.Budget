@@ -16,12 +16,12 @@ namespace Twicme.Budget.Tests
         public Budget Build()
         {
             var budget = new Budget(MonthName.April, 2019, Currency.PLN, 
-                    _created, ImmutableList<IMoney>.Empty)
-                .WithExpense(new Expense(Amount.Create(-50.55M, Currency.PLN), ExpenseType.Beauty, _created))
-                .WithExpense(new Expense(Amount.Create(-50.55M, Currency.PLN), ExpenseType.Car, _created))
-                .WithRevenue(new Revenue(Amount.Create(1250.55M, Currency.PLN), RevenueType.PartnerSalary,
+                    _created, ImmutableList<Money>.Empty)
+                .WithExpense(new Money(Amount.Create(-50.55M, Currency.PLN), Category.Beauty, _created))
+                .WithExpense(new Money(Amount.Create(-50.55M, Currency.PLN), Category.Car, _created))
+                .WithRevenue(new Money(Amount.Create(1250.55M, Currency.PLN), Category.PartnerSalary,
                     _created))
-                .WithRevenue(new Revenue(Amount.Create(1000, Currency.PLN), RevenueType.Salary, _created));
+                .WithRevenue(new Money(Amount.Create(1000, Currency.PLN), Category.Salary, _created));
 
             return budget;
         }

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Twicme.Budget.FinancialReport
 {
-    public class TotalBalance : ValueObject<TotalBalance>, IMoney
+    public class TotalBalance
     {
         private readonly Budget _budget;
         
@@ -12,10 +12,5 @@ namespace Twicme.Budget.FinancialReport
         }
 
         public Amount Amount => _budget.Moneys.Sum(_budget.BaseCurrency);
-        
-        protected override IEnumerable<object> GetEqualityComponents()
-        {
-            yield return Amount;
-        }
     }
 }

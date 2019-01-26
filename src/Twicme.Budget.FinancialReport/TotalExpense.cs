@@ -4,10 +4,10 @@ using System.Linq;
 
 namespace Twicme.Budget.FinancialReport
 {
-    public class TotalExpense : IMoney
+    public class TotalExpense
     {
         private readonly Currency _currency;
-        private ImmutableList<Expense> _expenses;
+        private ImmutableList<Money> _expenses;
         
         public TotalExpense(Budget budget)
         {
@@ -15,7 +15,7 @@ namespace Twicme.Budget.FinancialReport
             _expenses = budget.Expenses();
         }
 
-        public TotalExpense For(Func<Expense, bool> predicate)
+        public TotalExpense For(Func<Money, bool> predicate)
         {
             _expenses = _expenses.Where(predicate).ToImmutableList();
             return this;
