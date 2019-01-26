@@ -21,11 +21,11 @@ namespace Twicme.Budget.Tests
         [Fact]
         public void GivenCorrectInputData_WhenConstructorIsCalled_ThenBudgetIsInitialized()
         {
-            var sut = new Budget(Month.July, 2012, Currency.PLN, Created, ImmutableList<Money>.Empty);
+            var sut = new Budget(MonthName.July, 2012, Currency.PLN, Created, ImmutableList<Money>.Empty);
 
             sut.Should().NotBeNull();
             sut.Created.Should().Be(Created);
-            sut.Month.Should().Be(Month.July);
+            sut.MonthName.Should().Be(MonthName.July);
             sut.Year.Should().Be(2012);
             sut.Moneys.Should().BeEmpty();
         }
@@ -73,7 +73,7 @@ namespace Twicme.Budget.Tests
         public void GivenNewBudget_WhenBudgetIsPlanned_ThenItContainsMoneys()
         {
             var currency = Currency.USD;
-            var budget = new Budget(Month.January, 2019, currency, Created, ImmutableList<Money>.Empty);
+            var budget = new Budget(MonthName.January, 2019, currency, Created, ImmutableList<Money>.Empty);
             
             budget = budget
                 .WithRevenue(new Money(Amount.Create(10.99M, currency), Category.Salary, Created))
@@ -116,14 +116,14 @@ namespace Twicme.Budget.Tests
             Budget.Created.Should().Be(Budget.Created);
             Budget.BaseCurrency.Should().Be(Budget.BaseCurrency);
             Budget.Year.Should().Be(Budget.Year);
-            Budget.Month.Should().Be(Budget.Month);
+            Budget.MonthName.Should().Be(Budget.MonthName);
         }
         
         [Fact]
         public void GivenPositiveMoney_WhenWithExpenseIsCalled_ThenExceptionIsThrown()
         {
             var currency = Currency.USD;
-            var budget = new Budget(Month.January, 2019, currency, Created, ImmutableList<Money>.Empty);
+            var budget = new Budget(MonthName.January, 2019, currency, Created, ImmutableList<Money>.Empty);
             
             Func<Budget> sut = () => budget.WithExpense(
                 new Money(Amount.Create(10, currency), Category.Education, Created));
@@ -136,7 +136,7 @@ namespace Twicme.Budget.Tests
         public void GivenNegativeMoney_WhenWithRevenueIsCalled_ThenExceptionIsThrown()
         {
             var currency = Currency.USD;
-            var budget = new Budget(Month.January, 2019, currency, Created, ImmutableList<Money>.Empty);
+            var budget = new Budget(MonthName.January, 2019, currency, Created, ImmutableList<Money>.Empty);
             
             Func<Budget> sut = () => budget.WithRevenue(
                 new Money(Amount.Create(-10, currency), Category.Salary, Created));

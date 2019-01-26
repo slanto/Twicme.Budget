@@ -15,7 +15,7 @@ namespace Twicme.Budget.Tests
         
         public Budget Build()
         {
-            var budget = new Budget(Month.April, 2019, Currency.PLN, 
+            var budget = new Budget(MonthName.April, 2019, Currency.PLN, 
                     _created, ImmutableList<Money>.Empty)
                 .WithExpense(new Money(Amount.Create(-50.55M, Currency.PLN), Category.Beauty, _created))
                 .WithExpense(new Money(Amount.Create(-50.55M, Currency.PLN), Category.Car, _created))
