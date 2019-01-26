@@ -24,7 +24,7 @@ namespace Twicme.Budget.Tests
             deserializedBudget.Created.Should().Be(budget.Created);
             deserializedBudget.BaseCurrency.Should().Be(budget.BaseCurrency);
             deserializedBudget.Year.Should().Be(budget.Year);
-            deserializedBudget.Month.Should().Be(budget.Month);
+            deserializedBudget.MonthName.Should().Be(budget.MonthName);
         }
     }
 }
