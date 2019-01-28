@@ -5,13 +5,20 @@ namespace Twicme.Budget
 {
     public class Month : ValueObject<Month>
     {
+        public int Year { get; }
+        public MonthName MonthName { get; }
         public DateTime Value { get; } 
-        public Month(int year, MonthName monthName)
+        
+        private Month(int year, MonthName monthName)
         {
-            Value = new DateTime(year, monthName.Index, 1);
+            Year = year;
+            MonthName = monthName;
+            Value = new DateTime(Year, MonthName.Index, 1);
         }   
         
         public static implicit operator DateTime(Month month) => month.Value;
+        
+        public static Month Create(int year, MonthName monthName) => new Month(year, monthName);
         
         protected override IEnumerable<object> GetEqualityComponents()
         {

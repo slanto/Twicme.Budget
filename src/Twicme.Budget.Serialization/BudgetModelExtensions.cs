@@ -8,8 +8,8 @@ namespace Twicme.Budget.Store
     {
         public static BudgetModel BudgetModel(this Budget budget) =>
             new BudgetModel(budget.MoneyModels(),
-                budget.Year,
-                budget.MonthName.Name,
+                budget.Month.Year,
+                budget.Month.MonthName.Name,
                 budget.BaseCurrency.Symbol,
                 budget.Created);
 
@@ -26,7 +26,7 @@ namespace Twicme.Budget.Store
                 new Money(Amount.Create(m.Amount, Currency.Create(m.Currency)),
                     Category.Create(m.Type), m.Created,  m.Description)).ToImmutableList();
                     
-            return new Budget(MonthName.Create(model.Month), model.Year, 
+            return new Budget(Month.Create(model.Year, MonthName.Create(model.Month)),
                 Currency.Create(model.Currency),
                 model.Created, moneys);
         }

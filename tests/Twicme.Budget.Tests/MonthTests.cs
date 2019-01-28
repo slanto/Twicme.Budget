@@ -8,7 +8,7 @@ namespace Twicme.Budget.Tests
         [Fact]
         public void GivenCorrectInputData_WhenInitialized_ThenMonthIsCreated()
         {
-            var month = new Month(2008, MonthName.April);
+            var month = Month.Create(2008, MonthName.April);
 
             month.Value.Year.Should().Be(2008);
             month.Value.Month.Should().Be(4);
@@ -18,8 +18,8 @@ namespace Twicme.Budget.Tests
         [Fact]
         public void GivenTwoObjects_WhenCompared_ThenAreEqual()
         {
-            var month1 = new Month(2008, MonthName.April);
-            var month2 = new Month(2008, MonthName.April);
+            var month1 = Month.Create(2008, MonthName.April);
+            var month2 = Month.Create(2008, MonthName.April);
 
             month1.Should().BeEquivalentTo(month2);
         }

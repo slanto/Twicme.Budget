@@ -8,15 +8,13 @@ namespace Twicme.Budget
     public class Budget : ValueObject<Budget>
     {   
         public ImmutableList<Money> Moneys { get; }
-        public MonthName MonthName { get; }
-        public uint Year { get; }
+        public Month Month { get; }
         public Currency BaseCurrency { get; }
         public DateTimeOffset Created { get; }
 
-        public Budget(MonthName monthName, uint year, Currency baseCurrency, DateTimeOffset created, ImmutableList<Money> moneys)
+        public Budget(Month month, Currency baseCurrency, DateTimeOffset created, ImmutableList<Money> moneys)
         {
-            MonthName = monthName;
-            Year = year;
+            Month = month;
             BaseCurrency = baseCurrency;
             Created = created;
             Moneys = moneys;
@@ -24,8 +22,7 @@ namespace Twicme.Budget
         
         protected override IEnumerable<object> GetEqualityComponents()
         {
-            yield return MonthName;
-            yield return Year;
+            yield return Month;
             yield return Created;
             yield return Moneys;
         }
