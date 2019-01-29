@@ -11,10 +11,8 @@ namespace Twicme.Budget
         public static readonly Category BasicExpenditure = new Category("Basic expenditure");
         public static readonly Category EntertainmentAndTravelling = new Category("Entertainment and travelling");
         public static readonly Category ClothesAndShoes = new Category("Clothes and shoes");
-        
         public static readonly Category Salary = new Category("Salary");
-        public static readonly Category Income = new Category("Income");
-        
+        public static readonly Category OtherIncome = new Category("Other income");
         
         public string Name { get; }
 

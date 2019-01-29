@@ -55,7 +55,7 @@ namespace Twicme.Budget.Tests
             
             moneys.Count.Should().Be(4);
 
-            moneys.Should().Contain(m => m.Category == Category.Income);
+            moneys.Should().Contain(m => m.Category == Category.OtherIncome);
             moneys.Should().Contain(m => m.Amount == Amount.Create(1250.55M, Currency.PLN));
             
             moneys.Should().Contain(m => m.Category == Category.Salary);
@@ -78,7 +78,7 @@ namespace Twicme.Budget.Tests
                 .WithRevenue(new Money(Amount.Create(10.99M, currency), Category.Salary, Created))
                 .WithRevenue(new Money(Amount.Create(0.1M, currency), Category.Salary, Created))
                 .WithRevenue(new Money(Amount.Create(0.5M, currency), Category.Salary, Created))
-                .WithRevenue(new Money(Amount.Create(100, currency), Category.Income, Created))
+                .WithRevenue(new Money(Amount.Create(100, currency), Category.OtherIncome, Created))
                 .WithExpense(new Money(Amount.Create(-25, currency), Category.BasicExpenditure, Created))
                 .WithExpense(new Money(Amount.Create(-30.99M, currency), Category.HomeAndBills, Created));
 
@@ -101,7 +101,7 @@ namespace Twicme.Budget.Tests
             budget.Moneys.Should()
                 .Contain(i => i.Category == Category.Salary && i.Amount.Value == 10.99M);
             budget.Moneys.Should()
-                .Contain(i => i.Category == Category.Income && i.Amount.Value == 100);
+                .Contain(i => i.Category == Category.OtherIncome && i.Amount.Value == 100);
             budget.Moneys.Should()
                 .Contain(i => i.Category == Category.Salary && i.Amount.Value == 0.1M);
             budget.Moneys.Should()
