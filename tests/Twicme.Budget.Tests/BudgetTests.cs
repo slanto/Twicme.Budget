@@ -21,7 +21,8 @@ namespace Twicme.Budget.Tests
         [Fact]
         public void GivenCorrectInputData_WhenConstructorIsCalled_ThenBudgetIsInitialized()
         {
-            var sut = new Budget(Month.Create(2012, MonthName.July), Currency.PLN, Created, ImmutableList<Money>.Empty);
+            var sut = new Budget(Month.Create(2012, MonthName.July), 
+                Currency.PLN, Created, ImmutableList<Money>.Empty);
 
             sut.Should().NotBeNull();
             sut.Created.Should().Be(Created);
