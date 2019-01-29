@@ -25,7 +25,7 @@ namespace Twicme.Budget.Tests
         {
             var totalRevenue = new TotalRevenue(_budget);
             
-            totalRevenue.For(e => e.Category == Category.Bonus)
+            totalRevenue.For(e => e.Category == Category.HomeAndBills)
                 .Amount.Should().Be(Amount.Create(0, _budget.BaseCurrency));
         }
     }

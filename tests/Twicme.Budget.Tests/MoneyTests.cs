@@ -121,10 +121,10 @@ namespace Twicme.Budget.Tests
         public void GivenTwoMoneys_WhenTheyAreCompared_ThenTheyAreEqual()
         {
             var money1 = new Money(Amount.Create(-100.12M, Currency.PLN),  
-                Category.Car, Created, "description");
+                Category.CarAndTransport, Created, "description");
             
             var money2 = new Money(Amount.Create(-100.12M, Currency.PLN), 
-                Category.Car, Created, "description");
+                Category.CarAndTransport, Created, "description");
             
             money1.Should().BeEquivalentTo(money2);
         }
