@@ -18,13 +18,13 @@ namespace Twicme.Budget.Store
 
         private static MoneyModel MoneyModel(Money money) =>
             new MoneyModel(money.Created, money.Amount.Value, money.Amount.Currency.Symbol,
-                money.Category.Name, money.Description);
+                money.Category.Name, money.Description.Content);
          
         public static Budget ToBudget(this BudgetModel model)
         {
             var moneys = model.Moneys.Select(m =>
                 new Money(Amount.Create(m.Amount, Currency.Create(m.Currency)),
-                    Category.Create(m.Type), m.Created,  m.Description)).ToImmutableList();
+                    Category.Create(m.Type), m.Created,  new Description(m.Description))).ToImmutableList();
                     
             return new Budget(Month.Create(model.Year, MonthName.Create(model.Month)),
                 Currency.Create(model.Currency),

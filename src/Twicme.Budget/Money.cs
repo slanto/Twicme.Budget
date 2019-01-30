@@ -8,13 +8,13 @@ namespace Twicme.Budget
         public DateTimeOffset Created { get; }
         public Amount Amount { get; }
         public Category Category { get; }
-        public string Description { get; }
+        public Description Description { get; }
         
-        public Money(Amount amount, Category category, DateTimeOffset created, string description = null)
+        public Money(Amount amount, Category category, DateTimeOffset created, Description description = null)
         {
             Amount = amount;
             Category = category;
-            Description = description;
+            Description = description ?? Description.Empty;
             Created = created;
         }
         
