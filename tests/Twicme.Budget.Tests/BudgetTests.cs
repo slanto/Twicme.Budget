@@ -22,7 +22,7 @@ namespace Twicme.Budget.Tests
         public void GivenCorrectInputData_WhenConstructorIsCalled_ThenBudgetIsInitialized()
         {
             var sut = new Budget(Month.Create(2012, MonthName.July), 
-                Currency.PLN, CreatedOn, ImmutableList<Money>.Empty);
+                Currency.PLN, CreatedOn);
 
             sut.Should().NotBeNull();
             sut.CreatedOn.Should().Be(CreatedOn);
@@ -73,7 +73,7 @@ namespace Twicme.Budget.Tests
         public void GivenNewBudget_WhenBudgetIsPlanned_ThenItContainsMoneys()
         {
             var currency = Currency.USD;
-            var budget = new Budget(Month.Create(2019, MonthName.January), currency, CreatedOn, ImmutableList<Money>.Empty);
+            var budget = new Budget(Month.Create(2019, MonthName.January), currency, CreatedOn);
             
             budget = budget
                 .WithRevenue(new Money(Amount.Create(10.99M, currency), Category.Salary, CreatedOn))
@@ -122,7 +122,7 @@ namespace Twicme.Budget.Tests
         public void GivenPositiveMoney_WhenExpenseIsAdded_ThenExceptionIsThrown()
         {
             var currency = Currency.USD;
-            var budget = new Budget(Month.Create(2019, MonthName.January), currency, CreatedOn, ImmutableList<Money>.Empty);
+            var budget = new Budget(Month.Create(2019, MonthName.January), currency, CreatedOn);
             
             Func<Budget> sut = () => budget.WithExpense(
                 new Money(Amount.Create(10, currency), Category.Education, CreatedOn));
@@ -135,7 +135,7 @@ namespace Twicme.Budget.Tests
         public void GivenNegativeMoney_WhenRevenueIsAdded_ThenExceptionIsThrown()
         {
             var currency = Currency.USD;
-            var budget = new Budget(Month.Create(2019, MonthName.January), currency, CreatedOn, ImmutableList<Money>.Empty);
+            var budget = new Budget(Month.Create(2019, MonthName.January), currency, CreatedOn);
             
             Func<Budget> sut = () => budget.WithRevenue(
                 new Money(Amount.Create(-10, currency), Category.Salary, CreatedOn));
