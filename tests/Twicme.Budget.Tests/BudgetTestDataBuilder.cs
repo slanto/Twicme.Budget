@@ -7,7 +7,7 @@ namespace Twicme.Budget.Tests
     {
         private DateTimeOffset _created = DateTimeOffset.UtcNow;
         
-        public BudgetTestDataBuilder WithCreated(DateTimeOffset created)
+        public BudgetTestDataBuilder WithCreatedOn(DateTimeOffset created)
         {
             _created = created;
             return this;

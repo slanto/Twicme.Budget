@@ -12,7 +12,7 @@ namespace Twicme.Budget.Tests
         public void GivenBudget_WhenToJsonIsCalled_ThenBudgetInJsonFormatIsReturned()
         {
             var budget = new BudgetTestDataBuilder()
-                .WithCreated(new DateTime(2019, 1, 1, 10, 10, 10))
+                .WithCreatedOn(new DateTime(2019, 1, 1, 10, 10, 10))
                 .Build();
 
             var jsonBudget = new JsonBudget(budget);

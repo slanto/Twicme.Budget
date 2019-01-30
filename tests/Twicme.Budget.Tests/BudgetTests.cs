@@ -12,20 +12,20 @@ namespace Twicme.Budget.Tests
     {
         private static Budget Budget =>
             new BudgetTestDataBuilder()
-                .WithCreated(Created)
+                .WithCreatedOn(CreatedOn)
                 .Build();
         
-        private static DateTimeOffset Created => 
+        private static DateTimeOffset CreatedOn => 
             new DateTimeOffset(2018, 2, 10, 6, 12, 0, TimeSpan.Zero);
         
         [Fact]
         public void GivenCorrectInputData_WhenConstructorIsCalled_ThenBudgetIsInitialized()
         {
             var sut = new Budget(Month.Create(2012, MonthName.July), 
-                Currency.PLN, Created, ImmutableList<Money>.Empty);
+                Currency.PLN, CreatedOn, ImmutableList<Money>.Empty);
 
             sut.Should().NotBeNull();
-            sut.CreatedOn.Should().Be(Created);
+            sut.CreatedOn.Should().Be(CreatedOn);
             sut.Month.Should().Be(Month.Create(2012, MonthName.July));
             sut.Moneys.Should().BeEmpty();
         }
@@ -33,7 +33,7 @@ namespace Twicme.Budget.Tests
         [Fact]
         public void GivenBudget_WhenMoneyIsAdded_ThenBudgetContainsAdditionalAmount()
         {
-            var money = new Money(Amount.Create(200, Currency.PLN), Category.Salary, Created);
+            var money = new Money(Amount.Create(200, Currency.PLN), Category.Salary, CreatedOn);
             
             var budget = Budget.WithRevenue(money);
             budget.Moneys.Should().Contain(money);
@@ -43,7 +43,7 @@ namespace Twicme.Budget.Tests
         public void GivenBudgetInPLN_WhenAmountInUSDIsAdded_ThenExceptionIsThrown()
         {
             Func<Budget> func = () => Budget.WithRevenue(
-                new Money(Amount.Create(200, Currency.USD), Category.Salary, Created));
+                new Money(Amount.Create(200, Currency.USD), Category.Salary, CreatedOn));
 
             func.Should().Throw<ContractException>()
                 .WithMessage("It is only possible to add money to budget in its base currency: PLN");
@@ -73,22 +73,22 @@ namespace Twicme.Budget.Tests
         public void GivenNewBudget_WhenBudgetIsPlanned_ThenItContainsMoneys()
         {
             var currency = Currency.USD;
-            var budget = new Budget(Month.Create(2019, MonthName.January), currency, Created, ImmutableList<Money>.Empty);
+            var budget = new Budget(Month.Create(2019, MonthName.January), currency, CreatedOn, ImmutableList<Money>.Empty);
             
             budget = budget
-                .WithRevenue(new Money(Amount.Create(10.99M, currency), Category.Salary, Created))
-                .WithRevenue(new Money(Amount.Create(0.1M, currency), Category.Salary, Created))
-                .WithRevenue(new Money(Amount.Create(0.5M, currency), Category.Salary, Created))
-                .WithRevenue(new Money(Amount.Create(100, currency), Category.OtherIncome, Created))
-                .WithExpense(new Money(Amount.Create(-25, currency), Category.BasicExpenditure, Created))
-                .WithExpense(new Money(Amount.Create(-30.99M, currency), Category.HomeAndBills, Created));
+                .WithRevenue(new Money(Amount.Create(10.99M, currency), Category.Salary, CreatedOn))
+                .WithRevenue(new Money(Amount.Create(0.1M, currency), Category.Salary, CreatedOn))
+                .WithRevenue(new Money(Amount.Create(0.5M, currency), Category.Salary, CreatedOn))
+                .WithRevenue(new Money(Amount.Create(100, currency), Category.OtherIncome, CreatedOn))
+                .WithExpense(new Money(Amount.Create(-25, currency), Category.BasicExpenditure, CreatedOn))
+                .WithExpense(new Money(Amount.Create(-30.99M, currency), Category.HomeAndBills, CreatedOn));
 
             new TotalBalance(budget)
                 .Amount.Should().Be(Amount.Create(55.60M, currency));
 
             budget =
                 budget.WithExpense(
-                    new Money(Amount.Create(-90, currency), Category.CarAndTransport, Created));
+                    new Money(Amount.Create(-90, currency), Category.CarAndTransport, CreatedOn));
             
             new TotalBalance(budget)
                 .Amount.Should().Be(Amount.Create(-34.40M, currency));
@@ -122,10 +122,10 @@ namespace Twicme.Budget.Tests
         public void GivenPositiveMoney_WhenExpenseIsAdded_ThenExceptionIsThrown()
         {
             var currency = Currency.USD;
-            var budget = new Budget(Month.Create(2019, MonthName.January), currency, Created, ImmutableList<Money>.Empty);
+            var budget = new Budget(Month.Create(2019, MonthName.January), currency, CreatedOn, ImmutableList<Money>.Empty);
             
             Func<Budget> sut = () => budget.WithExpense(
-                new Money(Amount.Create(10, currency), Category.Education, Created));
+                new Money(Amount.Create(10, currency), Category.Education, CreatedOn));
 
             sut.Should().Throw<ContractException>()
                 .WithMessage("Expense can have only negative amount");
@@ -135,23 +135,33 @@ namespace Twicme.Budget.Tests
         public void GivenNegativeMoney_WhenRevenueIsAdded_ThenExceptionIsThrown()
         {
             var currency = Currency.USD;
-            var budget = new Budget(Month.Create(2019, MonthName.January), currency, Created, ImmutableList<Money>.Empty);
+            var budget = new Budget(Month.Create(2019, MonthName.January), currency, CreatedOn, ImmutableList<Money>.Empty);
             
             Func<Budget> sut = () => budget.WithRevenue(
-                new Money(Amount.Create(-10, currency), Category.Salary, Created));
+                new Money(Amount.Create(-10, currency), Category.Salary, CreatedOn));
 
             sut.Should().Throw<ContractException>()
                 .WithMessage("Revenue can have only positive amount");
         }
 
         [Fact]
-        public void GivenBudget_WhenBudgetIsSearched_ThenFilteredMoneysAreReturned()
+        public void GivenBudget_WhenMoneysAreSearched_ThenFilteredMoneysAreReturned()
         {
             var currency = Currency.PLN;
-            
-            var budget = new Budget(Month.Create(2019, MonthName.January), currency, Created,
-                ImmutableList<Money>.Empty);
 
+            var budget = new Budget(Month.Create(2019, MonthName.January), currency, CreatedOn)
+                .WithExpense(new Money(Amount.Create(-110, currency), Category.HomeAndBills, CreatedOn))
+                .WithExpense(new Money(Amount.Create(-101, currency), Category.CarAndTransport, CreatedOn))
+                .WithExpense(new Money(Amount.Create(-21, currency), Category.HomeAndBills, CreatedOn))
+                .WithExpense(new Money(Amount.Create(-11.22m, currency), Category.HealthAndBeauty, CreatedOn))
+                .WithExpense(new Money(Amount.Create(-1000.25m, currency), Category.HomeAndBills, CreatedOn));
+
+            var foundMoneys = budget.Moneys.FindAll(m => m.Category == Category.HomeAndBills);
+
+            foundMoneys.Count.Should().Be(3);
+            foundMoneys.Should().Contain(m => m.Amount == Amount.Create(-110, currency));
+            foundMoneys.Should().Contain(m => m.Amount == Amount.Create(-21, currency));
+            foundMoneys.Should().Contain(m => m.Amount == Amount.Create(-1000.25m, currency));
         }
     }
 }
