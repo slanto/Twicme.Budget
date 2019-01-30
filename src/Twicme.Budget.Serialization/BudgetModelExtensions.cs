@@ -11,7 +11,7 @@ namespace Twicme.Budget.Store
                 budget.Month.Year,
                 budget.Month.MonthName.Name,
                 budget.BaseCurrency.Symbol,
-                budget.Created);
+                budget.CreatedOn);
 
         private static IEnumerable<MoneyModel> MoneyModels(this Budget budget) =>
             budget.Moneys.Select(MoneyModel).ToImmutableList();
@@ -28,7 +28,7 @@ namespace Twicme.Budget.Store
                     
             return new Budget(Month.Create(model.Year, MonthName.Create(model.Month)),
                 Currency.Create(model.Currency),
-                model.Created, moneys);
+                model.CreatedOn, moneys);
         }
     }
 }

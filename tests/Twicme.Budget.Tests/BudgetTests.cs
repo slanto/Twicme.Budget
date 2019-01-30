@@ -25,7 +25,7 @@ namespace Twicme.Budget.Tests
                 Currency.PLN, Created, ImmutableList<Money>.Empty);
 
             sut.Should().NotBeNull();
-            sut.Created.Should().Be(Created);
+            sut.CreatedOn.Should().Be(Created);
             sut.Month.Should().Be(Month.Create(2012, MonthName.July));
             sut.Moneys.Should().BeEmpty();
         }
@@ -113,7 +113,7 @@ namespace Twicme.Budget.Tests
         public void GivenTwoTheSameBudgets_WhenBudgetsAreCompared_ThenTheyAreEquals()
         {
             Budget.Moneys.Should().BeEquivalentTo(Budget.Moneys);
-            Budget.Created.Should().Be(Budget.Created);
+            Budget.CreatedOn.Should().Be(Budget.CreatedOn);
             Budget.BaseCurrency.Should().Be(Budget.BaseCurrency);
             Budget.Month.Should().Be(Budget.Month);
         }
@@ -142,6 +142,16 @@ namespace Twicme.Budget.Tests
 
             sut.Should().Throw<ContractException>()
                 .WithMessage("Revenue can have only positive amount");
+        }
+
+        [Fact]
+        public void GivenBudget_WhenBudgetIsSearched_ThenFilteredMoneysAreReturned()
+        {
+            var currency = Currency.PLN;
+            
+            var budget = new Budget(Month.Create(2019, MonthName.January), currency, Created,
+                ImmutableList<Money>.Empty);
+
         }
     }
 }

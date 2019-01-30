@@ -21,7 +21,7 @@ namespace Twicme.Budget.Tests
             var deserializedBudget = jsonContent.ToBudget();
             
             deserializedBudget.Moneys.Should().BeEquivalentTo(budget.Moneys);
-            deserializedBudget.Created.Should().Be(budget.Created);
+            deserializedBudget.CreatedOn.Should().Be(budget.CreatedOn);
             deserializedBudget.BaseCurrency.Should().Be(budget.BaseCurrency);
             deserializedBudget.Month.Should().Be(budget.Month);
         }

@@ -10,20 +10,20 @@ namespace Twicme.Budget
         public ImmutableList<Money> Moneys { get; }
         public Month Month { get; }
         public Currency BaseCurrency { get; }
-        public DateTimeOffset Created { get; }
+        public DateTimeOffset CreatedOn { get; }
 
-        public Budget(Month month, Currency baseCurrency, DateTimeOffset created, ImmutableList<Money> moneys)
+        public Budget(Month month, Currency baseCurrency, DateTimeOffset createdOn, ImmutableList<Money> moneys = null)
         {
             Month = month;
             BaseCurrency = baseCurrency;
-            Created = created;
-            Moneys = moneys;
+            CreatedOn = createdOn;
+            Moneys = moneys ?? ImmutableList.Create<Money>();
         }
         
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return Month;
-            yield return Created;
+            yield return CreatedOn;
             yield return Moneys;
         }
     }

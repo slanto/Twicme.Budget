@@ -6,7 +6,7 @@ namespace Twicme.Budget.Store
     {
         private readonly Budget _budget;
 
-        public JsonBudget(Budget budget) : base(budget.Month, budget.BaseCurrency, budget.Created,
+        public JsonBudget(Budget budget) : base(budget.Month, budget.BaseCurrency, budget.CreatedOn,
             budget.Moneys)
         {
             _budget = budget;
