@@ -163,5 +163,26 @@ namespace Twicme.Budget.Tests
             foundMoneys.Should().Contain(m => m.Amount == Amount.Create(-21, currency));
             foundMoneys.Should().Contain(m => m.Amount == Amount.Create(-1000.25m, currency));
         }
+        
+        [Fact]
+        public void GivenBudget_WhenDescriptionIsSearched_ThenFilteredMoneysAreReturned()
+        {
+            var currency = Currency.PLN;
+
+            var budget = new Budget(Month.Create(2019, MonthName.January), currency, CreatedOn)
+                .WithExpense(new Money(Amount.Create(-110, currency), Category.HomeAndBills, CreatedOn))
+                .WithExpense(new Money(Amount.Create(-101, currency), Category.CarAndTransport, CreatedOn, 
+                    new Description("I bought a new car")))
+                .WithExpense(new Money(Amount.Create(-21, currency), Category.HomeAndBills, CreatedOn))
+                .WithExpense(new Money(Amount.Create(-11.22m, currency), Category.EntertainmentAndTravelling,
+                    CreatedOn, new Description("new car toy")))
+                .WithExpense(new Money(Amount.Create(-1000.25m, currency), Category.HomeAndBills, CreatedOn));
+
+            var foundMoneys = budget.Moneys.FindAll(m => m.Description.Contains("new car"));
+
+            foundMoneys.Count.Should().Be(2);
+            foundMoneys.Should().Contain(m => m.Amount == Amount.Create(-101, currency));
+            foundMoneys.Should().Contain(m => m.Amount == Amount.Create(-11.22m, currency));
+        }
     }
 }
