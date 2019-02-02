@@ -18,6 +18,11 @@ namespace Twicme.Budget
             Created = created;
         }
         
+        public Money(Amount amount, Category category, Description description = null) : 
+            this(amount, category, DateTimeOffset.UtcNow, description)
+        {
+        }
+        
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return Created;

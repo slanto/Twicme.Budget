@@ -26,16 +26,16 @@ namespace Twicme.Budget.Tests
         public void GivenPlannedAndActualBudgets_WhenTotalBalanceIsCalled_ThenTotalBalanceOfRevenueAndExpensesAreCalculated()
         {
             var plannedBudget = new Budget(Month.Create(2018, MonthName.May), Currency.PLN, DateTime.Today)
-                .WithRevenue(new Money(Amount.Create(100, Currency.PLN), Category.Salary, DateTimeOffset.Now))
-                .WithRevenue(new Money(Amount.Create(100, Currency.PLN), Category.Salary, DateTimeOffset.Now))
-                .WithExpense(new Money(Amount.Create(-10, Currency.PLN), Category.BasicExpenditure, DateTimeOffset.Now))
-                .WithExpense(new Money(Amount.Create(-60, Currency.PLN), Category.CarAndTransport, DateTimeOffset.Now));
+                .WithRevenue(new Money(Amount.Create(100, Currency.PLN), Category.Salary))
+                .WithRevenue(new Money(Amount.Create(100, Currency.PLN), Category.Salary))
+                .WithExpense(new Money(Amount.Create(-10, Currency.PLN), Category.BasicExpenditure))
+                .WithExpense(new Money(Amount.Create(-60, Currency.PLN), Category.CarAndTransport));
             
             var actualBudget = new Budget(Month.Create(2018, MonthName.May), Currency.PLN, DateTime.Today)
-                .WithRevenue(new Money(Amount.Create(100.90m, Currency.PLN), Category.Salary, DateTimeOffset.Now))
-                .WithRevenue(new Money(Amount.Create(90, Currency.PLN), Category.Salary, DateTimeOffset.Now))
-                .WithExpense(new Money(Amount.Create(-8, Currency.PLN), Category.BasicExpenditure, DateTimeOffset.Now))
-                .WithExpense(new Money(Amount.Create(-50, Currency.PLN), Category.CarAndTransport, DateTimeOffset.Now));
+                .WithRevenue(new Money(Amount.Create(100.90m, Currency.PLN), Category.Salary))
+                .WithRevenue(new Money(Amount.Create(90, Currency.PLN), Category.Salary))
+                .WithExpense(new Money(Amount.Create(-8, Currency.PLN), Category.BasicExpenditure))
+                .WithExpense(new Money(Amount.Create(-50, Currency.PLN), Category.CarAndTransport));
             
             var totalBalance = new TotalBalance(plannedBudget, actualBudget);
 
