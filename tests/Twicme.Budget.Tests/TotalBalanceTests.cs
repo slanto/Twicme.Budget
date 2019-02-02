@@ -1,3 +1,4 @@
+using System;
 using FluentAssertions;
 using Twicme.Budget.FinancialReport;
 using Xunit;
@@ -19,6 +20,26 @@ namespace Twicme.Budget.Tests
             var totalBalance = new TotalBalance(_budget);
             
             totalBalance.Amount.Should().Be(Amount.Create(2149.45M, _budget.BaseCurrency));
+        }
+
+        [Fact]
+        public void GivenPlannedAndActualBudgets_WhenTotalBalanceIsCalled_ThenTotalBalanceOfRevenueAndExpensesAreCalculated()
+        {
+            var plannedBudget = new Budget(Month.Create(2018, MonthName.May), Currency.PLN, DateTime.Today)
+                .WithRevenue(new Money(Amount.Create(100, Currency.PLN), Category.Salary, DateTimeOffset.Now))
+                .WithRevenue(new Money(Amount.Create(100, Currency.PLN), Category.Salary, DateTimeOffset.Now))
+                .WithExpense(new Money(Amount.Create(-10, Currency.PLN), Category.BasicExpenditure, DateTimeOffset.Now))
+                .WithExpense(new Money(Amount.Create(-60, Currency.PLN), Category.CarAndTransport, DateTimeOffset.Now));
+            
+            var actualBudget = new Budget(Month.Create(2018, MonthName.May), Currency.PLN, DateTime.Today)
+                .WithRevenue(new Money(Amount.Create(100.90m, Currency.PLN), Category.Salary, DateTimeOffset.Now))
+                .WithRevenue(new Money(Amount.Create(90, Currency.PLN), Category.Salary, DateTimeOffset.Now))
+                .WithExpense(new Money(Amount.Create(-8, Currency.PLN), Category.BasicExpenditure, DateTimeOffset.Now))
+                .WithExpense(new Money(Amount.Create(-50, Currency.PLN), Category.CarAndTransport, DateTimeOffset.Now));
+            
+            var totalBalance = new TotalBalance(plannedBudget, actualBudget);
+
+            totalBalance.Amount.Should().Be(Amount.Create(-2.90m, Currency.PLN));
         }
     }
 }
