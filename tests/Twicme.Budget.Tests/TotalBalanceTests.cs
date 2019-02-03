@@ -23,7 +23,7 @@ namespace Twicme.Budget.Tests
         }
 
         [Fact]
-        public void GivenPlannedAndActualBudgets_WhenTotalBalanceIsCalled_ThenTotalBalanceOfRevenueAndExpensesAreCalculated()
+        public void GivenPlannedAndActualBudgets_WhenTotalBalanceIsCalled_ThenTotalBalanceIsCalculated()
         {
             var plannedBudget = new Budget(Month.Create(2018, MonthName.May), Currency.PLN)
                 .WithRevenue(new Money(Amount.Create(100, Currency.PLN), Category.Salary))
