@@ -6,20 +6,37 @@ namespace Twicme.Budget.FinancialReport
 {
     public class TotalRevenue
     {
-        private readonly Currency _currency;
-        private ImmutableList<Money> _revenues;
+        private readonly Budget _plannedBudget;
+        private readonly Budget _actualBudget;
 
+        private ImmutableList<Money> _plannedRevenues;
+        private ImmutableList<Money> _actualRevenues;
         public TotalRevenue(Budget budget)
         {
-            _currency = budget.BaseCurrency;
-            _revenues = budget.Revenues();
+            _plannedBudget = budget;
+            _plannedRevenues = budget.Revenues();
         }
 
-        public Amount Amount => _revenues.Sum(_currency);
+        public TotalRevenue(Budget plannedBudget, Budget actualBudget)
+        {
+            _plannedBudget = plannedBudget;
+            _actualBudget = actualBudget;
+
+            _plannedRevenues = _plannedBudget.Revenues();
+            _actualRevenues = _actualBudget.Revenues();
+        }
+
+        public Amount Amount =>
+            _actualRevenues == null
+                ? _plannedRevenues.Sum(_plannedBudget.BaseCurrency)
+                : _actualRevenues.Sum(_actualBudget.BaseCurrency) -
+                  _plannedRevenues.Sum(_plannedBudget.BaseCurrency);
         
         public TotalRevenue For(Func<Money, bool> predicate)
         {
-            _revenues = _revenues.Where(predicate).ToImmutableList();
+            _plannedRevenues = _plannedRevenues.Where(predicate).ToImmutableList();
+            _actualRevenues = _actualRevenues?.Where(predicate).ToImmutableList();
+            
             return this;
         }
     }
