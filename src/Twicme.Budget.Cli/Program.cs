@@ -7,6 +7,20 @@ namespace Twicme.Budget.Cli
     {
         static void Main(string[] args)
         {
+            try
+            {
+                var result = Run(args);
+                Environment.Exit(result);
+            }
+            catch (Exception e)
+            {
+                var message = e.GetBaseException().Message;
+                Console.Error.WriteLine(message);
+            }
+        }
+
+        private static int Run(string[] args)
+        {
             var app = new CommandLineApplication();
 
             var budget = app.Command("budget", config =>
@@ -31,8 +45,8 @@ namespace Twicme.Budget.Cli
 
             app.HelpOption("-?|-h|--help");
 
-            var result = app.Execute(args);
-            Environment.Exit(result);
+            return app.Execute(args);
+
         }
     }
 }
