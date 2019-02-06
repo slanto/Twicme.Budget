@@ -8,12 +8,31 @@ namespace Twicme.Budget.Cli
         static void Main(string[] args)
         {
             var app = new CommandLineApplication();
-            app.Name = "budget";
-            app.Description = "Budget Cli application.";
- 
+
+            var budget = app.Command("budget", config =>
+            {
+                config.OnExecute(() =>
+                {
+                    config.ShowHelp();
+                    return 1;
+                });
+                config.HelpOption("-?|-h|--help");
+            });
+            
+            budget.Command("create", config =>
+            {
+                config.OnExecute(() =>
+                {
+                    config.Description = "create budget";
+                    Console.WriteLine("Budget created");
+                    return 0;
+                });
+            });
+
             app.HelpOption("-?|-h|--help");
 
-            app.Execute(args);
+            var result = app.Execute(args);
+            Environment.Exit(result);
         }
     }
 }
