@@ -5,6 +5,8 @@ namespace Twicme.Budget.Cli
 {
     class Program
     {
+        const string HelpFlagTemplate = "-? |-h |--help";
+        
         static void Main(string[] args)
         {
             try
@@ -22,28 +24,36 @@ namespace Twicme.Budget.Cli
         private static int Run(string[] args)
         {
             var app = new CommandLineApplication();
-
-            var budget = app.Command("budget", config =>
+            app.HelpOption(HelpFlagTemplate);
+            
+            var budgetCommand = app.Command("budget", config =>
             {
+                config.Name = "budget";
+                config.Description = "Budget description";
+                config.HelpOption(HelpFlagTemplate);
+                
                 config.OnExecute(() =>
                 {
                     config.ShowHelp();
-                    return 1;
+                    return 0;
                 });
-                config.HelpOption("-?|-h|--help");
-            });
+                
+            }, false);
             
-            budget.Command("create", config =>
+            budgetCommand.Command("create", config =>
             {
+                config.Name = "create";
+                config.Description = "Create budget";
+                config.HelpOption(HelpFlagTemplate);
+                
                 config.OnExecute(() =>
                 {
-                    config.Description = "create budget";
                     Console.WriteLine("Budget created");
                     return 0;
                 });
-            });
+            }, false);
 
-            app.HelpOption("-?|-h|--help");
+            
 
             return app.Execute(args);
 
