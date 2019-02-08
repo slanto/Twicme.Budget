@@ -33,37 +33,12 @@ namespace Twicme.Budget.Cli
 
         private static int Run(string[] args)
         {
-            var app = new CommandLineApplication();
-            app.HelpOption(HelpFlagTemplate);
+            var application = new CommandLineApplication();
+            application.HelpOption(HelpFlagTemplate);
 
-            var createCommand = app.Command("create", config =>
-            {
-                config.Name = "create";
-                config.Description = "create budget providing year, month and currency";
-                config.HelpOption(HelpFlagTemplate);
-
-                var yearOption = config.Option("-y |--year", "year", CommandOptionType.SingleValue);
-                var monthOption = config.Option("-m |--month", "month", CommandOptionType.SingleValue);
-                var currencyOption = config.Option("-c |--currency", "currency", CommandOptionType.SingleValue);
+            var createCommand = new CreateBudgetCommandBuilder(application).Build();
                 
-                config.OnExecute(() =>
-                {
-                    if (!yearOption.HasValue() || !monthOption.HasValue() || !currencyOption.HasValue())
-                    {
-                        config.ShowHelp();
-                        return 1;
-                    }
-
-                    var budget = new Budget(
-                        Month.Create(int.Parse(yearOption.Value()), MonthName.Create(monthOption.Value())),
-                        Currency.Create(currencyOption.Value()));
-                    
-                    Console.WriteLine($"Budget {budget} created");
-                    return 0; 
-                });
-            }, false);
-                
-            var budgetCommand = app.Command("budget", config =>
+            var budgetCommand = application.Command("budget", config =>
             {
                 config.Name = "budget";
                 config.Description = "Budget description";
@@ -77,7 +52,7 @@ namespace Twicme.Budget.Cli
                 
             }, false);
 
-            return app.Execute(args);
+            return application.Execute(args);
         }
     }
 }
