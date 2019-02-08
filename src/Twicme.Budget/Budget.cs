@@ -31,5 +31,10 @@ namespace Twicme.Budget
             yield return CreatedOn;
             yield return Moneys;
         }
+
+        public override string ToString()
+        {
+            return $"month: {Month.MonthName.Name}, year: {Month.Year}, currency: {BaseCurrency}";
+        }
     }
 }

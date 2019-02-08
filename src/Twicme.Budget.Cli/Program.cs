@@ -35,7 +35,34 @@ namespace Twicme.Budget.Cli
         {
             var app = new CommandLineApplication();
             app.HelpOption(HelpFlagTemplate);
-            
+
+            var createCommand = app.Command("create", config =>
+            {
+                config.Name = "create";
+                config.Description = "create budget providing year, month and currency";
+                config.HelpOption(HelpFlagTemplate);
+
+                var yearOption = config.Option("-y |--year", "year", CommandOptionType.SingleValue);
+                var monthOption = config.Option("-m |--month", "month", CommandOptionType.SingleValue);
+                var currencyOption = config.Option("-c |--currency", "currency", CommandOptionType.SingleValue);
+                
+                config.OnExecute(() =>
+                {
+                    if (!yearOption.HasValue() || !monthOption.HasValue() || !currencyOption.HasValue())
+                    {
+                        config.ShowHelp();
+                        return 1;
+                    }
+
+                    var budget = new Budget(
+                        Month.Create(int.Parse(yearOption.Value()), MonthName.Create(monthOption.Value())),
+                        Currency.Create(currencyOption.Value()));
+                    
+                    Console.WriteLine($"Budget {budget} created");
+                    return 0; 
+                });
+            }, false);
+                
             var budgetCommand = app.Command("budget", config =>
             {
                 config.Name = "budget";
@@ -48,19 +75,6 @@ namespace Twicme.Budget.Cli
                     return 0;
                 });
                 
-            }, false);
-            
-            budgetCommand.Command("create", config =>
-            {
-                config.Name = "create";
-                config.Description = "Create budget";
-                config.HelpOption(HelpFlagTemplate);
-                
-                config.OnExecute(() =>
-                {
-                    Console.WriteLine("Budget created");
-                    return 0;
-                });
             }, false);
 
             return app.Execute(args);
