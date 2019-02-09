@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,9 +18,10 @@ namespace Twicme.Budget
 
         public static Currency Create(string symbol)
         {
-            Contracts.Require(All.Select(s => s.Symbol).Contains(symbol), $"Currency not found {symbol}");
+            Contracts.Require(All.Select(s => s.Symbol).Contains(symbol, StringComparer.OrdinalIgnoreCase),
+                $"Currency not found {symbol}");
             
-            return new Currency(symbol);
+            return new Currency(symbol.ToUpper());
         }
 
         public static IEnumerable<Currency> All => new[] {PLN, USD};
