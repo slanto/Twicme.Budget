@@ -22,9 +22,9 @@ namespace Twicme.Budget.Cli
                 config.Description = "create budget providing year, month and currency";
                 config.HelpOption(HelpFlagTemplate);
 
-                var yearOption = config.Option("-y |--year", "year", CommandOptionType.SingleValue);
-                var monthOption = config.Option("-m |--month", "month", CommandOptionType.SingleValue);
-                var currencyOption = config.Option("-c |--currency", "currency", CommandOptionType.SingleValue);
+                var yearOption = config.Option("-y |--year", "year, e.g. 2019", CommandOptionType.SingleValue);
+                var monthOption = config.Option("-m |--month", "month, e.g. February", CommandOptionType.SingleValue);
+                var currencyOption = config.Option("-c |--currency", "currency e.g. PLN or USD", CommandOptionType.SingleValue);
                 
                 config.OnExecute(() =>
                 {
