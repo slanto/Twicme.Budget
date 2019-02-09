@@ -34,8 +34,15 @@ namespace Twicme.Budget.Cli
                         return 1;
                     }
 
+                    int.TryParse(monthOption.Value(), out int monthIndex);
+
+
+                    var monthName = monthIndex == 0
+                        ? MonthName.Create(monthOption.Value())
+                        : MonthName.Create(monthIndex);
+                        
                     var budget = new Budget(
-                        Month.Create(int.Parse(yearOption.Value()), MonthName.Create(monthOption.Value())),
+                        Month.Create(int.Parse(yearOption.Value()), monthName),
                         Currency.Create(currencyOption.Value()));
                     
                     Console.WriteLine($"Budget {budget} created.");
