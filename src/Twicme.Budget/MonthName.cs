@@ -35,6 +35,14 @@ namespace Twicme.Budget
             
             return new MonthName(found.Index, found.Name);
         }
+        
+        public static MonthName Create(int index)
+        {
+            var found = All.Single(m => m.Index == index);
+            Contracts.Require(found != null, $"Month: {index} not found.");
+            
+            return new MonthName(found.Index, found.Name);
+        }
 
         private static IEnumerable<MonthName> All => new[]
             {January, February, March, April, May, June, July, August, September, October, November, December};
