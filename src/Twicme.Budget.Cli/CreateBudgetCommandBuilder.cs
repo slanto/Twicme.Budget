@@ -1,5 +1,8 @@
 using System;
+using System.IO;
+using System.Net;
 using Microsoft.Extensions.CommandLineUtils;
+using Twicme.Budget.Store;
 
 namespace Twicme.Budget.Cli
 {
@@ -35,15 +38,28 @@ namespace Twicme.Budget.Cli
                     }
 
                     int.TryParse(monthOption.Value(), out var monthIndex);
+                    int.TryParse(yearOption.Value(), out var year);
 
-                    var budget = new Budget(
-                        Month.Create(int.Parse(yearOption.Value()), MonthName.Create(monthIndex)),
-                        Currency.Create(currencyOption.Value()));
+                    var month = Month.Create(year, MonthName.Create(monthIndex));
+                    var baseCurrency = Currency.Create(currencyOption.Value());
+
+                    var budget = new Budget(month, baseCurrency);
+                    var jsonBudget = new JsonBudget(budget);
+                    
+                    File.WriteAllText($"planned-budget-{budget.Month.Value.ToShortDateString()}.json", 
+                        jsonBudget.Content.Value);
+                    File.WriteAllText($"real-budget-{budget.Month.Value.ToShortDateString()}.json", 
+                        jsonBudget.Content.Value);
                     
                     Console.WriteLine($"Budget {budget} created.");
                     return 0; 
                 });
             }, false);    
+        }
+
+        private void SaveBudget(Budget budget)
+        {
+            
         }
     }
 }

@@ -10,6 +10,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Twicme.Budget.Serialization\Twicme.Budget.Serialization.csproj" />
       <ProjectReference Include="..\Twicme.Budget\Twicme.Budget.csproj" />
     </ItemGroup>
 
