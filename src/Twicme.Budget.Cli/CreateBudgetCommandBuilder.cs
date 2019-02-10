@@ -44,12 +44,9 @@ namespace Twicme.Budget.Cli
                     var baseCurrency = Currency.Create(currencyOption.Value());
 
                     var budget = new Budget(month, baseCurrency);
-                    var jsonBudget = new JsonBudget(budget);
                     
-                    File.WriteAllText($"planned-budget-{budget.Month.Value.ToShortDateString()}.json", 
-                        jsonBudget.Content.Value);
-                    File.WriteAllText($"real-budget-{budget.Month.Value.ToShortDateString()}.json", 
-                        jsonBudget.Content.Value);
+                    SavePlannedBudget(budget);
+                    SaveRealBudget(budget);
                     
                     Console.WriteLine($"Budget {budget} created.");
                     return 0; 
@@ -57,9 +54,13 @@ namespace Twicme.Budget.Cli
             }, false);    
         }
 
-        private void SaveBudget(Budget budget)
-        {
-            
-        }
+        private static void SavePlannedBudget(Budget budget) =>
+            File.WriteAllText($"planned-budget-{budget.Month.Value.ToShortDateString()}.json", 
+                new JsonBudget(budget).Content.Value);
+        
+        private static void SaveRealBudget(Budget budget) =>
+            File.WriteAllText($"real-budget-{budget.Month.Value.ToShortDateString()}.json", 
+                new JsonBudget(budget).Content.Value);
+        
     }
 }
