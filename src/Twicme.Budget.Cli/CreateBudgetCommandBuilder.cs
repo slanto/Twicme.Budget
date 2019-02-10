@@ -22,9 +22,9 @@ namespace Twicme.Budget.Cli
                 config.Description = "create budget providing year, month and currency";
                 config.HelpOption(HelpFlagTemplate);
 
-                var yearOption = config.Option("-y |--year", "year, e.g. 2019", CommandOptionType.SingleValue);
-                var monthOption = config.Option("-m |--month", "month, e.g. February or 2", CommandOptionType.SingleValue);
-                var currencyOption = config.Option("-c |--currency", "currency e.g. PLN or USD", CommandOptionType.SingleValue);
+                var yearOption = config.Option("-y |--year", "year", CommandOptionType.SingleValue);
+                var monthOption = config.Option("-m |--month", "month [1-12]", CommandOptionType.SingleValue);
+                var currencyOption = config.Option("-c |--currency", "currency [PLN, USD]", CommandOptionType.SingleValue);
                 
                 config.OnExecute(() =>
                 {
@@ -34,15 +34,10 @@ namespace Twicme.Budget.Cli
                         return 1;
                     }
 
-                    int.TryParse(monthOption.Value(), out int monthIndex);
+                    int.TryParse(monthOption.Value(), out var monthIndex);
 
-
-                    var monthName = monthIndex == 0
-                        ? MonthName.Create(monthOption.Value())
-                        : MonthName.Create(monthIndex);
-                        
                     var budget = new Budget(
-                        Month.Create(int.Parse(yearOption.Value()), monthName),
+                        Month.Create(int.Parse(yearOption.Value()), MonthName.Create(monthIndex)),
                         Currency.Create(currencyOption.Value()));
                     
                     Console.WriteLine($"Budget {budget} created.");
