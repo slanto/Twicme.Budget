@@ -44,22 +44,27 @@ namespace Twicme.Budget.Cli
                     var baseCurrency = Currency.Create(currencyOption.Value());
 
                     var budget = new Budget(month, baseCurrency);
+
+                    if (BudgetNotExists)
+                    {
+                        SavePlannedBudget(budget);
+                        SaveRealBudget(budget);
+                        Console.WriteLine($"Budget {budget} created.");
+                    }
                     
-                    SavePlannedBudget(budget);
-                    SaveRealBudget(budget);
-                    
-                    Console.WriteLine($"Budget {budget} created.");
                     return 0; 
                 });
             }, false);    
         }
 
+        private bool BudgetNotExists => false; //TODO: to implement
+
         private static void SavePlannedBudget(Budget budget) =>
-            File.WriteAllText($"planned-budget-{budget.Month.Value.ToShortDateString()}.json", 
+            File.WriteAllText($"budget-{budget.Month.Value.ToShortDateString()}-plan.json", 
                 new JsonBudget(budget).Content.Value);
         
         private static void SaveRealBudget(Budget budget) =>
-            File.WriteAllText($"real-budget-{budget.Month.Value.ToShortDateString()}.json", 
+            File.WriteAllText($"budget-{budget.Month.Value.ToShortDateString()}.json", 
                 new JsonBudget(budget).Content.Value);
         
     }
