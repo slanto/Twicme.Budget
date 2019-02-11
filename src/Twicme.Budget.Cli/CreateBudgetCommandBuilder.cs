@@ -44,12 +44,17 @@ namespace Twicme.Budget.Cli
                     var baseCurrency = Currency.Create(currencyOption.Value());
 
                     var budget = new Budget(month, baseCurrency);
-
-                    if (BudgetNotExists)
+                    
+                    if (BudgetNotExists(budget))
                     {
-                        SavePlannedBudget(budget);
-                        SaveRealBudget(budget);
-                        Console.WriteLine($"Budget {budget} created.");
+                        Save(budget, FileName.Real(budget));
+                        Save(budget, FileName.Planned(budget));
+                        
+                        Console.WriteLine($"Budget {budget} has been created.");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Budget {budget} already exists.");
                     }
                     
                     return 0; 
@@ -57,15 +62,11 @@ namespace Twicme.Budget.Cli
             }, false);    
         }
 
-        private bool BudgetNotExists => false; //TODO: to implement
+        private static bool BudgetNotExists(Budget budget) =>
+            !FileName.Real(budget).Exists || !FileName.Planned(budget).Exists;
 
-        private static void SavePlannedBudget(Budget budget) =>
-            File.WriteAllText($"budget-{budget.Month.Value.ToShortDateString()}-plan.json", 
+        private static void Save(Budget budget, FileName fileName) =>
+            File.WriteAllText(fileName.Path, 
                 new JsonBudget(budget).Content.Value);
-        
-        private static void SaveRealBudget(Budget budget) =>
-            File.WriteAllText($"budget-{budget.Month.Value.ToShortDateString()}.json", 
-                new JsonBudget(budget).Content.Value);
-        
     }
 }
