@@ -9,7 +9,8 @@ namespace Twicme.Budget.Cli
     public class CreateBudgetCommandBuilder
     {
         private readonly CommandLineApplication _application;
-        
+        private ILog _log = new ConsoleLog();
+
         private const string HelpFlagTemplate = "-? |-h |--help";
         
         public CreateBudgetCommandBuilder(CommandLineApplication application)
@@ -28,7 +29,7 @@ namespace Twicme.Budget.Cli
                 var yearOption = config.Option("-y |--year", "year", CommandOptionType.SingleValue);
                 var monthOption = config.Option("-m |--month", "month [1-12]", CommandOptionType.SingleValue);
                 var currencyOption = config.Option("-c |--currency", "currency [PLN, USD]", CommandOptionType.SingleValue);
-                
+
                 config.OnExecute(() =>
                 {
                     if (!yearOption.HasValue() || !monthOption.HasValue() || !currencyOption.HasValue())
@@ -44,20 +45,18 @@ namespace Twicme.Budget.Cli
                     var baseCurrency = Currency.Create(currencyOption.Value());
 
                     var budget = new Budget(month, baseCurrency);
-                    
+
                     if (BudgetNotExists(budget))
                     {
                         Save(budget, FileName.Real(budget));
                         Save(budget, FileName.Planned(budget));
-                        
-                        Console.WriteLine($"Budget {budget} has been created.");
+
+                        _log.Write($"Budget {budget} has been created.");
+                        return 0;
                     }
-                    else
-                    {
-                        Console.WriteLine($"Budget {budget} already exists.");
-                    }
-                    
-                    return 0; 
+
+                    _log.Write($"Budget {budget} already exists.");
+                    return 1;
                 });
             }, false);    
         }
@@ -68,5 +67,11 @@ namespace Twicme.Budget.Cli
         private static void Save(Budget budget, FileName fileName) =>
             File.WriteAllText(fileName.Path, 
                 new JsonBudget(budget).Content.Value);
+
+        public CreateBudgetCommandBuilder WithLogger(ILog log)
+        {
+            _log = log;
+            return this;
+        }
     }
 }

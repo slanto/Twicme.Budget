@@ -36,7 +36,9 @@ namespace Twicme.Budget.Cli
             var application = new CommandLineApplication();
             application.HelpOption(HelpFlagTemplate);
 
-            var createCommand = new CreateBudgetCommandBuilder(application).Build();
+            var createCommand = new CreateBudgetCommandBuilder(application)
+                .WithLogger(new ConsoleLog())
+                .Build();
                 
             var budgetCommand = application.Command("budget", config =>
             {
