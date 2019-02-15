@@ -42,6 +42,8 @@ namespace Twicme.Budget.Cli
             new BudgetsListCommandBuilder(application)
                 .Build();
 
+            new AddCommandBuilder(application).Build();
+
             return application.Execute(args);
         }
     }
