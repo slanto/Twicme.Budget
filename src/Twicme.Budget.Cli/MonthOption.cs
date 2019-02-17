@@ -5,10 +5,12 @@ namespace Twicme.Budget.Cli
 {
     public sealed class MonthOption : ValueObject<MonthOption>
     {
-        public string Value => Command.Value();
+        public int Value => int.Parse(Command.Value());
 
         public bool Exists => Command.HasValue();
         
+        public bool NotExists => !Exists;
+
         public CommandOption Command { get; }
         
         private MonthOption(CommandLineApplication config)

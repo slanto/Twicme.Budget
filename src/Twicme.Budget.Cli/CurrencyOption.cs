@@ -9,6 +9,8 @@ namespace Twicme.Budget.Cli
 
         public bool Exists => Command.HasValue();
         
+        public bool NotExists => !Exists;
+
         public CommandOption Command { get; }
         
         private CurrencyOption(CommandLineApplication config)

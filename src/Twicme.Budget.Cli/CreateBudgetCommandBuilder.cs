@@ -23,27 +23,22 @@ namespace Twicme.Budget.Cli
             {
                 config.Name = "create";
                 config.Description = "create budget providing year, month and currency";
-                config.HelpOption(HelpFlagTemplate);
-
-                var yearOption = config.Option("-y |--year", "year", CommandOptionType.SingleValue);
-                var monthOption = config.Option("-m |--month", "month [1-12]", CommandOptionType.SingleValue);
-                var currencyOption =
-                    config.Option("-c |--currency", "currency [PLN, USD]", CommandOptionType.SingleValue);
-
+                config.HelpOption(HelpFlagTemplate);          
+               
                 config.OnExecute(() =>
                 {
-                    if (!yearOption.HasValue() || !monthOption.HasValue() || !currencyOption.HasValue())
+                    var yearOption = YearOption.Create(config);
+                    var monthOption = MonthOption.Create(config);
+                    var currencyOption = CurrencyOption.Create(config);
+                    
+                    if (yearOption.NotExists || monthOption.NotExists || currencyOption.NotExists)
                     {
                         config.ShowHelp();
                         return 1;
                     }
 
-                    int.TryParse(monthOption.Value(), out var monthIndex);
-                    int.TryParse(yearOption.Value(), out var year);
-                    var currency = currencyOption.Value();
-
                     var service = new CreateBudgetService(new ConsoleLog());
-                    return service.Execute(year, monthIndex, currency);
+                    return service.Execute(yearOption.Value, monthOption.Value, currencyOption.Value);
                 });
             }, false);    
         }
