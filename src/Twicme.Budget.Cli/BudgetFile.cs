@@ -5,20 +5,20 @@ namespace Twicme.Budget.Cli
 {
     public class BudgetFile
     {
-        private readonly Budget _budget;
-        private readonly FileName _fileName;
+        public Budget Budget { get; }
+        public FileName FileName { get; }
 
         public BudgetFile(Budget budget, FileName fileName)
         {
-            _budget = budget;
-            _fileName = fileName;
+            Budget = budget;
+            FileName = fileName;
         }
 
         public void Save() =>
-            File.WriteAllText(_fileName.Path,
-                new JsonBudget(_budget).Content.Value);
+            File.WriteAllText(FileName.Path,
+                new JsonBudget(Budget).Content.Value);
         
         public bool NotExists =>
-            !FileName.Real(_budget).Exists || !FileName.Planned(_budget).Exists;
+            !FileName.Real(Budget).Exists || !FileName.Planned(Budget).Exists;
     }
 }

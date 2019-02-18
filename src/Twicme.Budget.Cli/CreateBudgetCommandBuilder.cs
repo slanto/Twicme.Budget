@@ -25,11 +25,11 @@ namespace Twicme.Budget.Cli
                 config.Description = "create budget providing year, month and currency";
                 config.HelpOption(HelpFlagTemplate);          
                
-                config.OnExecute(() => Execute(config, new ConsoleLog()));
+                config.OnExecute(() => Execute(config, new BudgetFilesFactory(), new ConsoleLog()));
             }, false);    
         }
 
-        private static int Execute(CommandLineApplication config, ILog log)
+        private static int Execute(CommandLineApplication config, IBudgetFilesFactory budgetFilesFactory, ILog log)
         {
             var yearOption = YearOption.Create(config);
             var monthOption = MonthOption.Create(config);
@@ -40,25 +40,19 @@ namespace Twicme.Budget.Cli
                 config.ShowHelp();
                 return ErrorCode.Value;
             }
-            
-            var month = Month.Create(yearOption.Value, MonthName.Create(monthOption.Value));
-            var baseCurrency = Currency.Create(currencyOption.Value);
-            
-            var budget = new Budget(month, baseCurrency);
 
-            var plannedBudgetFile = new BudgetFile(budget, FileName.Planned(budget));
-            var realBudgetFile = new BudgetFile(budget, FileName.Real(budget));
+            var (plan, real) = budgetFilesFactory.Create(yearOption, monthOption, currencyOption);
             
-            if (plannedBudgetFile.NotExists || realBudgetFile.NotExists)
+            if (plan.NotExists || real.NotExists)
             {
-                plannedBudgetFile.Save();
-                realBudgetFile.Save();
+                plan.Save();
+                real.Save();
                 
-                log.Write($"Budget {budget} has been created.");
+                log.Write($"Budget {plan.Budget} has been created.");
                 return OkCode.Value;
             }
 
-            log.Write($"Budget {budget} already exists.");
+            log.Write($"Budget {plan.Budget} already exists.");
             return ErrorCode.Value;
         }
     }
