@@ -41,18 +41,18 @@ namespace Twicme.Budget.Cli
                 return ErrorCode.Value;
             }
 
-            var (plan, real) = budgetFilesFactory.Create(yearOption, monthOption, currencyOption);
+            var (plannedBudgetFile, realBudgetFile) = budgetFilesFactory.Create(yearOption, monthOption, currencyOption);
             
-            if (plan.NotExists || real.NotExists)
+            if (plannedBudgetFile.NotExists || realBudgetFile.NotExists)
             {
-                plan.Save();
-                real.Save();
+                plannedBudgetFile.Save();
+                realBudgetFile.Save();
                 
-                log.Write($"Budget {plan.Budget} has been created.");
+                log.Write($"Budget {plannedBudgetFile.Budget} has been created.");
                 return OkCode.Value;
             }
 
-            log.Write($"Budget {plan.Budget} already exists.");
+            log.Write($"Budget {plannedBudgetFile.Budget} already exists.");
             return ErrorCode.Value;
         }
     }
