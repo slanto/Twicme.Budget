@@ -12,9 +12,6 @@ namespace Twicme.Budget.Cli
         
         private const string HelpFlagTemplate = "-? |-h |--help";
 
-        private const int Ok = 0;
-        private const int Error = 1;
-
         public CreateBudgetCommandBuilder(CommandLineApplication application)
         {
             _application = application;
@@ -41,7 +38,7 @@ namespace Twicme.Budget.Cli
             if (yearOption.NotExists || monthOption.NotExists || currencyOption.NotExists)
             {
                 config.ShowHelp();
-                return Error;
+                return ErrorCode.Value;
             }
             
             var month = Month.Create(yearOption.Value, MonthName.Create(monthOption.Value));
@@ -58,11 +55,11 @@ namespace Twicme.Budget.Cli
                 realBudgetFile.Save();
                 
                 log.Write($"Budget {budget} has been created.");
-                return Ok;
+                return OkCode.Value;
             }
 
             log.Write($"Budget {budget} already exists.");
-            return Error;
+            return ErrorCode.Value;
         }
     }
 }
