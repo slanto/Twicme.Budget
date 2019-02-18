@@ -18,7 +18,7 @@ namespace Twicme.Budget.Cli
             File.WriteAllText(_fileName.Path,
                 new JsonBudget(_budget).Content.Value);
         
-        public bool NotExists() =>
+        public bool NotExists =>
             !FileName.Real(_budget).Exists || !FileName.Planned(_budget).Exists;
     }
 }
