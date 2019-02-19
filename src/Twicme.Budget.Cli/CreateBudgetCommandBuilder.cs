@@ -1,8 +1,4 @@
-using System;
-using System.IO;
-using System.Net;
 using Microsoft.Extensions.CommandLineUtils;
-using Twicme.Budget.Store;
 
 namespace Twicme.Budget.Cli
 {
@@ -51,7 +47,7 @@ namespace Twicme.Budget.Cli
                 log.Write($"Budget {plannedBudgetFile.Budget} has been created.");
                 return OkCode.Value;
             }
-
+            
             log.Write($"Budget {plannedBudgetFile.Budget} already exists.");
             return ErrorCode.Value;
         }

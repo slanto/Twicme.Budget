@@ -20,5 +20,8 @@ namespace Twicme.Budget.Cli
         
         public bool NotExists =>
             !FileName.Real(Budget).Exists || !FileName.Planned(Budget).Exists;
+
+        public BudgetFile Load() =>
+            new BudgetFile(new JsonContent(File.ReadAllText(FileName.Path)).ToBudget(), FileName);
     }
 }

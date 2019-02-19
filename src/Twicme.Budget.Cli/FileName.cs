@@ -21,8 +21,6 @@ namespace Twicme.Budget.Cli
             Name = name;
         }
         
-        public static FileName Create(string name) => new FileName(name);
-        
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return Name;
