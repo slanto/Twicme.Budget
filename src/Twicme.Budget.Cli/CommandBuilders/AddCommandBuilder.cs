@@ -7,10 +7,25 @@ namespace Twicme.Budget.Cli.CommandBuilders
     public class AddCommandBuilder
     {
         private readonly CommandLineApplication _application;
+
+        private readonly YearOption _yearOption;
+        private readonly MonthOption _monthOption;
+        private readonly CurrencyOption _currencyOption;
+        private readonly AmountOption _amountOption;
+        
+        private bool OptionsNotExist => _yearOption.NotExists ||
+                              _monthOption.NotExists ||
+                              _currencyOption.NotExists ||
+                              _amountOption.NotExists;
         
         public AddCommandBuilder(CommandLineApplication application)
         {
             _application = application;
+            
+            _yearOption = YearOption.Create(application);
+            _monthOption = MonthOption.Create(application);
+            _currencyOption = CurrencyOption.Create(application);
+            _amountOption = AmountOption.Create(application);
         }
         
         public CommandLineApplication Build()
@@ -25,19 +40,15 @@ namespace Twicme.Budget.Cli.CommandBuilders
             }, false);    
         }
         
-        private static int Execute(CommandLineApplication config, IBudgetFilesFactory budgetFilesFactory, ILog log)
+        private int Execute(CommandLineApplication config, IBudgetFilesFactory budgetFilesFactory, ILog log)
         {
-            var yearOption = YearOption.Create(config);
-            var monthOption = MonthOption.Create(config);
-            var currencyOption = CurrencyOption.Create(config);
-                    
-            if (yearOption.NotExists || monthOption.NotExists || currencyOption.NotExists)
+            if (OptionsNotExist)
             {
                 config.ShowHelp();
                 return ErrorCode.Value;
             }
 
-            var (plannedBudgetFile, realBudgetFile) = budgetFilesFactory.Create(yearOption, monthOption, currencyOption);
+            var (plannedBudgetFile, realBudgetFile) = budgetFilesFactory.Create(_yearOption, _monthOption, _currencyOption);
             
             if (realBudgetFile.NotExists)
             {
@@ -51,7 +62,7 @@ namespace Twicme.Budget.Cli.CommandBuilders
             Category category = Category.CarAndTransport;
             var description = new Description("description");
 
-            budgetFile.Budget.WithExpense(new Money(Amount.Create(amount, Currency.Create(currencyOption.Value)),
+            budgetFile.Budget.WithExpense(new Money(Amount.Create(amount, Currency.Create(_currencyOption.Value)),
                 category,
                 DateTimeOffset.UtcNow, description));
 
