@@ -1,3 +1,5 @@
+using Twicme.Budget.Cli.Options;
+
 namespace Twicme.Budget.Cli
 {
     public interface IBudgetFilesFactory
