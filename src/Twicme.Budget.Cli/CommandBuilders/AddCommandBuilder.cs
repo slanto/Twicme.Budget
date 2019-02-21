@@ -8,8 +8,6 @@ namespace Twicme.Budget.Cli.CommandBuilders
     {
         private readonly CommandLineApplication _application;
         
-        private const string HelpFlagTemplate = "-? |-h |--help";
-        
         public AddCommandBuilder(CommandLineApplication application)
         {
             _application = application;
@@ -21,7 +19,7 @@ namespace Twicme.Budget.Cli.CommandBuilders
             {
                 config.Name = "add";
                 config.Description = "add revenue or expense to budget";
-                config.HelpOption(HelpFlagTemplate);
+                config.HelpOption(HelpFlagTemplate.Value);
                 
                 config.OnExecute(() => Execute(config, new BudgetFilesFactory(), new ConsoleLog()));
             }, false);    
