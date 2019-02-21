@@ -3,7 +3,7 @@ using Microsoft.Extensions.CommandLineUtils;
 
 namespace Twicme.Budget.Cli.Options
 {
-    public sealed class CurrencyOption : ValueObject<CurrencyOption>
+    public class AmountOption : ValueObject<AmountOption>
     {
         public string Value => _command.Value();
 
@@ -13,13 +13,13 @@ namespace Twicme.Budget.Cli.Options
 
         private readonly CommandOption _command;
         
-        private CurrencyOption(CommandLineApplication config)
+        private AmountOption(CommandLineApplication config)
         {
-            _command = config.Option("-c |--currency", "currency [PLN, USD]", CommandOptionType.SingleValue);
+            _command = config.Option("-a |--amount", "amount [12.56]", CommandOptionType.SingleValue);
         }
 
-        public static CurrencyOption Create(CommandLineApplication config) =>
-            new CurrencyOption(config);
+        public static AmountOption Create(CommandLineApplication config) =>
+            new AmountOption(config);
         
         protected override IEnumerable<object> GetEqualityComponents()
         {
