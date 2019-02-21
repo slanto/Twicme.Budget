@@ -1,6 +1,6 @@
 using Microsoft.Extensions.CommandLineUtils;
 
-namespace Twicme.Budget.Cli
+namespace Twicme.Budget.Cli.CommandBuilders
 {
     public class BudgetsListCommandBuilder
     {

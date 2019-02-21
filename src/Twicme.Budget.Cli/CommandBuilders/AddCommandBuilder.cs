@@ -2,7 +2,7 @@ using System;
 using Microsoft.Extensions.CommandLineUtils;
 using Twicme.Budget.Cli.Options;
 
-namespace Twicme.Budget.Cli
+namespace Twicme.Budget.Cli.CommandBuilders
 {
     public class AddCommandBuilder
     {
