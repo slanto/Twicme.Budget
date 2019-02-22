@@ -12,11 +12,13 @@ namespace Twicme.Budget.Cli.CommandBuilders
         private readonly MonthOption _monthOption;
         private readonly CurrencyOption _currencyOption;
         private readonly AmountOption _amountOption;
-        
+        private readonly CategoryOption _categoryOption;
+
         private bool OptionsNotExist => _yearOption.NotExists ||
-                              _monthOption.NotExists ||
-                              _currencyOption.NotExists ||
-                              _amountOption.NotExists;
+                                        _monthOption.NotExists ||
+                                        _currencyOption.NotExists ||
+                                        _amountOption.NotExists ||
+                                        _categoryOption.NotExists;
         
         public AddCommandBuilder(CommandLineApplication application)
         {
@@ -26,6 +28,7 @@ namespace Twicme.Budget.Cli.CommandBuilders
             _monthOption = MonthOption.Create(application);
             _currencyOption = CurrencyOption.Create(application);
             _amountOption = AmountOption.Create(application);
+            _categoryOption = CategoryOption.Create(application);
         }
         
         public CommandLineApplication Build()
@@ -58,7 +61,7 @@ namespace Twicme.Budget.Cli.CommandBuilders
 
             var budgetFile = realBudgetFile.Load();
 
-            Category category = Category.CarAndTransport;
+            Category category = Category.Create(_categoryOption.Value);
             var description = new Description("description");
 
             budgetFile.Budget.WithExpense(new Money(Amount.Create(_amountOption.Value, Currency.Create(_currencyOption.Value)),
