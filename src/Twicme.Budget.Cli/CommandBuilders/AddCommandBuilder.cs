@@ -58,11 +58,10 @@ namespace Twicme.Budget.Cli.CommandBuilders
 
             var budgetFile = realBudgetFile.Load();
 
-            decimal amount = 10;
             Category category = Category.CarAndTransport;
             var description = new Description("description");
 
-            budgetFile.Budget.WithExpense(new Money(Amount.Create(amount, Currency.Create(_currencyOption.Value)),
+            budgetFile.Budget.WithExpense(new Money(Amount.Create(_amountOption.Value, Currency.Create(_currencyOption.Value)),
                 category,
                 DateTimeOffset.UtcNow, description));
 

@@ -5,7 +5,7 @@ namespace Twicme.Budget.Cli.Options
 {
     public class AmountOption : ValueObject<AmountOption>
     {
-        public string Value => _command.Value();
+        public decimal Value => decimal.Parse(_command.Value());
 
         public bool Exists => _command.HasValue();
         
