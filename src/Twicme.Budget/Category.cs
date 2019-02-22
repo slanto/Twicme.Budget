@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security;
 
 namespace Twicme.Budget
 {
@@ -18,7 +21,7 @@ namespace Twicme.Budget
 
         private Category(string name)
         {
-            Name = name;
+            Name = name.ToLowerInvariant();
         }
         
         public static Category Create(string name) => new Category(name);
@@ -26,5 +29,21 @@ namespace Twicme.Budget
         {
             yield return Name;
         }
+
+        public static Category From(string name)
+        {
+            if (All.Contains(Category.Create(name)))
+            {
+                return All.Single(c=>c.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+            }
+            
+            throw new InvalidOperationException($"Category {name} does not exists.");
+        }
+
+        public static IEnumerable<Category> All => new[]
+        {
+            HealthAndBeauty, Education, CarAndTransport, HomeAndBills, BasicExpenditure, EntertainmentAndTravelling,
+            ClothesAndShoes, Salary, OtherIncome
+        };
     }
 }

@@ -13,5 +13,13 @@ namespace Twicme.Budget.Tests
             
             category1.Should().BeEquivalentTo(category2);
         }
+
+        [Fact]
+        public void GivenCorrectInputData_WhenFromIsCalled_ThenCategoryIsReturned()
+        {
+            Category result = Category.From("education");
+
+            result.Should().Be(Category.Education);
+        }
     }
 }
