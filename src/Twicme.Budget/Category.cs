@@ -31,7 +31,7 @@ namespace Twicme.Budget
 
         public static Category From(string name)
         {
-            if (All.Contains(Category.Create(name)))
+            if (All.Contains(Create(name)))
             {
                 return All.Single(c=>c.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
             }

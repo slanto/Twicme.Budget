@@ -17,7 +17,7 @@ namespace Twicme.Budget.Tests
         [Fact]
         public void GivenCorrectInputData_WhenFromIsCalled_ThenCategoryIsReturned()
         {
-            Category result = Category.From("education");
+            var result = Category.From("education");
 
             result.Should().Be(Category.Education);
         }

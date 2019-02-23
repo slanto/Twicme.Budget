@@ -13,12 +13,14 @@ namespace Twicme.Budget.Cli.CommandBuilders
         private readonly CurrencyOption _currencyOption;
         private readonly AmountOption _amountOption;
         private readonly CategoryOption _categoryOption;
+        private readonly DescriptionOption _descriptionOption;
 
         private bool OptionsNotExist => _yearOption.NotExists ||
                                         _monthOption.NotExists ||
                                         _currencyOption.NotExists ||
                                         _amountOption.NotExists ||
-                                        _categoryOption.NotExists;
+                                        _categoryOption.NotExists ||
+                                        _descriptionOption.NotExists;
         
         public AddCommandBuilder(CommandLineApplication application)
         {
@@ -29,6 +31,7 @@ namespace Twicme.Budget.Cli.CommandBuilders
             _currencyOption = CurrencyOption.Create(application);
             _amountOption = AmountOption.Create(application);
             _categoryOption = CategoryOption.Create(application);
+            _descriptionOption = DescriptionOption.Create(application);
         }
         
         public CommandLineApplication Build()
@@ -61,12 +64,13 @@ namespace Twicme.Budget.Cli.CommandBuilders
 
             var budgetFile = realBudgetFile.Load();
 
-            Category category = Category.Create(_categoryOption.Value);
-            var description = new Description("description");
-
-            budgetFile.Budget.WithExpense(new Money(Amount.Create(_amountOption.Value, Currency.Create(_currencyOption.Value)),
-                category,
-                DateTimeOffset.UtcNow, description));
+            var category = Category.Create(_categoryOption.Value);
+            var description = new Description(_descriptionOption.Value);
+            var currency = Currency.Create(_currencyOption.Value);
+            var amount = Amount.Create(_amountOption.Value, currency);
+      
+            budgetFile.Budget.WithExpense(new Money(amount, category, DateTimeOffset.UtcNow, description));
+            budgetFile.Save();
 
             return OkCode.Value;
         }
