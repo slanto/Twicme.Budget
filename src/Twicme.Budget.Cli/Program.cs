@@ -24,18 +24,16 @@ namespace Twicme.Budget.Cli
 
         private static int Run(string[] args)
         {
-            var application = new CommandLineApplication();
-            application.HelpOption(HelpFlagTemplate);
+            var app = new CommandLineApplication();
+            app.HelpOption(HelpFlagTemplate);
 
-            new CreateBudgetCommandBuilder(application)
-                .Build();
+            var budget = new BudgetCommandBuilder(app).Build();
             
-            new BudgetsListCommandBuilder(application)
-                .Build();
+            new CreateBudgetCommandBuilder(budget).Build();
+//            new BudgetsListCommandBuilder(budget).Build();
+//            new AddCommandBuilder(budget).Build();
 
-            new AddCommandBuilder(application).Build();
-
-            return application.Execute(args);
+            return app.Execute(args);
         }
     }
 }
