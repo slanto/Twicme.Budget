@@ -12,8 +12,11 @@ namespace Twicme.Budget.Cli
 
             var budget = new Budget(month, currency);
 
-            return (plannedBudgetFile: new BudgetFile(budget, FileName.Planned(budget)),
-                realBudgetFile: new BudgetFile(budget, FileName.Real(budget)));
+            var realBudgetFileName = new FileName($"budget-{budget.Month.Year}-{budget.Month.MonthName.Index}");
+            var plannedBudgetFileName = new FileName($"budget-{budget.Month.Year}-{budget.Month.MonthName.Index}-plan");
+
+            return (plannedBudgetFile: new BudgetFile(budget, plannedBudgetFileName),
+                realBudgetFile: new BudgetFile(budget, realBudgetFileName));
         }
     }
 }
