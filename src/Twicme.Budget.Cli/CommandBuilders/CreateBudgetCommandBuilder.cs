@@ -20,11 +20,11 @@ namespace Twicme.Budget.Cli.CommandBuilders
                 config.Description = "create budget providing year, month and currency";
                 config.HelpOption(HelpFlagTemplate.Value);          
                
-                config.OnExecute(() => Execute(config, new BudgetFilesFactory(), new ConsoleLog()));
+                config.OnExecute(() => Execute(config, new BudgetFactory(), new ConsoleLog()));
             }, false);    
         }
 
-        private static int Execute(CommandLineApplication config, IBudgetFilesFactory budgetFilesFactory, ILog log)
+        private static int Execute(CommandLineApplication config, IBudgetFactory budgetFactory, ILog log)
         {
             var yearOption = YearOption.Create(config);
             var monthOption = MonthOption.Create(config);
@@ -36,7 +36,7 @@ namespace Twicme.Budget.Cli.CommandBuilders
                 return ErrorCode.Value;
             }
 
-            var (plannedBudgetFile, realBudgetFile) = budgetFilesFactory.Create(yearOption, monthOption, currencyOption);
+            var (plannedBudgetFile, realBudgetFile) = budgetFactory.Create(yearOption, monthOption, currencyOption);
             
             if (plannedBudgetFile.NotExists || realBudgetFile.NotExists)
             {

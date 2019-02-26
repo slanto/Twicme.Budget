@@ -42,11 +42,11 @@ namespace Twicme.Budget.Cli.CommandBuilders
                 config.Description = "add revenue or expense to budget";
                 config.HelpOption(HelpFlagTemplate.Value);
                 
-                config.OnExecute(() => Execute(config, new BudgetFilesFactory(), new ConsoleLog()));
+                config.OnExecute(() => Execute(config, new BudgetFactory(), new ConsoleLog()));
             }, false);    
         }
         
-        private int Execute(CommandLineApplication config, IBudgetFilesFactory budgetFilesFactory, ILog log)
+        private int Execute(CommandLineApplication config, IBudgetFactory budgetFactory, ILog log)
         {
             if (OptionsNotExist)
             {
@@ -54,7 +54,7 @@ namespace Twicme.Budget.Cli.CommandBuilders
                 return ErrorCode.Value;
             }
 
-            var (plannedBudgetFile, realBudgetFile) = budgetFilesFactory.Create(_yearOption, _monthOption, _currencyOption);
+            var (plannedBudgetFile, realBudgetFile) = budgetFactory.Create(_yearOption, _monthOption, _currencyOption);
             
             if (realBudgetFile.NotExists)
             {

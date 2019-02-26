@@ -24,12 +24,12 @@ namespace Twicme.Budget.Cli
         private static int Run(string[] args)
         {
             var app = new CommandLineApplication();
-            var budget = app.Command("budget", config =>
+            var budgetCommand = app.Command("budget", config =>
             {
                 config.HelpOption(HelpFlagTemplate.Value);  
             });
 
-            budget.Command("create", config =>
+            budgetCommand.Command("create", config =>
             {
                 config.Name = "create";
                 config.Description = "create budget providing year, month and currency";
@@ -47,8 +47,9 @@ namespace Twicme.Budget.Cli
                         return ErrorCode.Value;
                     }
 
-                    var budgetFilesFactory = new BudgetFilesFactory();
-                    var (plannedBudgetFile, realBudgetFile) = budgetFilesFactory.Create(yearOption, monthOption, currencyOption);
+                    var budgetFactory = new BudgetFactory(yearOption, monthOption, currencyOption);
+                    
+                    var budget = budgetFactory.Create();
             
                     if (plannedBudgetFile.NotExists || realBudgetFile.NotExists)
                     {
@@ -65,7 +66,7 @@ namespace Twicme.Budget.Cli
                 });
             });
             
-            budget.Command("add", config =>
+            budgetCommand.Command("add", config =>
             {
                 config.Name = "add";
                 config.Description = "add revenue or expense to budget";
@@ -84,14 +85,13 @@ namespace Twicme.Budget.Cli
                         monthOption.NotExists ||
                         currencyOption.NotExists ||
                         amountOption.NotExists ||
-                        categoryOption.NotExists ||
-                        descriptionOption.NotExists)
+                        categoryOption.NotExists)
                     {
                         config.ShowHelp();
                         return ErrorCode.Value;
                     }
                     
-                    var budgetFilesFactory = new BudgetFilesFactory();
+                    var budgetFilesFactory = new BudgetFactory();
                     var (plannedBudgetFile, realBudgetFile) = budgetFilesFactory.Create(yearOption, monthOption, currencyOption);
             
                     if (realBudgetFile.NotExists)
