@@ -107,8 +107,10 @@ namespace Twicme.Budget.Cli
                     var currency = Currency.Create(currencyOption.Value);
                     var amount = Amount.Create(amountOption.Value, currency);
       
-                    budgetFile.Budget.WithExpense(new Money(amount, category, DateTimeOffset.UtcNow, description));
-                    budgetFile.Save();
+                    var newBudget = budgetFile.Budget.WithExpense(new Money(amount, category, DateTimeOffset.UtcNow, description));
+                    var newBudgetFile = new BudgetFile(newBudget, budgetFile.FileName);
+                    
+                    newBudgetFile.Save();
                     
                     Console.WriteLine("Expense added.");
                     return OkCode.Value;
