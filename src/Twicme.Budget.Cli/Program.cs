@@ -91,24 +91,26 @@ namespace Twicme.Budget.Cli
                         return ErrorCode.Value;
                     }
                     
-                    var budgetFilesFactory = new BudgetFactory();
-                    var (plannedBudgetFile, realBudgetFile) = budgetFilesFactory.Create(yearOption, monthOption, currencyOption);
-            
-                    if (realBudgetFile.NotExists)
+                    var budgetFactory = new BudgetFactory(yearOption, monthOption, currencyOption);
+                    var budget = budgetFactory.Create();
+                    var fileName = new FileName($"budget-{budget.Month}");
+                    
+                    var budgetFile = new BudgetFile(budget, fileName);
+                    if (budgetFile.NotExists)
                     {
-                        Console.WriteLine($"Budget {realBudgetFile.Budget} does not exit. Created new budget first.");
+                        Console.WriteLine($"Budget {budgetFile.Budget} does not exit. Created new budget first.");
                         return ErrorCode.Value;
                     }
 
-                    var budgetFile = realBudgetFile.Load();
+                    var loadedBudget = budgetFile.Load();
 
                     var category = Category.Create(categoryOption.Value);
                     var description = new Description(descriptionOption.Value);
                     var currency = Currency.Create(currencyOption.Value);
                     var amount = Amount.Create(amountOption.Value, currency);
       
-                    var newBudget = budgetFile.Budget.WithExpense(new Money(amount, category, DateTimeOffset.UtcNow, description));
-                    var newBudgetFile = new BudgetFile(newBudget, budgetFile.FileName);
+                    var newBudget = loadedBudget.Budget.WithExpense(new Money(amount, category, DateTimeOffset.UtcNow, description));
+                    var newBudgetFile = new BudgetFile(newBudget, loadedBudget.FileName);
                     
                     newBudgetFile.Save();
                     

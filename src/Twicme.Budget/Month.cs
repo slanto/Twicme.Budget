@@ -21,6 +21,8 @@ namespace Twicme.Budget
         public static Month Create(int year, MonthName monthName) => new Month(year, monthName);
         
         public static Month Create(int year, int month) => new Month(year, MonthName.Create(month));
+
+        public override string ToString() => $"{Value.ToShortDateString()}";
         
         protected override IEnumerable<object> GetEqualityComponents()
         {
