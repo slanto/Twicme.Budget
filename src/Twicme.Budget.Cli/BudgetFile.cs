@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using Twicme.Budget.Store;
 
@@ -5,24 +6,54 @@ namespace Twicme.Budget.Cli
 {
     public class BudgetFile
     {
-        public Budget Budget { get; }
-        public FileName FileName { get; }
-
-        public bool Exists => FileName.Exists;
-
-        public bool NotExists => !Exists;
+        private readonly Month _month;
         
-        public BudgetFile(Budget budget, FileName fileName)
+        private Money _money = Money.Zero;
+
+        private FileName FileName => _isPlanningSession
+            ? new FileName($"budget-{_month.Year}-{_month.MonthName.Index}-plan")
+            : new FileName($"budget-{_month.Year}-{_month.MonthName.Index}");
+        
+        private bool _isPlanningSession;
+        
+        public BudgetFile(Month month)
         {
-            Budget = budget;
-            FileName = fileName;
+            _month = month;
         }
 
-        public void Save() =>
-            File.WriteAllText(FileName.Path,
-                new JsonBudget(Budget).Content.Value);
+        public BudgetFile WithMoney(Money money)
+        {
+            _money = money;
+            return this;
+        }
+
+        public BudgetFile InPlanningSession()
+        {
+            _isPlanningSession = true;
+            return this;
+        }
         
-        public BudgetFile Load() =>
-            new BudgetFile(new JsonContent(File.ReadAllText(FileName.Path)).ToBudget(), FileName);
+        public void Store()
+        {
+            if (!FileName.Exists)
+            {
+                throw new InvalidOperationException($"There is no budget file {FileName.Path}.");
+            }
+
+            if (_money == Money.Zero)
+            {
+                throw new InvalidOperationException("Invalid money's amount");
+            }
+            
+            var budget = new JsonContent(File.ReadAllText(FileName.Path))
+                .ToBudget();
+
+            var budgetToStore =
+                new JsonBudget(_money.IsExpense() ? 
+                    budget.WithExpense(_money) : 
+                    budget.WithRevenue(_money));
+           
+            File.WriteAllText(FileName.Path,budgetToStore.Content.Value);
+        }
     }
 }

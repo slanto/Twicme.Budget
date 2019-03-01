@@ -6,6 +6,7 @@ namespace Twicme.Budget
 {
     public class Category : ValueObject<Category>
     {
+        public static readonly Category NotDefined = new Category("Not defined");
         public static readonly Category HealthAndBeauty = new Category("Health and beauty");
         public static readonly Category Education = new Category("Education");
         public static readonly Category CarAndTransport = new Category("Car and transport");

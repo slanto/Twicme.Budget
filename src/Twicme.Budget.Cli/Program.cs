@@ -49,18 +49,18 @@ namespace Twicme.Budget.Cli
 
                     var budgetFactory = new BudgetFactory(yearOption, monthOption, currencyOption);
                     
-                    var budget = budgetFactory.Create();
-            
-                    if (plannedBudgetFile.NotExists || realBudgetFile.NotExists)
-                    {
-                        plannedBudgetFile.Save();
-                        realBudgetFile.Save();
-                
-                        Console.WriteLine($"Budget {plannedBudgetFile.Budget} has been created.");
-                        return OkCode.Value;
-                    }
-            
-                    Console.WriteLine($"Budget {plannedBudgetFile.Budget} already exists.");
+//                    var budget = budgetFactory.Create();
+//            
+//                    if (plannedBudgetFile.NotExists || realBudgetFile.NotExists)
+//                    {
+//                        plannedBudgetFile.Save();
+//                        realBudgetFile.Save();
+//                
+//                        Console.WriteLine($"Budget {plannedBudgetFile.Budget} has been created.");
+//                        return OkCode.Value;
+//                    }
+//            
+//                    Console.WriteLine($"Budget {plannedBudgetFile.Budget} already exists.");
                     
                     return OkCode.Value;
                 });
@@ -90,42 +90,24 @@ namespace Twicme.Budget.Cli
                         config.ShowHelp();
                         return ErrorCode.Value;
                     }
-                    
-                    var budgetFactory = new BudgetFactory(yearOption, monthOption, currencyOption);
-                    var budget = budgetFactory.Create();
-                    var fileName = new FileName($"budget-{budget.Month}");
-                    
-                    var budgetFile = new BudgetFile(budget, fileName);
-                    if (budgetFile.NotExists)
-                    {
-                        Console.WriteLine($"Budget {budgetFile.Budget} does not exit. Created new budget first.");
-                        return ErrorCode.Value;
-                    }
-
-                    var loadedBudget = budgetFile.Load();
 
                     var category = Category.Create(categoryOption.Value);
                     var description = new Description(descriptionOption.Value);
                     var currency = Currency.Create(currencyOption.Value);
                     var amount = Amount.Create(amountOption.Value, currency);
-      
-                    var newBudget = loadedBudget.Budget.WithExpense(new Money(amount, category, DateTimeOffset.UtcNow, description));
-                    var newBudgetFile = new BudgetFile(newBudget, loadedBudget.FileName);
+                    var money = new Money(amount, category, DateTimeOffset.UtcNow, description);
+                      
+                    var month = Month.Create(yearOption.Value, monthOption.Value);
+                   
+                    new BudgetFile(month)
+                        .InPlanningSession()
+                        .WithMoney(money)
+                        .Store();
                     
-                    newBudgetFile.Save();
-                    
-                    Console.WriteLine("Expense added.");
                     return OkCode.Value;
                 });
                 
             });
-            
-
-//            var budget = new BudgetCommandBuilder(app).Build();
-//            
-//            new CreateBudgetCommandBuilder(budget).Build();
-//            new BudgetsListCommandBuilder(budget).Build();
-//            new AddCommandBuilder(budget).Build();
 
             return app.Execute(args);
         }

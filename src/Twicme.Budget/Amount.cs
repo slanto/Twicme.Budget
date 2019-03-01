@@ -4,6 +4,8 @@ namespace Twicme.Budget
 {
     public class Amount : ValueObject<Amount>
     { 
+        public static readonly Amount Zero = new Amount(0, Currency.PLN);
+        
         public decimal Value { get; }
         public Currency Currency { get; }
 

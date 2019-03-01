@@ -14,4 +14,9 @@
       <ProjectReference Include="..\Twicme.Budget\Twicme.Budget.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="CommandBuilders\AddCommandBuilder.cs" />
+      <Compile Remove="CommandBuilders\CreateBudgetCommandBuilder.cs" />
+    </ItemGroup>
+
 </Project>

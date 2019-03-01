@@ -5,6 +5,8 @@ namespace Twicme.Budget
 {
     public class Money : ValueObject<Money>
     {
+        public static Money Zero => new Money(Amount.Zero, Category.NotDefined, Description.Empty);
+        
         public DateTimeOffset Created { get; }
         public Amount Amount { get; }
         public Category Category { get; }
