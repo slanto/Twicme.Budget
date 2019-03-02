@@ -75,6 +75,8 @@ namespace Twicme.Budget.Cli
                 var yearOption = YearOption.Create(config);
                 var monthOption = MonthOption.Create(config);
                 var currencyOption = CurrencyOption.Create(config);
+                var revenueOption = RevenueOption.Create(config);
+                var expenseOption = ExpenseOption.Create(config);
                 var amountOption = AmountOption.Create(config);
                 var categoryOption = CategoryOption.Create(config);
                 var descriptionOption = DescriptionOption.Create(config);
@@ -94,7 +96,7 @@ namespace Twicme.Budget.Cli
                     var category = Category.Create(categoryOption.Value);
                     var description = new Description(descriptionOption.Value);
                     var currency = Currency.Create(currencyOption.Value);
-                    var amount = Amount.Create(amountOption.Value, currency);
+                    var amount = Amount.Create(revenueOption.Value, currency);
                     var money = new Money(amount, category, DateTimeOffset.UtcNow, description);
                       
                     var month = Month.Create(yearOption.Value, monthOption.Value);
