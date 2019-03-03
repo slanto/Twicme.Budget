@@ -100,10 +100,15 @@ namespace Twicme.Budget.Cli
                       
                     var month = Month.Create(yearOption.Value, monthOption.Value);
                    
-                    new BudgetFile(month)
-                        .InPlanningMode()
-                        .WithMoney(money)
-                        .Store();
+                    var budgetFile = new BudgetFile(month)
+                        .WithMoney(money);
+
+                    if (planningModeOption.Exists)
+                    {
+                        budgetFile = budgetFile.InPlanningMode();
+                    }
+
+                    budgetFile.Store();
                     
                     return OkCode.Value;
                 });
