@@ -10,11 +10,11 @@ namespace Twicme.Budget.Cli
         
         private Money _money = Money.Zero;
 
-        private FileName FileName => _isPlanningSession
+        private FileName FileName => _isPlanningMode
             ? new FileName($"budget-{_month.Year}-{_month.MonthName.Index}-plan")
             : new FileName($"budget-{_month.Year}-{_month.MonthName.Index}");
         
-        private bool _isPlanningSession;
+        private bool _isPlanningMode;
         
         public BudgetFile(Month month)
         {
@@ -27,9 +27,9 @@ namespace Twicme.Budget.Cli
             return this;
         }
 
-        public BudgetFile InPlanningSession()
+        public BudgetFile InPlanningMode()
         {
-            _isPlanningSession = true;
+            _isPlanningMode = true;
             return this;
         }
         
