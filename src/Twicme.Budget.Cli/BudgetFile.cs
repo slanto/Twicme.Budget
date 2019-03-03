@@ -7,18 +7,20 @@ namespace Twicme.Budget.Cli
     public class BudgetFile
     {
         private readonly Month _month;
+        private readonly Currency _currency;
         
         private Money _money = Money.Zero;
-
+        
         private FileName FileName => _isPlanningMode
-            ? new FileName($"budget-{_month.Year}-{_month.MonthName.Index}-plan")
-            : new FileName($"budget-{_month.Year}-{_month.MonthName.Index}");
+            ? new FileName($"budget-{_month.Year}-{_month.MonthName.Index}-{_currency.Symbol}-plan")
+            : new FileName($"budget-{_month.Year}-{_month.MonthName.Index}-{_currency.Symbol}");
         
         private bool _isPlanningMode;
         
-        public BudgetFile(Month month)
+        public BudgetFile(Month month, Currency currency)
         {
             _month = month;
+            _currency = currency;
         }
 
         public BudgetFile WithMoney(Money money)
