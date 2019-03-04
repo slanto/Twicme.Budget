@@ -47,21 +47,16 @@ namespace Twicme.Budget.Cli
                         return ErrorCode.Value;
                     }
 
-                    var budgetFactory = new BudgetFactory(yearOption, monthOption, currencyOption);
-                    
-//                    var budget = budgetFactory.Create();
-//            
-//                    if (plannedBudgetFile.NotExists || realBudgetFile.NotExists)
-//                    {
-//                        plannedBudgetFile.Save();
-//                        realBudgetFile.Save();
-//                
-//                        Console.WriteLine($"Budget {plannedBudgetFile.Budget} has been created.");
-//                        return OkCode.Value;
-//                    }
-//            
-//                    Console.WriteLine($"Budget {plannedBudgetFile.Budget} already exists.");
-                    
+                 var currency = Currency.Create(currencyOption.Value);     
+                 var month = Month.Create(yearOption.Value, monthOption.Value);
+
+                 new BudgetFile(month, currency)
+                     .InPlanningMode()
+                     .Store();
+                 
+                 new BudgetFile(month, currency)
+                     .Store();
+                
                     return OkCode.Value;
                 });
             });

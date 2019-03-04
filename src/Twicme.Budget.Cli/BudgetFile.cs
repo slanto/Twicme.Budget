@@ -42,11 +42,6 @@ namespace Twicme.Budget.Cli
                 throw new InvalidOperationException($"There is no budget file {FileName.Path}.");
             }
 
-            if (_money == Money.Zero)
-            {
-                throw new InvalidOperationException("Invalid money's amount");
-            }
-            
             var budget = new JsonContent(File.ReadAllText(FileName.Path))
                 .ToBudget();
 
